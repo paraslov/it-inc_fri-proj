@@ -1,17 +1,15 @@
 import React from 'react'
 import './App.css'
-import {Routes} from '../a2-routes/Routes';
-import {HashRouter} from 'react-router-dom';
+import {Routes} from '../a2-routes/Routes'
+import {HashRouter} from 'react-router-dom'
 
-function App() {
+export const App = () => {
     return (
         <HashRouter>
             <div className="App">
-                FRI_PROJ
+                <h6>FP.v.1.03</h6>
                 <Routes/>
             </div>
         </HashRouter>
     )
 }
-
-export default App
