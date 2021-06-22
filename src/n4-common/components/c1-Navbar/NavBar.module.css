@@ -1,0 +1,17 @@
+.navbarContainer {
+    margin: 10px;
+}
+
+.navbarContainer a {
+    padding-right: 3px;
+    text-decoration: none;
+    color: #333;
+    margin-right: 10px;
+    transition-delay: 0.1s;
+    border-right: 1px solid #333;
+}
+
+.navbarContainer a:hover {
+    color: mediumslateblue;
+    border-color: mediumslateblue;
+}

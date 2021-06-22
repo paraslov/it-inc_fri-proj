@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
-import SuperInputText from '../../n4-common/c1-SuperInputText/SuperInputText'
-import SuperButton from '../../n4-common/c2-SuperButton/SuperButton'
-import SuperCheckbox from '../../n4-common/c3-SuperCheckbox/SuperCheckbox'
+import SuperInputText from '../../n4-common/components/c4-SuperInputText/SuperInputText'
+import SuperButton from '../../n4-common/components/c2-SuperButton/SuperButton'
+import SuperCheckbox from '../../n4-common/components/c3-SuperCheckbox/SuperCheckbox'
 
 
 export const Tests = () => {
