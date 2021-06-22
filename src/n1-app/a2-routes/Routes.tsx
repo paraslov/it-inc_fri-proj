@@ -29,7 +29,7 @@ export const Routes = () => {
                 <Route path={PATH.RESTORE_PASSWORD} render={() => <RestorePassword/>}/>
                 <Route path={PATH.ENTER_NEW_PASSWORD} render={() => <EnterNewPassword/>}/>
                 <Route path={PATH.TESTS} render={() => <Tests/>}/>
-                <Route path={PATH.NOT_FOUND} render={() => <h1>PAGE NOT FOUND</h1>}/>
+                <Route path={PATH.NOT_FOUND} render={() => <h1>404 PAGE NOT FOUND</h1>}/>
                 <Route path={'/*'} render={() => <Redirect to={PATH.NOT_FOUND}/>}/>
             </Switch>
         </div>

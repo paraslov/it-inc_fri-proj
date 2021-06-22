@@ -1,0 +1,8 @@
+.default {
+    display: inline-block;
+    background-color: #ddd;
+    margin: 3px;
+    height: 20px;
+    padding-right: 3px;
+}
+

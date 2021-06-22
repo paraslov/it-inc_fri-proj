@@ -34,14 +34,14 @@ const SuperInputText: React.FC<SuperInputTextPropsType> = (
         onChangeText && onChangeText(e.currentTarget.value)
     }
     const onKeyPressCallback = (e: KeyboardEvent<HTMLInputElement>) => {
-        onKeyPress && onKeyPress(e);
+        onKeyPress && onKeyPress(e)
 
         onEnter // если есть пропс onEnter
         && e.key === 'Enter' // и если нажата кнопка Enter
         && onEnter() // то вызвать его
     }
 
-    const finalSpanClassName = `${error ? s.error: ''} ${spanClassName ? spanClassName : ''}`
+    const finalSpanClassName = `${error ? s.error : ''} ${spanClassName ? spanClassName : ''}`
     const finalInputClassName = `${s.superInput} ${error ? s.errorInput : ''} ${className}` // need to fix with (?:) and s.superInput
 
     return (
