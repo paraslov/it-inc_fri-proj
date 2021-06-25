@@ -4,6 +4,8 @@ import {Routes} from '../a2-routes/Routes'
 import {HashRouter} from 'react-router-dom'
 import {NavBar} from '../../n4-common/components/c1-Navbar/NavBar'
 
+
+//fgfgf
 export const App = () => {
     return (
         <HashRouter>
