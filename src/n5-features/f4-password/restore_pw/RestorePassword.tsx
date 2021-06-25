@@ -4,7 +4,8 @@ import React from 'react'
 export const RestorePassword = () => {
     return (
         <div>
-            Restore password page.
+            <input type="text" placeholder={'Enter your email'}/>
+            <button>Restore</button>
         </div>
     )
 }
