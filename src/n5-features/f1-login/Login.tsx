@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react'
-import { NavLink } from 'react-router-dom'
+import {NavLink, Redirect} from 'react-router-dom'
 import style from './Login.module.css'
 import {PATH} from '../../n1-app/a2-routes/Routes'
 import SuperButton from "../../n4-common/components/Elements/e1-SuperButton/SuperButton";
 import {useFormik} from 'formik';
 import SuperCheckbox from "../../n4-common/components/Elements/e2-SuperCheckboxe/SuperCheckbox";
 import {loginThunk, registerThunk} from "./login_reducer";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {TAppState} from "../../n2-bll/store";
 
 type FormikErrorType = {
     email?: string
@@ -14,7 +15,9 @@ type FormikErrorType = {
     rememberMe?: boolean
 }
 
-export const Login = () => {
+export const Login = React.memo(() => {
+    console.log('login')
+    const isLogged = useSelector<TAppState>(state => state.login.isLogged)
     const dispatch = useDispatch()
 
     // useEffect(() => {
@@ -47,6 +50,10 @@ export const Login = () => {
         },
     });
 
+    if(isLogged) {
+        return <Redirect to={PATH.PROFILE}/>
+    }
+
     return (
         <div className={style.form__block}>
             <h3 className={style.from__block_title}>It-incubator</h3>
@@ -77,9 +84,7 @@ export const Login = () => {
                     {formik.touched.password && formik.errors.password ?
                         <div style={{color: 'red'}}>{formik.errors.password}</div> : null}
                     <SuperCheckbox
-                        name='rememberMe'
-                        onChange={formik.handleChange}
-                        checked={formik.values.rememberMe}
+                        {...formik.getFieldProps('rememberMe')}
                         >Remember me
                     </SuperCheckbox>
                     <div className={style.button__group}>
@@ -95,4 +100,4 @@ export const Login = () => {
         </div>
 
 )
-}
+})

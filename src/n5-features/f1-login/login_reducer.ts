@@ -2,14 +2,17 @@
 import {TBaseThunk} from '../../n2-bll/store'
 import {loginAPI, LoginResponse} from "../../n3-api/loginAPI";
 
-const initState = {}
+const initState = {
+    isLogged: false
+}
 
 export const loginReducer = (state: TState = initState, action: TLoginReducerActions): TState => {
     switch (action.type) {
         case 'login/LOGIN_USER':
             return {
                 ...state,
-                ...action.data
+                ...action.data,
+                isLogged: true
             }
         default:
             return state
@@ -24,16 +27,13 @@ export const loginThunk = (data: UserDataType): TThunk => dispatch => {
     loginAPI.login(data)
         .then(res => {
             if(res.status === 200) {
-                console.log(res.data)
+                dispatch(login(res.data))
+            }else {
+                console.log('something went wrong', res)
             }
-            // try {
-            //
-            // }catch(e) {
-            //     const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
-            //     console.log('Error', {...error})
-            // }
         }).catch(e => {
-
+            const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
+            console.log('Error', {...error})
     })
 }
 
