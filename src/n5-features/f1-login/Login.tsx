@@ -17,12 +17,16 @@ export const Login = () => {
                     <input type="email" name="login_email" placeholder="yourMail@mail.domain" required/>
                     <label>Password</label>
                     <input type="password" name="login_pass" placeholder="*********" required/>
+                    <div className={style.button__group}>
+                        <NavLink to={PATH.ENTER_NEW_PASSWORD} className={`${style.form__link} ${style.forgot}`}>Forgot Password?</NavLink>
+                        <SuperButton className={style.btn} type="submit" name="form_login_submit">Login</SuperButton>
+                        <p className={style.form__text}>Don’t have an account?</p>
+                        <NavLink to={PATH.REGISTRATION} className={`${style.form__link } ${style.signUp}`}>Sign Up</NavLink>
+                    </div>
                 </form>
+
             </div>
-            <NavLink to={PATH.ENTER_NEW_PASSWORD} className={`${style.form__link} ${style.forgot}`}>Forgot Password?</NavLink>
-            <SuperButton className={style.btn} type="submit" name="form_login_submit">Login</SuperButton>
-            <p className={style.form__text}>Don’t have an account?</p>
-            <NavLink to={PATH.REGISTRATION} className={`${style.form__link } ${style.signUp}`}>Sign Up</NavLink>
+
         </div>
 
 )
