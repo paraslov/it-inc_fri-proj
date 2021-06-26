@@ -1,15 +1,25 @@
 import {instance} from './api'
 
+export type TSetNewPasswordData = {
+    password: string
+    resetPasswordToken: string
+}
 
 export const passwordAPI = {
     restorePassword(email: string) {
         return instance.post('auth/forgot', {email}).then(res => res.data)
+    },
+    setNewPassword(payload: TSetNewPasswordData) {
+        return instance.post('auth/set-new-password', payload).then((res => res.data))
     }
 }
 
+
+//* ============================= Temp registration requests for tests ==================>>
+
 // export const testAPI = {
 //     registration() {
-//         return instance.post('auth/register', {email: 'tsfoe@mail.ru', password: 'Yo1405HoHo'}).then(res => res.data)
+//         return instance.post('auth/register', {email: 'tsfoe@mail.ru', password: 'Fb777666'}).then(res => res.data)
 //     }
 // }
 

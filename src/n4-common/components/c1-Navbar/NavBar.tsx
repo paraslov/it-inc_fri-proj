@@ -10,7 +10,7 @@ export const NavBar = () => {
             <NavLink to={PATH.LOGIN} activeClassName={s.active}>Login</NavLink>
             <NavLink to={PATH.REGISTRATION} activeClassName={s.active}>Registration</NavLink>
             <NavLink to={PATH.RESTORE_PASSWORD} activeClassName={s.active}>Restore password</NavLink>
-            <NavLink to={PATH.ENTER_NEW_PASSWORD} activeClassName={s.active}>New password</NavLink>
+            <NavLink to={PATH.SET_NEW_PASSWORD} activeClassName={s.active}>New password</NavLink>
             <NavLink to={PATH.TESTS} activeClassName={s.active}>Tests</NavLink>
         </div>
     )

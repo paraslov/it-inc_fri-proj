@@ -6,6 +6,6 @@ const BaseURLs = {
 }
 
 export const instance = axios.create({
-    baseURL: BaseURLs.local,
+    baseURL: BaseURLs.release,
     withCredentials: true,
 })

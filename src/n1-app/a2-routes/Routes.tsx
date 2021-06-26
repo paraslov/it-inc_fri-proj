@@ -13,7 +13,7 @@ export const PATH = {
     REGISTRATION: '/registration',
     PROFILE: '/profile',
     RESTORE_PASSWORD: '/restore',
-    ENTER_NEW_PASSWORD: '/enter_new_password',
+    SET_NEW_PASSWORD: '/set-new-password/:token?',
     TESTS: '/tests',
     NOT_FOUND: '/404'
 }
@@ -27,7 +27,7 @@ export const Routes = () => {
                 <Route path={PATH.REGISTRATION} render={() => <Registration/>}/>
                 <Route path={PATH.PROFILE} render={() => <Profile/>}/>
                 <Route path={PATH.RESTORE_PASSWORD} render={() => <RestorePassword/>}/>
-                <Route path={PATH.ENTER_NEW_PASSWORD} render={() => <SetNewPassword/>}/>
+                <Route path={PATH.SET_NEW_PASSWORD} render={() => <SetNewPassword/>}/>
                 <Route path={PATH.TESTS} render={() => <Tests/>}/>
                 <Route path={PATH.NOT_FOUND} render={() => <h1>404 PAGE NOT FOUND</h1>}/>
                 <Route path={'/*'} render={() => <Redirect to={PATH.NOT_FOUND}/>}/>
