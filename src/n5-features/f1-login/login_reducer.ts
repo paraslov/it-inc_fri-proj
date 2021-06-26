@@ -3,6 +3,17 @@ import {TBaseThunk} from '../../n2-bll/store'
 import {loginAPI, LoginResponse} from "../../n3-api/loginAPI";
 
 const initState = {
+    _id: '',
+    email: '',
+    name: '',
+    avatar: '',
+    publicCardPacksCount: 0,
+    created: new Date(),
+    updated: new Date(),
+    isAdmin: false,
+    verified: false,
+    rememberMe: false,
+    error: '',
     isLogged: false
 }
 
@@ -47,7 +58,7 @@ export const registerThunk = (data:UserDataType): TThunk => dispatch => {
 }
 
 //* =============================================================== Types ===========================================>>
-type TState = typeof initState
+export type TState = typeof initState
 
 export type TLoginReducerActions = ReturnType<typeof login>
 

@@ -21,7 +21,7 @@ export interface LoginResponse {
     _id: string
     email: string
     name: string
-    avatar?: string
+    avatar: string
     publicCardPacksCount: number
     created: Date
     updated: Date
@@ -29,7 +29,7 @@ export interface LoginResponse {
     verified: boolean
     rememberMe: boolean
 
-    error?: string
+    error: string
 }
 
 
