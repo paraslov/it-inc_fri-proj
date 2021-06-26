@@ -41,7 +41,7 @@
     opacity: 0.5;
 }
 
-.form__style input {
+.form__style_input {
     font-weight: 500;
     font-size: 16px;
     line-height: 24px;
@@ -75,7 +75,7 @@
     text-decoration: none;
 }
 .forgot {
-    margin: 24px 0 92px 0;
+    margin: 15px 0 82px 0;
     align-self: flex-end;
     font-weight: 400;
 }

@@ -1,28 +1,59 @@
 //* =============================================================== Initial state ===================================>>
 import {TBaseThunk} from '../../n2-bll/store'
+import {loginAPI, LoginResponse} from "../../n3-api/loginAPI";
 
 const initState = {}
 
 export const loginReducer = (state: TState = initState, action: TLoginReducerActions): TState => {
     switch (action.type) {
-        case 'para-slov/loginReducer/SOME_ACTION':
-            return state
+        case 'login/LOGIN_USER':
+            return {
+                ...state,
+                ...action.data
+            }
         default:
             return state
     }
 }
 
 //* =============================================================== Action creators =================================>>
-export const _someLoginAction = () => ({type: 'para-slov/loginReducer/SOME_ACTION'} as const)
+export const login = (data: LoginResponse) => ({type: 'login/LOGIN_USER', data} as const)
 
 //* =============================================================== Thunk creators ==================================>>
-export const loginThunk = (): TThunk => dispatch => {
-    dispatch(_someLoginAction())
+export const loginThunk = (data: UserDataType): TThunk => dispatch => {
+    loginAPI.login(data)
+        .then(res => {
+            if(res.status === 200) {
+                console.log(res.data)
+            }
+            // try {
+            //
+            // }catch(e) {
+            //     const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
+            //     console.log('Error', {...error})
+            // }
+        }).catch(e => {
+
+    })
+}
+
+export const registerThunk = (data:UserDataType): TThunk => dispatch => {
+    console.log('register')
+    loginAPI.register(data)
+        .then(res => console.log(res))
+        .catch(e => {
+            console.log(e)
+        })
 }
 
 //* =============================================================== Types ===========================================>>
 type TState = typeof initState
 
-export type TLoginReducerActions = ReturnType<typeof _someLoginAction>
+export type TLoginReducerActions = ReturnType<typeof login>
 
 type TThunk = TBaseThunk<TLoginReducerActions>
+type UserDataType = {
+    email: string
+    password: string
+    rememberMe?: boolean
+}
