@@ -70,7 +70,7 @@ export const setNewPassword = (password: string, token: string): TThunk => dispa
 }
 
 //* =============================================================== Types ===========================================>>
-type TState = typeof initState
+export type TState = typeof initState
 
 export type TPasswordReducerActions = ReturnType<typeof _setIsRestoreSuccess>
     | ReturnType<typeof _setIsFetching>
