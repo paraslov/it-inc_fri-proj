@@ -1,7 +1,10 @@
 //* ============================================================= Initial state =====================================>>
 import {TBaseThunk} from '../../n2-bll/store'
+import {passwordAPI} from '../../n3-api/password_api'
 
-const initState = {}
+const initState = {
+    restoreSuccess: false
+}
 
 export const passwordReducer = (state: TState = initState, action: TPasswordReducerActions): TState => {
     switch (action.type) {
@@ -16,8 +19,11 @@ export const passwordReducer = (state: TState = initState, action: TPasswordRedu
 export const _somePasswordAction = () => ({type: 'para-slov/passwordReducer/SOME_ACTION'} as const)
 
 //* =============================================================== Thunk creators ==================================>>
-export const passwordThunk = (): TThunk => dispatch => {
-    dispatch(_somePasswordAction())
+export const restorePassword = (email: string): TThunk => dispatch => {
+    passwordAPI.restorePassword(email)
+        .then(data => {
+            console.log(data)
+        })
 }
 
 //* =============================================================== Types ===========================================>>

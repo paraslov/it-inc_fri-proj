@@ -5,9 +5,16 @@ import {NavLink} from 'react-router-dom'
 import {PATH} from '../../../n1-app/a2-routes/Routes'
 import s from './RestorePassword.module.css'
 import {useFormik} from 'formik'
+import {useDispatch, useSelector} from 'react-redux'
+import {restorePassword} from '../password_reducer'
+import {selectRestoreSuccess} from '../../../n2-bll/selectors/password_selectors'
+import {CheckEmail} from '../check-email/CheckEmail'
 
 
 export const RestorePassword = () => {
+
+    const dispatch = useDispatch()
+    const restoreSuccess = useSelector(selectRestoreSuccess)
 
     const formik = useFormik({
         initialValues: {
@@ -15,8 +22,11 @@ export const RestorePassword = () => {
         },
         onSubmit: values => {
             console.log(values)
+            dispatch(restorePassword(values.email))
         }
     })
+
+    if(restoreSuccess) return <CheckEmail/>
 
     return (
         <div className={s.container}>
@@ -31,10 +41,10 @@ export const RestorePassword = () => {
                                     name={'email'}
                                     onChange={formik.handleChange}
                                     value={formik.values.email}/>
-                    <span className={s.instructions} style={{marginBottom: '100px'}}>
+                    <span className={s.instructions}>
                         Enter your email address and we will sent you further instructions
                     </span>
-                    <SuperButton style={{width: '65%'}} type={'submit'}>Send instructions</SuperButton>
+                    <SuperButton style={{width: '65%', marginTop: '100px'}} type={'submit'}>Send instructions</SuperButton>
                 </form>
                 <div>
                     <p className={s.instructions} style={{marginTop: '35px'}}>

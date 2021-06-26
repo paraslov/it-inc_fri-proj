@@ -15,3 +15,8 @@
     color: mediumslateblue;
     border-color: mediumslateblue;
 }
+
+.navbarContainer a.active {
+    color: mediumslateblue;
+    border-color: mediumslateblue;
+}
