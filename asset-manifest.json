@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/it-inc_fri-proj/static/css/main.5e83046a.chunk.css",
-    "main.js": "/it-inc_fri-proj/static/js/main.a3de5faa.chunk.js",
-    "main.js.map": "/it-inc_fri-proj/static/js/main.a3de5faa.chunk.js.map",
+    "main.css": "/it-inc_fri-proj/static/css/main.86beae04.chunk.css",
+    "main.js": "/it-inc_fri-proj/static/js/main.b43a7454.chunk.js",
+    "main.js.map": "/it-inc_fri-proj/static/js/main.b43a7454.chunk.js.map",
     "runtime-main.js": "/it-inc_fri-proj/static/js/runtime-main.5ec8b3d0.js",
     "runtime-main.js.map": "/it-inc_fri-proj/static/js/runtime-main.5ec8b3d0.js.map",
     "static/js/2.27d37408.chunk.js": "/it-inc_fri-proj/static/js/2.27d37408.chunk.js",
@@ -10,13 +10,13 @@
     "static/js/3.5eb03416.chunk.js": "/it-inc_fri-proj/static/js/3.5eb03416.chunk.js",
     "static/js/3.5eb03416.chunk.js.map": "/it-inc_fri-proj/static/js/3.5eb03416.chunk.js.map",
     "index.html": "/it-inc_fri-proj/index.html",
-    "static/css/main.5e83046a.chunk.css.map": "/it-inc_fri-proj/static/css/main.5e83046a.chunk.css.map",
+    "static/css/main.86beae04.chunk.css.map": "/it-inc_fri-proj/static/css/main.86beae04.chunk.css.map",
     "static/js/2.27d37408.chunk.js.LICENSE.txt": "/it-inc_fri-proj/static/js/2.27d37408.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.5ec8b3d0.js",
     "static/js/2.27d37408.chunk.js",
-    "static/css/main.5e83046a.chunk.css",
-    "static/js/main.a3de5faa.chunk.js"
+    "static/css/main.86beae04.chunk.css",
+    "static/js/main.b43a7454.chunk.js"
   ]
 }
