@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import reportWebVitals from './reportWebVitals'
 import {App} from './n1-app/a1-app/App'
-import {Provider} from "react-redux";
-import {store} from "./n2-bll/store";
+import {Provider} from 'react-redux'
+import {store} from './n2-bll/store'
 
 ReactDOM.render(
   <React.StrictMode>
       <Provider store={store}>
-    <App />
+          <App />
       </Provider>
   </React.StrictMode>,
   document.getElementById('root')
