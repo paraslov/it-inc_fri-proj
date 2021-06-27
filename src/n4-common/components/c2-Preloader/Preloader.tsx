@@ -16,6 +16,10 @@ type PreloaderPropsType = {
     size?: string
 }
 
+/**
+ * example of using Preloader: {isFetching && <Preloader left={'40%'} top={'40%'} size={'100px'}/>}
+ */
+
 export function Preloader(props: PreloaderPropsType) {
     const preloaderStyle: {} = {
         width: props.size ? props.size : '100px',
@@ -27,7 +31,7 @@ export function Preloader(props: PreloaderPropsType) {
 
     return (
         <div>
-            <img style={preloaderStyle} src={preloader} alt=""/>
+            <img style={preloaderStyle} src={preloader} alt="Preloader"/>
         </div>
     )
 }

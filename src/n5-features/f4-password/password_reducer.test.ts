@@ -7,7 +7,7 @@ import {
     TState
 } from './password_reducer'
 
-export let startState: TState
+let startState: TState
 
 beforeEach(() => {
     startState = {

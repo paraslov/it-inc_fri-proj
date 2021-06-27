@@ -1,16 +1,21 @@
-export let startState: any
+import {appReducer, setIsFetching, TState} from './app_reducer'
+
+let startState: TState
 
 beforeEach(() => {
-    startState = {}
+    startState = {
+        isFetching: false
+    }
 })
 
-test('some test name here', () => {
+test('isFetching should changes', () => {
     // data
-    let newData = 10
+    const isFetching = true
 
     // action
-    startState.newValue = newData
+    const endState = appReducer(startState, setIsFetching(isFetching))
 
     // expectation
-    expect(startState.newValue).toBe(10)
+    expect(startState.isFetching).toBeFalsy()
+    expect(endState.isFetching).toBeTruthy()
 })
