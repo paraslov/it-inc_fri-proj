@@ -17,6 +17,7 @@ type FormikErrorType = {
 
 export const Login = React.memo(() => {
     const isAuth = useSelector<TAppState>(state => state.login.email)
+    const isFetching = useSelector<TAppState>(state => state.app.isFetching)
     const dispatch = useDispatch()
 
     // useEffect(() => {
@@ -89,12 +90,11 @@ export const Login = React.memo(() => {
                     </SuperCheckbox>
                     <div className={style.button__group}>
                         <NavLink to={PATH.ENTER_NEW_PASSWORD} className={`${style.form__link} ${style.forgot}`}>Forgot Password?</NavLink>
-                        <SuperButton className={style.btn} type="submit" name="form_login_submit">Login</SuperButton>
+                        <SuperButton className={style.btn} type="submit" name="form_login_submit" disabled={!!isFetching}>Login</SuperButton>
                         <p className={style.form__text}>Don’t have an account?</p>
                         <NavLink to={PATH.REGISTRATION} className={`${style.form__link } ${style.signUp}`}>Sign Up</NavLink>
                     </div>
                 </form>
-
             </div>
 
         </div>

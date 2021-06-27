@@ -13,7 +13,6 @@ export const NavBar = () => {
     const handleLogout = () => {
         dispatch(logoutThunk())
     }
-
     return (
         <div className={s.navbarContainer}>
             <NavLink to={PATH.PROFILE}>Profile</NavLink>
