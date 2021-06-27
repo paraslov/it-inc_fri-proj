@@ -2,7 +2,7 @@ import React from 'react'
 import s from '../restore_pw/RestorePassword.module.css'
 import SuperInputText from '../../../n4-common/components/Elements/e3-SuperInputText/SuperInputText'
 import SuperButton from '../../../n4-common/components/Elements/e1-SuperButton/SuperButton'
-import {useFormik} from 'formik'
+import {FormikErrors, useFormik} from 'formik'
 import {Redirect, useParams} from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
 import {setNewPassword} from '../password_reducer'
@@ -19,10 +19,30 @@ export const SetNewPassword = () => {
     const isSetNewPasswordSuccess = useSelector(selectIsSetNewPasswordSuccess)
     const token = useParams<{ token: string }>()
 
-    const formik = useFormik({
+    //* =========================================================================== Formik validate =================>>
+    type TFormikErrors = {
+        password?: string
+    }
+    const validate = (values: TFormikValues) => {
+        const errors: FormikErrors<TFormikErrors> = {};
+
+        if (!values.password) {
+            errors.password = 'This field is required';
+        } else if (values.password.length > 20 || values.password.length < 8) {
+            errors.password = 'Must be 8-20 characters';
+        }
+
+        return errors;
+    };
+//* =========================================================================== Formik =============================>>
+    type TFormikValues = {
+        password: string
+    }
+    const formik = useFormik<TFormikValues>({
         initialValues: {
             password: '',
         },
+        validate,
         onSubmit: values => {
             console.log(values)
             console.log(token)
@@ -45,9 +65,9 @@ export const SetNewPassword = () => {
                     <SuperInputText placeholder={'Password'}
                                     type={'password'}
                                     style={{width: '80%', opacity: '0.7'}}
-                                    name={'password'}
-                                    onChange={formik.handleChange}
-                                    value={formik.values.password}/>
+                                    {...formik.getFieldProps('password')}/>
+                    {formik.touched.password && formik.errors.password ?
+                        <div className={s.error}>{formik.errors.password}</div> : null}
                     <span className={s.instructions} style={{marginBottom: '150px'}}>
                         Create new password and we will send you further instructions to email
                     </span>

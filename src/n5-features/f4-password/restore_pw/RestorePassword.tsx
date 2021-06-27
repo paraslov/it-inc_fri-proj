@@ -4,7 +4,7 @@ import SuperButton from '../../../n4-common/components/Elements/e1-SuperButton/S
 import {NavLink} from 'react-router-dom'
 import {PATH} from '../../../n1-app/a2-routes/Routes'
 import s from './RestorePassword.module.css'
-import {useFormik} from 'formik'
+import {FormikErrors, useFormik} from 'formik'
 import {useDispatch, useSelector} from 'react-redux'
 import {restorePassword} from '../password_reducer'
 import {selectIsRestoreSuccess} from '../../../n2-bll/selectors/password_selectors'
@@ -14,15 +14,34 @@ import {selectIsFetching} from '../../../n2-bll/selectors/app_selectors'
 
 
 export const RestorePassword = () => {
-
     const dispatch = useDispatch()
     const isRestoreSuccess = useSelector(selectIsRestoreSuccess)
     const isFetching = useSelector(selectIsFetching)
 
-    const formik = useFormik({
+    //* =========================================================================== Formik validate =================>>
+    type TFormikErrors = {
+        email?: string
+    }
+    const validate = (values: TFormikValues) => {
+        const errors: FormikErrors<TFormikErrors> = {}
+
+        if (!values.email) {
+            errors.email = 'This field is required'
+        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+            errors.email = 'Invalid email address'
+        }
+
+        return errors
+    }
+//* =========================================================================== Formik =============================>>
+    type TFormikValues = {
+        email: string
+    }
+    const formik = useFormik<TFormikValues>({
         initialValues: {
             email: '',
         },
+        validate,
         onSubmit: values => {
             console.log(values)
             dispatch(restorePassword(values.email))
@@ -43,9 +62,9 @@ export const RestorePassword = () => {
                 <form onSubmit={formik.handleSubmit}>
                     <SuperInputText placeholder={'Email'}
                                     style={{width: '80%', opacity: '0.7'}}
-                                    name={'email'}
-                                    onChange={formik.handleChange}
-                                    value={formik.values.email}/>
+                                    {...formik.getFieldProps('email')}/>
+                    {formik.touched.email && formik.errors.email ?
+                        <div className={s.error}>{formik.errors.email}</div> : null}
                     <span className={s.instructions}>
                         Enter your email address and we will sent you further instructions
                     </span>

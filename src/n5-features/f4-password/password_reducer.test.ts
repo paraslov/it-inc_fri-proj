@@ -1,5 +1,4 @@
 import {
-    _setIsFetching,
     _setIsRestoreSuccess,
     _setIsSetNewPasswordSuccess,
     _setRestorationEmail,
@@ -13,7 +12,6 @@ beforeEach(() => {
     startState = {
         restorationEmail: '',
         isRestoreSuccess: false,
-        isFetching: false,
         isSetNewPasswordSuccess: false
     }
 })
@@ -40,18 +38,6 @@ test('isRestoreSuccess should changes', () => {
     // expectation
     expect(startState.isRestoreSuccess).toBeFalsy()
     expect(endState.isRestoreSuccess).toBeTruthy()
-})
-
-test('isFetching should changes', () => {
-    // data
-    const isFetching = true
-
-    // action
-    const endState = passwordReducer(startState, _setIsFetching(isFetching))
-
-    // expectation
-    expect(startState.isFetching).toBeFalsy()
-    expect(endState.isFetching).toBeTruthy()
 })
 
 test('isSetNewPasswordSuccess should changes', () => {
