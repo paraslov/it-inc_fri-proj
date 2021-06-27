@@ -1,44 +1,32 @@
-import {login, loginReducer} from "./login_reducer";
-import {LoginResponse} from "../../n3-api/loginAPI";
+import {loginReducer, setAuthUserDataAction, UserDataType} from "./login_reducer";
 
 
-export let startState: LoginResponse & {isLogged: boolean }
+export let startState: UserDataType
 
 beforeEach(() => {
     startState = {
-        _id: '',
-        email: '',
-        name: '',
-        avatar: '',
-        publicCardPacksCount: 0,
-        created: new Date(),
-        updated: new Date(),
-        isAdmin: false,
-        verified: false,
-        rememberMe: false,
-        error: '',
-        isLogged: false
+        _id: null,
+        email: null,
+        name: null,
+        avatar: null,
+        publicCardPacksCount: null,
+        isAuth: false
     }
 })
 
-test('isLogged should be true',  () => {
+test('isAuth should be true',  () => {
     const data = {
         _id: '12',
         email: 'worlddesign1987@gmail.com',
         name: 'Naytin',
         avatar: '',
         publicCardPacksCount: 0,
-        created: new Date(),
-        updated: new Date(),
-        isAdmin: false,
-        verified: false,
-        rememberMe: true,
-        error: '',
+        isAuth: true
     }
 
-    const endState = loginReducer(startState, login(data))
+    const endState = loginReducer(startState, setAuthUserDataAction(data))
     // expectation
-    expect(endState.isLogged).toBe(true)
+    expect(endState.isAuth).toBe(true)
 })
 
 test('loginReducer must be changed', () => {
@@ -48,19 +36,13 @@ test('loginReducer must be changed', () => {
         name: 'Naytin',
         avatar: '',
         publicCardPacksCount: 0,
-        created: new Date(),
-        updated: new Date(),
-        isAdmin: false,
-        verified: false,
-        rememberMe: true,
-        error: '',
+        isAuth: true
     }
 
-    const endState = loginReducer(startState, login(data))
+    const endState = loginReducer(startState, setAuthUserDataAction(data))
 
-    expect(startState.email).toBe('')
+    expect(startState.email).toBe(null)
     expect(endState.email).toBe(data.email)
-    expect(endState.isLogged).toBeTruthy()
 })
 
 

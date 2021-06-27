@@ -8,6 +8,7 @@ import SuperCheckbox from "../../n4-common/components/Elements/e2-SuperCheckboxe
 import {loginThunk, registerThunk} from "./login_reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {TAppState} from "../../n2-bll/store";
+import ErrorMessage from "../../n4-common/components/ErrorMessage/ErrorMessage";
 
 type FormikErrorType = {
     email?: string
@@ -20,9 +21,6 @@ export const Login = React.memo(() => {
     const isFetching = useSelector<TAppState>(state => state.app.isFetching)
     const dispatch = useDispatch()
 
-    // useEffect(() => {
-    //     dispatch(registerThunk({email: 'worlddesign1987@gmail.com', password: '12345678'}))
-    // },[])
 
     const formik = useFormik({
         initialValues: {
@@ -33,12 +31,12 @@ export const Login = React.memo(() => {
         validate: (values) => {
             const errors: FormikErrorType = {};
             if (!values.email) {
-                errors.email = 'Required';
+                errors.email = 'email is required';
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
                 errors.email = 'Invalid email address';
             }
             if (!values.password) {
-                errors.password = 'Required';
+                errors.password = 'password is Required';
             } else if (values.password.length < 7) {
                 errors.password = 'password must be more than 7 character';
             }
@@ -66,24 +64,30 @@ export const Login = React.memo(() => {
                     className={style.form__style}
                    >
                     <label>Email</label>
+                    <div style={{width: '100%', position: 'relative', textAlign: 'center'}}>
                     <input
                         autoComplete='email'
                         className={style.form__style_input}
                         type="email"
                         {...formik.getFieldProps('email')}
                     />
+
                     {formik.touched.email && formik.errors.email ?
-                        <div style={{color: 'red'}}>{formik.errors.email}</div> : null}
+                        <ErrorMessage>{formik.errors.email}</ErrorMessage> : null}
+                    </div>
                     <label>Password</label>
-                    <input
-                        autoComplete='current-password'
-                        type="password"
-                        placeholder="*********"
-                        className={style.form__style_input}
-                        {...formik.getFieldProps('password')}
-                    />
-                    {formik.touched.password && formik.errors.password ?
-                        <div style={{color: 'red'}}>{formik.errors.password}</div> : null}
+                    <div style={{width: '100%', position: 'relative', textAlign: 'center'}}>
+                        <input
+                            autoComplete='current-password'
+                            type="password"
+                            placeholder="*********"
+                            className={style.form__style_input}
+                            {...formik.getFieldProps('password')}
+                        />
+                        {formik.touched.password && formik.errors.password ?
+                            <ErrorMessage>{formik.errors.password}</ErrorMessage> : null}
+
+                    </div>
                     <SuperCheckbox
                         {...formik.getFieldProps('rememberMe')}
                         >Remember me

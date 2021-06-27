@@ -6,11 +6,14 @@ import {NavBar} from '../../n4-common/components/c1-Navbar/NavBar'
 import {useSelector} from "react-redux";
 import {TAppState} from "../../n2-bll/store";
 import {Preloader} from "../../n4-common/components/c2-Preloader/Preloader";
+import ErrorMessage from "../../n4-common/components/ErrorMessage/ErrorMessage";
 
 
 //fgfgf
 export const App = () => {
     const isFetching = useSelector<TAppState>(state => state.app.isFetching)
+    const error = useSelector<TAppState, string | null>(state => state.app.error)
+    console.log(error)
     return (
         <HashRouter>
             <div className="App">
@@ -18,6 +21,7 @@ export const App = () => {
                 <h6>FP.v.1.05</h6>
                 <NavBar/>
                 <Routes/>
+                {error && <ErrorMessage>{error}</ErrorMessage>}
             </div>
         </HashRouter>
     )

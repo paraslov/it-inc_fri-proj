@@ -4,8 +4,6 @@ import {TAppState} from "../../n2-bll/store";
 import {authThunk} from "../f1-login/login_reducer";
 import {PATH} from "../../n1-app/a2-routes/Routes";
 import {Redirect} from "react-router-dom";
-import {Preloader} from "../../n4-common/components/c2-Preloader/Preloader";
-
 
 export const Profile = () => {
     const isAuth = useSelector<TAppState>(state => state.login.isAuth)
