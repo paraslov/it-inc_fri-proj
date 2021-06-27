@@ -5,6 +5,9 @@ export const loginAPI = {
     login(data: LoginUser) {
         return instance.post<LoginResponse>('auth/login',data)
     },
+    auth() {
+        return instance.post<LoginResponse>('auth/me', {})
+    },
     register(data: LoginUser) {
         return instance.post('/auth/register', data)
     }
@@ -28,7 +31,7 @@ export interface LoginResponse {
     isAdmin: boolean
     verified: boolean
     rememberMe: boolean
-
+    token: string
     error: string
 }
 
