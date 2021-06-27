@@ -8,7 +8,7 @@ export const App = () => {
     return (
         <HashRouter>
             <div className="App">
-                <h6>FP.v.1.05</h6>
+                <h6>FP.v.1.08</h6>
                 <NavBar/>
                 <Routes/>
             </div>
