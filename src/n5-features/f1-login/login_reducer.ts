@@ -1,34 +1,22 @@
 //* =============================================================== Initial state ===================================>>
 import {TBaseThunk} from '../../n2-bll/store'
-import {loginAPI, LoginResponse} from "../../n3-api/loginAPI";
+import {loginAPI} from "../../n3-api/loginAPI";
 
 const initState = {
-    _id: '',
-    email: '',
-    name: '',
-    avatar: '',
-    publicCardPacksCount: 0,
-    created: new Date(),
-    updated: new Date(),
-    isAdmin: false,
-    verified: false,
-    rememberMe: false,
-    error: '',
-    token: '',
+    _id: null,
+    email: null,
+    name: null,
+    avatar: null,
+    publicCardPacksCount: null,
     isAuth: false
 }
 
-export const loginReducer = (state: TState = initState, action: TLoginReducerActions): TState => {
+export const loginReducer = (state: UserDataType = initState, action: TLoginReducerActions): UserDataType => {
     switch (action.type) {
         case 'login/LOGIN_USER':
             return {
                 ...state,
                 ...action.data,
-            }
-        case 'login/AUTH_USER':
-            return {
-                ...state,
-                isAuth: true
             }
         default:
             return state
@@ -36,38 +24,54 @@ export const loginReducer = (state: TState = initState, action: TLoginReducerAct
 }
 
 //* =============================================================== Action creators =================================>>
-export const loginAction = (data: LoginResponse) => ({type: 'login/LOGIN_USER', data} as const)
-export const authAction = () => ({type: 'login/AUTH_USER'} as const)
+export const setAuthUserDataAction = (data: UserDataType) => ({type: 'login/LOGIN_USER', data} as const)
+// export const authAction = () => ({type: 'login/AUTH_USER'} as const)
 
 //* =============================================================== Thunk creators ==================================>>
-export const loginThunk = (data: UserDataType): TThunk => dispatch => {
+export const loginThunk = (data: UserLoginDataType): TThunk => dispatch => {
     loginAPI.login(data)
         .then(res => {
             if (res.status === 200) {
-                dispatch(loginAction(res.data))
-                console.log(res.data.email)
-                dispatch(auth())
+                dispatch(authThunk())
             } else {
                 console.log('something went wrong', res)
             }
         }).catch(e => {
-        const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
-        console.log('Error', {...error})
+            const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
+            console.log('Error', {...error})
     })
 }
-export const auth = (): TThunk => dispatch => {
+export const authThunk = (): TThunk => dispatch => {
     loginAPI.auth()
         .then(res => {
             if (res.status === 200) {
-                console.log(res)
-                dispatch(authAction())
+                let { email, _id, name, avatar, publicCardPacksCount} = res.data
+                let isAuth = true
+                dispatch(setAuthUserDataAction({email, _id,name, avatar, publicCardPacksCount, isAuth}))
             }
         }).catch(e => {
-        alert(e)
+            alert(e)
+    })
+}
+export const logoutThunk = (): TThunk => dispatch => {
+    loginAPI.logout()
+        .then(res => {
+            if (res.status === 200) {
+                console.log(res)
+                let isAuth = false
+                let email = null
+                let _id = null
+                let name = null
+                let avatar = null
+                let publicCardPacksCount = null
+                dispatch(setAuthUserDataAction({email, _id,name, avatar, publicCardPacksCount, isAuth}))
+            }
+        }).catch(e => {
+            alert(e)
     })
 }
 
-export const registerThunk = (data: UserDataType): TThunk => dispatch => {
+export const registerThunk = (data: UserLoginDataType): TThunk => dispatch => {
     console.log('register')
     loginAPI.register(data)
         .then(res => console.log(res))
@@ -77,14 +81,21 @@ export const registerThunk = (data: UserDataType): TThunk => dispatch => {
 }
 
 //* =============================================================== Types ===========================================>>
-export type TState = typeof initState
+// export type TState = typeof initState
+export type UserDataType = {
+    _id: null | string,
+    email: null | string,
+    name: null | string,
+    avatar: null | string,
+    publicCardPacksCount: null | number,
+    isAuth: boolean
+}
 
 export type TLoginReducerActions =
-    ReturnType<typeof loginAction> |
-    ReturnType<typeof authAction>
+    ReturnType<typeof setAuthUserDataAction>
 
 type TThunk = TBaseThunk<TLoginReducerActions>
-type UserDataType = {
+type UserLoginDataType = {
     email: string
     password: string
     rememberMe?: boolean

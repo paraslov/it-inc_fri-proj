@@ -8,6 +8,9 @@ export const loginAPI = {
     auth() {
         return instance.post<LoginResponse>('auth/me', {})
     },
+    logout() {
+        return instance.delete<LoginResponse>('auth/me', {})
+    },
     register(data: LoginUser) {
         return instance.post('/auth/register', data)
     }

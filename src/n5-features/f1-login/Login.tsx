@@ -16,7 +16,7 @@ type FormikErrorType = {
 }
 
 export const Login = React.memo(() => {
-    const isAuth = useSelector<TAppState>(state => state.login.isAuth)
+    const isAuth = useSelector<TAppState>(state => state.login.email)
     const dispatch = useDispatch()
 
     // useEffect(() => {
@@ -49,6 +49,7 @@ export const Login = React.memo(() => {
         },
     });
 
+    // if isAuth true redirect to profile page
     if(isAuth) {
         return <Redirect to={PATH.PROFILE}/>
     }
