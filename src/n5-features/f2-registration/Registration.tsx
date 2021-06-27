@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {ComponentType} from 'react'
 import registration from "./Registration.module.css"
 import {TAppState} from "../../n2-bll/store";
 import {registrationThunk} from "./registration_reducer";
@@ -7,11 +7,14 @@ import {Field, Form, Formik} from 'formik';
 import SuperInputTextEmail from "./components/SuperInputTextEmail";
 import SuperInputTextPassword from "./components/SuperInputTextPassword";
 import SuperButton from "../../n4-common/components/Elements/e1-SuperButton/SuperButton";
+import {compose} from "redux";
+import {WithAuthRedirect} from "./WithRedirect";
 
 type TMapStateToProps = {
     error?: string,
     email: string,
-    password: string
+    password: string,
+    completed: boolean
 }
 type TMapDispatchToProps = {
     registrationThunk: (email: string, password: string) => void
@@ -20,12 +23,13 @@ type TMapDispatchToProps = {
 type ReistrationPropsType = TMapStateToProps & TMapDispatchToProps
 
 
+
+
 const Registration = (props: ReistrationPropsType) => {
 
     return (
         <div className={registration.container}>
             <div className={registration.block}>
-
                 <div className={registration.text}>
                     <h2 className={registration.title}>It-incubator</h2>
                     <h3>Sign Up</h3>
@@ -61,37 +65,20 @@ const Registration = (props: ReistrationPropsType) => {
                                     <Field name="password1"
                                            component={SuperInputTextPassword}
                                            error={props.error}
-                                           placeholder={"Password"}
                                     />
                                     <Field name="password2"
                                            component={SuperInputTextPassword}
                                            error={props.error}
-                                           placeholder={"Password"}
                                     />
                                 </div>
                                 <div className={registration.buttons}>
-                                    <SuperButton type={'reset'} registrationCancel={true}>
+                                    <SuperButton type={'reset'} registrationCancel={true} disabled={isSubmitting}>
                                         <span className={registration.cancel}>Cancel</span>
                                     </SuperButton>
-                                    <SuperButton registrationRegister={true}>
+                                    <SuperButton type={'submit'} registrationRegister={true} disabled={isSubmitting}>
                                         <span className={registration.register}>Register</span>
                                     </SuperButton>
                                 </div>
-
-                                {/*<div className={registration.buttons}>
-                                <div>
-
-                                    <SuperButton
-                                        registrationCancel={true}>
-                                        <span className={registration.cancel}>Cancel</span>
-                                    </SuperButton>
-                                </div>
-                                <div>
-                                    <SuperButton>
-                                        <span className={registration.register}>Register</span>
-                                    </SuperButton>
-                                </div>
-                            </div>*/}
                             </Form>
                         )}
                     </Formik>
@@ -103,7 +90,11 @@ const Registration = (props: ReistrationPropsType) => {
 const mapStateToProps = (state: TAppState): TMapStateToProps => ({
     error: state.registration.error,
     email: state.registration.email,
-    password: state.registration.password
+    password: state.registration.password,
+    completed: state.registration.completed
+
 })
 
-export default connect(mapStateToProps, {registrationThunk})(Registration)
+export default compose<ComponentType>(
+    connect(mapStateToProps, {registrationThunk}),
+    WithAuthRedirect) (Registration)

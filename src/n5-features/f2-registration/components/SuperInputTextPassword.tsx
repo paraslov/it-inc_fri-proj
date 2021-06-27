@@ -58,7 +58,8 @@ const SuperInputTextEmail: React.FC<SuperInputTextPropsType> = (
     const finalInputClassName = `${s.superInput} ${error ? s.errorInput : ''} ${className}` // need to fix with (?:) and s.superInput
 
     return (
-        <div>
+        <div className={s.block}>
+            <span className={s.placeholder}>Password</span>
             <input
                 type={'password'}
                 onChange={onChangeCallback}
