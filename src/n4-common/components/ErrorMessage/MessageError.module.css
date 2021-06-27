@@ -1,12 +1,15 @@
 .box__message {
   position: absolute;
-  top: 50px; /* position the top  edge of the element at the middle of the parent */
-  left: 50%; /* position the left edge of the element at the middle of the parent */
-  transform: translate(-50%, -50%); /* This is a shorthand of translateX(-50%) and translateY(-50%) */
+  top: 40px; /* position the top  edge of the element at the middle of the parent */
   color: #fff;
+  max-width: 250px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
   padding: 7px 10px;
-  background-color:#f79393e6;
+  background-color:#f54a4a8c;
   border-radius: 5px 5px 5px 5px;
   z-index: 1000;
+  text-align: center;
 }
 

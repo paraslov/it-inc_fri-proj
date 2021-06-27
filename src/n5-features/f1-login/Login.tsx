@@ -9,6 +9,8 @@ import {loginThunk, registerThunk} from "./login_reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {TAppState} from "../../n2-bll/store";
 import ErrorMessage from "../../n4-common/components/ErrorMessage/ErrorMessage";
+import eye from '../../eye.svg'
+import {log} from "util";
 
 type FormikErrorType = {
     email?: string
@@ -17,6 +19,7 @@ type FormikErrorType = {
 }
 
 export const Login = React.memo(() => {
+    const [show, setShow] = useState(true)
     const isAuth = useSelector<TAppState>(state => state.login.email)
     const isFetching = useSelector<TAppState>(state => state.app.isFetching)
     const dispatch = useDispatch()
@@ -48,6 +51,10 @@ export const Login = React.memo(() => {
         },
     });
 
+    const handleShowPassword = () => {
+        setShow(!show)
+    }
+
     // if isAuth true redirect to profile page
     if(isAuth) {
         return <Redirect to={PATH.PROFILE}/>
@@ -64,7 +71,7 @@ export const Login = React.memo(() => {
                     className={style.form__style}
                    >
                     <label>Email</label>
-                    <div style={{width: '100%', position: 'relative', textAlign: 'center'}}>
+                    <div className={style.form__style_input_box} style={{width: '100%', position: 'relative', textAlign: 'center'}}>
                     <input
                         autoComplete='email'
                         className={style.form__style_input}
@@ -76,14 +83,15 @@ export const Login = React.memo(() => {
                         <ErrorMessage>{formik.errors.email}</ErrorMessage> : null}
                     </div>
                     <label>Password</label>
-                    <div style={{width: '100%', position: 'relative', textAlign: 'center'}}>
+                    <div className={style.form__style_input_box} style={{width: '100%', position: 'relative', textAlign: 'center'}}>
                         <input
                             autoComplete='current-password'
-                            type="password"
+                            type={show ? 'password' : 'text'}
                             placeholder="*********"
                             className={style.form__style_input}
                             {...formik.getFieldProps('password')}
                         />
+                        <img className={style.input__eye} src={eye} alt="eye" onClick={handleShowPassword}/>
                         {formik.touched.password && formik.errors.password ?
                             <ErrorMessage>{formik.errors.password}</ErrorMessage> : null}
 

@@ -53,6 +53,19 @@
     border-bottom: 2px solid rgba(36, 37, 74, 0.2);
     width: 100%;
 }
+
+.input__eye {
+    position: absolute;
+    right: 0;
+    top: 10%;
+    transition: all 0.3s ease-in-out;
+}
+.input__eye:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+
 .form__style input::placeholder {
     color: #2D2E46;
 }
