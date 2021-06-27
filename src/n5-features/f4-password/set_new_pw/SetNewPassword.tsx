@@ -6,9 +6,10 @@ import {useFormik} from 'formik'
 import {Redirect, useParams} from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
 import {setNewPassword} from '../password_reducer'
-import {selectIsFetching, selectIsSetNewPasswordSuccess} from '../../../n2-bll/selectors/password_selectors'
+import {selectIsSetNewPasswordSuccess} from '../../../n2-bll/selectors/password_selectors'
 import {PATH} from '../../../n1-app/a2-routes/Routes'
 import {Preloader} from '../../../n4-common/components/c2-Preloader/Preloader'
+import {selectIsFetching} from '../../../n2-bll/selectors/app_selectors'
 
 
 export const SetNewPassword = () => {

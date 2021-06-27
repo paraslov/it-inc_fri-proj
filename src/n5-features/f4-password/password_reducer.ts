@@ -1,11 +1,11 @@
 //* ============================================================= Initial state =====================================>>
 import {TBaseThunk} from '../../n2-bll/store'
 import {passwordAPI} from '../../n3-api/password_api'
+import {setIsFetching} from '../../n1-app/a1-app/app_reducer'
 
 const initState = {
     restorationEmail: '',
     isRestoreSuccess: false,
-    isFetching: false,
     isSetNewPasswordSuccess: false
 }
 
@@ -13,8 +13,6 @@ export const passwordReducer = (state: TState = initState, action: TPasswordRedu
     switch (action.type) {
         case 'para-slov/passwordReducer/SET_RESTORE_SUCCESS':
             return {...state, isRestoreSuccess: action.isRestoreSuccess}
-        case 'para-slov/passwordReducer/SET_IS_FETCHING':
-            return {...state, isFetching: action.isFetching}
         case 'para-slov/passwordReducer/SET_RESTORATION_EMAIL':
             return {...state, restorationEmail: action.restorationEmail}
         case 'para-slov/passwordReducer/SET_NEW_PASSWORD_SUCCESS':
@@ -29,34 +27,32 @@ export const _setIsRestoreSuccess = (isRestoreSuccess: boolean) =>
     ({type: 'para-slov/passwordReducer/SET_RESTORE_SUCCESS', isRestoreSuccess} as const)
 export const _setIsSetNewPasswordSuccess = (isSetNewPasswordSuccess: boolean) =>
     ({type: 'para-slov/passwordReducer/SET_NEW_PASSWORD_SUCCESS', isSetNewPasswordSuccess} as const)
-export const _setIsFetching = (isFetching: boolean) =>
-    ({type: 'para-slov/passwordReducer/SET_IS_FETCHING', isFetching} as const)
 export const _setRestorationEmail = (restorationEmail: string) =>
     ({type: 'para-slov/passwordReducer/SET_RESTORATION_EMAIL', restorationEmail} as const)
 
 //* =============================================================== Thunk creators ==================================>>
 export const restorePassword = (email: string): TThunk => dispatch => {
-    dispatch(_setIsFetching(true))
+    dispatch(setIsFetching(true))
     passwordAPI.restorePassword(email)
         .then(data => {
             console.log(data)
             dispatch(_setIsRestoreSuccess(true))
-            dispatch(_setIsFetching(false))
+            dispatch(setIsFetching(false))
             dispatch(_setRestorationEmail(email))
         })
         .catch(error => {
             console.warn(error.response.data.error)
             alert(error.response.data.error)
-            dispatch(_setIsFetching(false))
+            dispatch(setIsFetching(false))
         })
 }
 export const setNewPassword = (password: string, token: string): TThunk => dispatch => {
-    dispatch(_setIsFetching(true))
+    dispatch(setIsFetching(true))
     passwordAPI.setNewPassword({password, resetPasswordToken: token})
         .then(data => {
             console.log(data)
             dispatch(_setIsRestoreSuccess(false))
-            dispatch(_setIsFetching(false))
+            dispatch(setIsFetching(false))
             dispatch(_setIsSetNewPasswordSuccess(true))
             // to back to false setTimeout used, since login page is not ready yet
             // todo: refactor setTimeout and replace it with dispatch in Login page.
@@ -65,7 +61,7 @@ export const setNewPassword = (password: string, token: string): TThunk => dispa
         .catch(error => {
             console.warn(error.response.data.error)
             alert(error.response.data.error)
-            dispatch(_setIsFetching(false))
+            dispatch(setIsFetching(false))
         })
 }
 
@@ -73,7 +69,7 @@ export const setNewPassword = (password: string, token: string): TThunk => dispa
 export type TState = typeof initState
 
 export type TPasswordReducerActions = ReturnType<typeof _setIsRestoreSuccess>
-    | ReturnType<typeof _setIsFetching>
+    | ReturnType<typeof setIsFetching>
     | ReturnType<typeof _setRestorationEmail>
     | ReturnType<typeof _setIsSetNewPasswordSuccess>
 

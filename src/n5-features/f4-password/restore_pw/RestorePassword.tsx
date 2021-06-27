@@ -7,9 +7,10 @@ import s from './RestorePassword.module.css'
 import {useFormik} from 'formik'
 import {useDispatch, useSelector} from 'react-redux'
 import {restorePassword} from '../password_reducer'
-import {selectIsFetching, selectIsRestoreSuccess} from '../../../n2-bll/selectors/password_selectors'
+import {selectIsRestoreSuccess} from '../../../n2-bll/selectors/password_selectors'
 import {CheckEmail} from '../check-email/CheckEmail'
 import {Preloader} from '../../../n4-common/components/c2-Preloader/Preloader'
+import {selectIsFetching} from '../../../n2-bll/selectors/app_selectors'
 
 
 export const RestorePassword = () => {
