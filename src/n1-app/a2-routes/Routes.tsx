@@ -1,11 +1,11 @@
 import React from 'react'
 import {Redirect, Route, Switch} from 'react-router-dom'
 import {Login} from '../../n5-features/f1-login/Login'
-import {Registration} from '../../n5-features/f2-registration/Registration'
 import {Profile} from '../../n5-features/f3-profile/Profile'
 import {RestorePassword} from '../../n5-features/f4-password/restore_pw/RestorePassword'
 import {EnterNewPassword} from '../../n5-features/f4-password/enter_new_pw/EnterNewPassword'
 import {Tests} from '../../n6-tests_and_trash/t1-tests/Tests'
+import Registration from "../../n5-features/f2-registration/Registration";
 
 //* ========================================================= Constants for routes ================================>>
 export const PATH = {
