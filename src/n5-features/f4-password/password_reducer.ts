@@ -1,7 +1,7 @@
 //* ============================================================= Initial state =====================================>>
 import {TBaseThunk} from '../../n2-bll/store'
 import {passwordAPI} from '../../n3-api/password_api'
-import {setIsFetching} from '../../n1-app/a1-app/app_reducer'
+import {setAppError, setIsFetching} from '../../n1-app/a1-app/app_reducer'
 
 const initState = {
     restorationEmail: '',
@@ -42,7 +42,7 @@ export const restorePassword = (email: string): TThunk => dispatch => {
         })
         .catch(error => {
             console.warn(error.response.data.error)
-            alert(error.response.data.error)
+            dispatch(setAppError(error.response.data.error))
             dispatch(setIsFetching(false))
         })
 }
@@ -60,7 +60,7 @@ export const setNewPassword = (password: string, token: string): TThunk => dispa
         })
         .catch(error => {
             console.warn(error.response.data.error)
-            alert(error.response.data.error)
+            dispatch(setAppError(error.response.data.error))
             dispatch(setIsFetching(false))
         })
 }
@@ -72,6 +72,7 @@ export type TPasswordReducerActions = ReturnType<typeof _setIsRestoreSuccess>
     | ReturnType<typeof setIsFetching>
     | ReturnType<typeof _setRestorationEmail>
     | ReturnType<typeof _setIsSetNewPasswordSuccess>
+    | ReturnType<typeof setAppError>
 
 
 type TThunk = TBaseThunk<TPasswordReducerActions>

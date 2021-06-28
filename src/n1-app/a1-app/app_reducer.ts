@@ -49,9 +49,11 @@ export const initializeApp = (): TThunk => dispatch => {
                 dispatch(setAuthUserDataAction({email, _id, name, avatar, publicCardPacksCount, isAuth}))
                 dispatch(setIsInitialized(true))
             }
-        }).catch(error => {
-        dispatch(setIsFetching(false))
-    })
+        })
+        .catch(error => {
+            dispatch(setIsInitialized(true))
+            dispatch(setIsFetching(false))
+        })
 }
 
 //* =============================================================== Types ===========================================>>
