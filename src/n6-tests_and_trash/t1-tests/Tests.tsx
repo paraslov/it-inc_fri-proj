@@ -12,7 +12,6 @@ export const Tests = () => {
 
     return (
         <div style={style}>
-            <h2>Ilya</h2>
             <SuperInputText value={text} onChangeText={setText} style={style}/> <br/>
             <SuperCheckbox checked={disabled} onChangeChecked={setDisabled} style={style}>
                 disable
