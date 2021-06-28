@@ -6,6 +6,7 @@ beforeEach(() => {
     startState = {
         isFetching: false,
         error: null,
+        isInitialized: false
     }
 })
 

@@ -1,31 +1,29 @@
-import React, {ComponentType} from 'react'
+import React from 'react'
 import registration from './Registration.module.css'
 import {TAppState} from '../../n2-bll/store'
-import {registrationThunk} from './registration_reducer'
-import {connect} from 'react-redux'
+import {loginMeThunk, registrationThunk} from './registration_reducer'
+import {useDispatch, useSelector} from 'react-redux'
 import {Field, Form, Formik} from 'formik'
 import SuperInputTextEmail from './components/SuperInputTextEmail'
 import SuperInputTextPassword from './components/SuperInputTextPassword'
 import SuperButton from '../../n4-common/components/Elements/e1-SuperButton/SuperButton'
-import {compose} from 'redux'
-import {WithAuthRedirect} from './WithRedirect'
-
-type TMapStateToProps = {
-    error?: string,
-    email: string,
-    password: string,
-    completed: boolean
-}
-type TMapDispatchToProps = {
-    registrationThunk: (email: string, password: string) => void
-}
-
-type ReistrationPropsType = TMapStateToProps & TMapDispatchToProps
+import {Redirect} from "react-router-dom";
+import {PATH} from "../../n1-app/a2-routes/Routes";
 
 
+const Registration = React.memo(() => {
 
+    const error = useSelector<TAppState>(state => state.registration.error)
+    const isFetching = useSelector<TAppState>(state => state.registration.isFetching)
 
-const Registration = (props: ReistrationPropsType) => {
+    const dispatch = useDispatch()
+
+    if (isFetching) {
+        debugger
+        return <Redirect to={PATH.PROFILE}/>
+
+    }
+
 
     return (
         <div className={registration.container}>
@@ -45,10 +43,10 @@ const Registration = (props: ReistrationPropsType) => {
                             }
                         }
                         onSubmit={(values, {setSubmitting}) => {
-                            debugger
                             if (values.email !== '' && values.password1 !== '' && values.password2 !== '') {
                                 if (values.password1 === values.password2) {
-                                    props.registrationThunk(values.email, values.password1)
+                                    dispatch(registrationThunk(values.email, values.password1))
+                                    dispatch(loginMeThunk(values.email, values.password1))
                                     setSubmitting(false)
                                 }
                             }
@@ -60,18 +58,18 @@ const Registration = (props: ReistrationPropsType) => {
                                 <div className={registration.inputs}>
                                     <div>
                                         <Field name="email"
-                                               error={props.error}
+                                               error={error}
                                                component={SuperInputTextEmail}
                                         />
                                     </div>
 
                                     <Field name="password1"
                                            component={SuperInputTextPassword}
-                                           error={props.error}
+                                           error={error}
                                     />
                                     <Field name="password2"
                                            component={SuperInputTextPassword}
-                                           error={props.error}
+                                           error={error}
                                     />
                                 </div>
                                 <div className={registration.buttons}>
@@ -89,15 +87,6 @@ const Registration = (props: ReistrationPropsType) => {
             </div>
         </div>
     )
-}
-const mapStateToProps = (state: TAppState): TMapStateToProps => ({
-    error: state.registration.error,
-    email: state.registration.email,
-    password: state.registration.password,
-    completed: state.registration.completed
-
 })
 
-export default compose<ComponentType>(
-    connect(mapStateToProps, {registrationThunk}),
-    WithAuthRedirect) (Registration)
+export default Registration

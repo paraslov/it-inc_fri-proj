@@ -5,6 +5,7 @@ import {authThunk, logoutThunk, UserDataType} from '../f1-login/login_reducer'
 import {PATH} from "../../n1-app/a2-routes/Routes";
 import {Redirect} from "react-router-dom";
 import SuperButton from '../../n4-common/components/Elements/e1-SuperButton/SuperButton'
+import {setIsFetchingRegisterAction} from "../f2-registration/registration_reducer";
 
 export const Profile = () => {
     const dispatch = useDispatch()
@@ -15,6 +16,7 @@ export const Profile = () => {
         // if userData not found, send request to auth/me
         if(!isAuth) {
             dispatch(authThunk())
+            dispatch(setIsFetchingRegisterAction(false))
         }
     },[])
 

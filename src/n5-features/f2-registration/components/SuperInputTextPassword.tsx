@@ -1,5 +1,7 @@
-import React, {ChangeEvent, DetailedHTMLProps, InputHTMLAttributes, KeyboardEvent} from 'react'
+import React, {ChangeEvent, DetailedHTMLProps, InputHTMLAttributes, KeyboardEvent, useState} from 'react'
 import s from './SuperInputTextEmail.module.css'
+import eye from "../../../eye.svg";
+import eyeOff from "../../../eyeOff.svg";
 
 // тип пропсов обычного инпута
 type DefaultInputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
@@ -29,6 +31,8 @@ type SuperInputTextPropsType = DefaultInputPropsType & { // и + ещё проп
     spanClassName?: string
 }
 
+
+
 const SuperInputTextEmail: React.FC<SuperInputTextPropsType> = (
     {
         type, // достаём и игнорируем чтоб нельзя было задать другой тип инпута
@@ -40,6 +44,9 @@ const SuperInputTextEmail: React.FC<SuperInputTextPropsType> = (
         ...restProps// все остальные пропсы попадут в объект restProps
     }
 ) => {
+    const [show, setShow] = useState(false)
+
+    const handleShowPassword = () => {setShow(!show)}
     const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
         onChange // если есть пропс onChange
         && onChange(e) // то передать ему е (поскольку onChange не обязателен)
@@ -61,13 +68,14 @@ const SuperInputTextEmail: React.FC<SuperInputTextPropsType> = (
         <div className={s.block}>
             <span className={s.placeholder}>Password</span>
             <input
-                type={'password'}
+                type={show ? 'text' : 'password'}
                 onChange={onChangeCallback}
                 onKeyPress={onKeyPressCallback}
                 className={finalInputClassName}
                 {...field} {...touched} {...errors}
                 {...restProps} // отдаём инпуту остальные пропсы если они есть (value например там внутри)
             />
+            <img className={s.eye} src={show ? eye : eyeOff} alt="eye" onClick={handleShowPassword}/>
             {error && <span className={finalSpanClassName}>{error}</span>}
         </div>
     )

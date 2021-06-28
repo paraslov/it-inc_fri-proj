@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import './App.css'
-import {Routes} from '../a2-routes/Routes'
-import {HashRouter} from 'react-router-dom'
+import {PATH, Routes} from '../a2-routes/Routes'
+import {HashRouter, Redirect} from 'react-router-dom'
 import {NavBar} from '../../n4-common/components/c1-Navbar/NavBar'
 import {useDispatch, useSelector} from 'react-redux'
 import {TAppState} from "../../n2-bll/store";
@@ -22,7 +22,8 @@ export const App = () => {
     }, [])
 
     // if app is not initialized yet show preloader
-    if(!isInitialized) return <Preloader left={'40%'} top={'40%'} size={'200px'}/>
+    if(isInitialized)  return <Redirect to={PATH.LOGIN}/>
+
 
     return (
         <HashRouter>
