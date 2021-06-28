@@ -22,7 +22,7 @@ export const App = () => {
     }, [])
 
     // if app is not initialized yet show preloader
-    if(isInitialized)  return <Redirect to={PATH.LOGIN}/>
+   // if(isInitialized)  return <Preloader left={'40%'} top={'40%'} size={'200px'} />
 
 
     return (

@@ -1,7 +1,7 @@
 import React from 'react'
 import registration from './Registration.module.css'
 import {TAppState} from '../../n2-bll/store'
-import {loginMeThunk, registrationThunk} from './registration_reducer'
+import { registrationThunk} from './registration_reducer'
 import {useDispatch, useSelector} from 'react-redux'
 import {Field, Form, Formik} from 'formik'
 import SuperInputTextEmail from './components/SuperInputTextEmail'
@@ -19,8 +19,7 @@ const Registration = React.memo(() => {
     const dispatch = useDispatch()
 
     if (isFetching) {
-        debugger
-        return <Redirect to={PATH.PROFILE}/>
+        return <Redirect to={PATH.LOGIN}/>
 
     }
 
@@ -46,7 +45,6 @@ const Registration = React.memo(() => {
                             if (values.email !== '' && values.password1 !== '' && values.password2 !== '') {
                                 if (values.password1 === values.password2) {
                                     dispatch(registrationThunk(values.email, values.password1))
-                                    dispatch(loginMeThunk(values.email, values.password1))
                                     setSubmitting(false)
                                 }
                             }

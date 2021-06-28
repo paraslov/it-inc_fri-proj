@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {NavLink, Redirect} from 'react-router-dom'
 import style from './Login.module.css'
 import {PATH} from '../../n1-app/a2-routes/Routes'
@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import {TAppState} from '../../n2-bll/store'
 import ErrorMessage from '../../n4-common/components/с3-ErrorMessage/ErrorMessage'
 import eye from '../../eye.svg'
+import {setIsFetchingRegisterAction} from "../f2-registration/registration_reducer";
 
 type FormikErrorType = {
     email?: string
@@ -23,6 +24,9 @@ export const Login = React.memo(() => {
     const isFetching = useSelector<TAppState>(state => state.app.isFetching)
     const dispatch = useDispatch()
 
+useEffect( () => {
+    dispatch(setIsFetchingRegisterAction(false))
+}, [])
 
     const formik = useFormik({
         initialValues: {

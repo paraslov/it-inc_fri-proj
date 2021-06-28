@@ -60,9 +60,7 @@ export const registrationThunk = (email: string, password: string): TThunk => {
     return (dispatch) => {
         usersAPI.registration(email, password)
             .then(() => {
-                debugger
                 dispatch(authRegisterAction(email, password));
-                dispatch(loginMeThunk(email, password))
                 dispatch(setIsFetchingRegisterAction(false))
             })
             .catch(error => {
@@ -70,20 +68,6 @@ export const registrationThunk = (email: string, password: string): TThunk => {
                 dispatch(authRegisterAction(email, password, message))
             })
 
-    }
-}
-export const loginMeThunk = (email: string, password: string): TThunk => {
-    return (dispatch: Dispatch) => {
-        usersAPI.userLogin(email, password, false)
-            .then((res) => {
-                let {email, _id, name, avatar, publicCardPacksCount} = res.data
-                dispatch(loginUserAction({_id, email, name, avatar, publicCardPacksCount}))
-                dispatch(setIsFetchingRegisterAction(true))
-            })
-            .catch(error => {
-                const message = error.response.data.error
-                dispatch(authRegisterAction(email, password, message))
-            })
     }
 }
 
