@@ -29,7 +29,7 @@ export const App = () => {
             <div className="App">
                 {/*why isFetching and preloader here??*/}
                 {isFetching && <Preloader left={'calc(50% - 50px)'}/>}
-                <h6>FP.v.1.08</h6>
+                <h6>FP.v.1.09</h6>
                 <NavBar/>
                 <Routes/>
                 {error && <ErrorMessage>{error}</ErrorMessage>}
