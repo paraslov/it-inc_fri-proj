@@ -5,6 +5,7 @@ import {loginReducer, TLoginReducerActions} from '../n5-features/f1-login/login_
 import {registrationReducer, TRegistrationReducerActions} from '../n5-features/f2-registration/registration_reducer'
 import {profileReducer, TProfileReducerActions} from '../n5-features/f3-profile/progile_reducer'
 import {passwordReducer, TPasswordReducerActions} from '../n5-features/f4-password/password_reducer'
+import {LoginResponse} from "../n3-api/loginAPI";
 
 
 const rootReducer = combineReducers({
@@ -18,6 +19,9 @@ const rootReducer = combineReducers({
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware))
 
 export type TAppState = ReturnType<typeof rootReducer>
+
+//@ts-ignore
+window.store = store
 
 //* Common actions type =============================================================================================>>
 export type TAppActions = TAppReducerActions | TLoginReducerActions | TRegistrationReducerActions
