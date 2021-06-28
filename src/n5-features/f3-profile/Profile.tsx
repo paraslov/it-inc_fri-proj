@@ -1,22 +1,15 @@
-import React, {useEffect} from 'react'
-import {useDispatch, useSelector} from "react-redux";
-import {TAppState} from "../../n2-bll/store";
-import {authThunk, logoutThunk, UserDataType} from '../f1-login/login_reducer'
-import {PATH} from "../../n1-app/a2-routes/Routes";
-import {Redirect} from "react-router-dom";
+import React from 'react'
+import {useDispatch, useSelector} from 'react-redux';
+import {TAppState} from '../../n2-bll/store';
+import {logoutThunk, UserDataType} from '../f1-login/login_reducer'
+import {PATH} from '../../n1-app/a2-routes/Routes';
+import {Redirect} from 'react-router-dom';
 import SuperButton from '../../n4-common/components/Elements/e1-SuperButton/SuperButton'
 
 export const Profile = () => {
     const dispatch = useDispatch()
     const {_id, email, name, avatar, publicCardPacksCount, isAuth} =
         useSelector<TAppState, UserDataType>(state => state.login)
-
-    useEffect(() => {
-        // if userData not found, send request to auth/me
-        if(!isAuth) {
-            dispatch(authThunk())
-        }
-    },[])
 
     const logout = () => dispatch(logoutThunk())
 
