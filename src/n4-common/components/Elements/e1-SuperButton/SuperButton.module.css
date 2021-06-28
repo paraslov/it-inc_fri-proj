@@ -3,7 +3,7 @@
     height: 36px;
     width: 187px;
 
-
+    cursor: pointer;
     font-style: normal;
     font-weight: 500;
     line-height: 19px;
@@ -22,7 +22,8 @@
 
 
 .default:hover {
-    background-color: #D7D8EF;
+    background-color: #ECECF9;
+    color: #21268F
 }
 
 .red {
@@ -37,7 +38,7 @@
 }
 .registrationCancel:hover {
     border: 2px solid  #21268F;
-    box-shadow: 0px 4px 18px rgba(33, 38, 143, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 18px rgba(33, 38, 143, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .red:hover {

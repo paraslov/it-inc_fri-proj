@@ -60,6 +60,7 @@ export const authThunk = (): TThunk => dispatch => {
         }).catch(error => {
             dispatch(setAppError(error.response.data.error))
             dispatch(setIsFetching(false))
+            setTimeout(() => dispatch(setAppError(null)), 6000)
     })
 }
 export const logoutThunk = (): TThunk => dispatch => {

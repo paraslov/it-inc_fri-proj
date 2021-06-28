@@ -68,12 +68,12 @@ export const RestorePassword = () => {
                     <span className={s.instructions}>
                         Enter your email address and we will sent you further instructions
                     </span>
-                    <SuperButton style={{width: '65%', marginTop: '100px'}} type={'submit'} disabled={isFetching}>
+                    <SuperButton style={{width: '65%', marginTop: '80px'}} type={'submit'} disabled={isFetching}>
                         Send instructions
                     </SuperButton>
                 </form>
                 <div>
-                    <p className={s.instructions} style={{marginTop: '35px'}}>
+                    <p className={s.instructions} style={{marginTop: '25px'}}>
                         Did you remember your password?
                     </p>
                     <NavLink to={PATH.LOGIN}>Try logging in</NavLink>

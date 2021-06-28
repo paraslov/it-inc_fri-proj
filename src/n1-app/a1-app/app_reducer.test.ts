@@ -4,7 +4,8 @@ let startState: TState
 
 beforeEach(() => {
     startState = {
-        isFetching: false
+        isFetching: false,
+        error: null,
     }
 })
 

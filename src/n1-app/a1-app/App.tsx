@@ -6,7 +6,7 @@ import {NavBar} from '../../n4-common/components/c1-Navbar/NavBar'
 import {useSelector} from "react-redux";
 import {TAppState} from "../../n2-bll/store";
 import {Preloader} from "../../n4-common/components/c2-Preloader/Preloader";
-import ErrorMessage from "../../n4-common/components/ErrorMessage/ErrorMessage";
+import ErrorMessage from "../../n4-common/components/с3-ErrorMessage/ErrorMessage";
 
 export const App = () => {
     const isFetching = useSelector<TAppState>(state => state.app.isFetching)

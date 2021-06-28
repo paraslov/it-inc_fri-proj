@@ -1,14 +1,14 @@
 import React, {ComponentType} from 'react'
-import registration from "./Registration.module.css"
-import {TAppState} from "../../n2-bll/store";
-import {registrationThunk} from "./registration_reducer";
-import {connect} from "react-redux";
-import {Field, Form, Formik} from 'formik';
-import SuperInputTextEmail from "./components/SuperInputTextEmail";
-import SuperInputTextPassword from "./components/SuperInputTextPassword";
-import SuperButton from "../../n4-common/components/Elements/e1-SuperButton/SuperButton";
-import {compose} from "redux";
-import {WithAuthRedirect} from "./WithRedirect";
+import registration from './Registration.module.css'
+import {TAppState} from '../../n2-bll/store'
+import {registrationThunk} from './registration_reducer'
+import {connect} from 'react-redux'
+import {Field, Form, Formik} from 'formik'
+import SuperInputTextEmail from './components/SuperInputTextEmail'
+import SuperInputTextPassword from './components/SuperInputTextPassword'
+import SuperButton from '../../n4-common/components/Elements/e1-SuperButton/SuperButton'
+import {compose} from 'redux'
+import {WithAuthRedirect} from './WithRedirect'
 
 type TMapStateToProps = {
     error?: string,

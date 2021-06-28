@@ -55,7 +55,7 @@ export const SetNewPassword = () => {
 
     return (
         <div className={s.container}>
-            <div className={s.restoreContainer}>
+            <div className={s.restoreContainer} style={{height: '480px'}}>
                 {isFetching && <Preloader left={'40%'} top={'40%'} size={'100px'}/>}
                 <div className={s.header}>
                     <h2>It-incubator</h2>
@@ -68,7 +68,7 @@ export const SetNewPassword = () => {
                                     {...formik.getFieldProps('password')}/>
                     {formik.touched.password && formik.errors.password ?
                         <div className={s.error}>{formik.errors.password}</div> : null}
-                    <span className={s.instructions} style={{marginBottom: '150px'}}>
+                    <span className={s.instructions} style={{marginBottom: '100px'}}>
                         Create new password and we will send you further instructions to email
                     </span>
                     <SuperButton style={{width: '65%'}} type={'submit'} disabled={isFetching}>

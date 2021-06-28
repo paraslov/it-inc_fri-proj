@@ -8,7 +8,7 @@ import SuperCheckbox from '../../n4-common/components/Elements/e2-SuperCheckboxe
 import {loginThunk} from './login_reducer'
 import {useDispatch, useSelector} from 'react-redux'
 import {TAppState} from '../../n2-bll/store'
-import ErrorMessage from '../../n4-common/components/ErrorMessage/ErrorMessage'
+import ErrorMessage from '../../n4-common/components/с3-ErrorMessage/ErrorMessage'
 import eye from '../../eye.svg'
 
 type FormikErrorType = {
@@ -60,59 +60,60 @@ export const Login = React.memo(() => {
     }
 
     return (
-        <div className={style.form__block}>
-            <h3 className={style.from__block_title}>It-incubator</h3>
-            <p className={style.form__block_text}>Sign In</p>
-            <div className={style.form__block_content}>
-                <form
-                    noValidate
-                    onSubmit={formik.handleSubmit}
-                    className={style.form__style}
-                >
-                    <label>Email</label>
-                    <div className={style.form__style_input_box}
-                         style={{width: '100%', position: 'relative', textAlign: 'center'}}>
-                        <input
-                            autoComplete="email"
-                            className={style.form__style_input}
-                            type="email"
-                            {...formik.getFieldProps('email')}
-                        />
+        <div className={style.container}>
+            <div className={style.form__block}>
+                <h3 className={style.from__block_title}>It-incubator</h3>
+                <p className={style.form__block_text}>Sign In</p>
+                <div className={style.form__block_content}>
+                    <form
+                        noValidate
+                        onSubmit={formik.handleSubmit}
+                        className={style.form__style}
+                    >
+                        <label>Email</label>
+                        <div className={style.form__style_input_box}
+                             style={{width: '100%', position: 'relative', textAlign: 'center'}}>
+                            <input
+                                autoComplete="email"
+                                className={style.form__style_input}
+                                type="email"
+                                {...formik.getFieldProps('email')}
+                            />
 
-                        {formik.touched.email && formik.errors.email ?
-                            <ErrorMessage>{formik.errors.email}</ErrorMessage> : null}
-                    </div>
-                    <label>Password</label>
-                    <div className={style.form__style_input_box}
-                         style={{width: '100%', position: 'relative', textAlign: 'center'}}>
-                        <input
-                            autoComplete="current-password"
-                            type={show ? 'password' : 'text'}
-                            placeholder="*********"
-                            className={style.form__style_input}
-                            {...formik.getFieldProps('password')}
-                        />
-                        <img className={style.input__eye} src={eye} alt="eye" onClick={handleShowPassword}/>
-                        {formik.touched.password && formik.errors.password ?
-                            <ErrorMessage>{formik.errors.password}</ErrorMessage> : null}
+                            {formik.touched.email && formik.errors.email ?
+                                <ErrorMessage>{formik.errors.email}</ErrorMessage> : null}
+                        </div>
+                        <label>Password</label>
+                        <div className={style.form__style_input_box}
+                             style={{width: '100%', position: 'relative', textAlign: 'center'}}>
+                            <input
+                                autoComplete="current-password"
+                                type={show ? 'password' : 'text'}
+                                placeholder="*********"
+                                className={style.form__style_input}
+                                {...formik.getFieldProps('password')}
+                            />
+                            <img className={style.input__eye} src={eye} alt="eye" onClick={handleShowPassword}/>
+                            {formik.touched.password && formik.errors.password ?
+                                <ErrorMessage>{formik.errors.password}</ErrorMessage> : null}
 
-                    </div>
-                    <SuperCheckbox
-                        {...formik.getFieldProps('rememberMe')}
-                    >Remember me
-                    </SuperCheckbox>
-                    <div className={style.button__group}>
-                        <NavLink to={PATH.SET_NEW_PASSWORD} className={`${style.form__link} ${style.forgot}`}>Forgot
-                            Password?</NavLink>
-                        <SuperButton className={style.btn} type="submit" name="form_login_submit"
-                                     disabled={!!isFetching}>Login</SuperButton>
-                        <p className={style.form__text}>Don’t have an account?</p>
-                        <NavLink to={PATH.REGISTRATION} className={`${style.form__link} ${style.signUp}`}>Sign
-                            Up</NavLink>
-                    </div>
-                </form>
+                        </div>
+                        <SuperCheckbox
+                            {...formik.getFieldProps('rememberMe')}
+                        >Remember me
+                        </SuperCheckbox>
+                        <div className={style.button__group}>
+                            <NavLink to={PATH.RESTORE_PASSWORD} className={`${style.form__link} ${style.forgot}`}>Forgot
+                                Password?</NavLink>
+                            <SuperButton className={style.btn} type="submit" name="form_login_submit"
+                                         disabled={!!isFetching}>Login</SuperButton>
+                            <p className={style.form__text}>Don’t have an account?</p>
+                            <NavLink to={PATH.REGISTRATION} className={`${style.form__link} ${style.signUp}`}>Sign
+                                Up</NavLink>
+                        </div>
+                    </form>
+                </div>
             </div>
-
         </div>
 
     )

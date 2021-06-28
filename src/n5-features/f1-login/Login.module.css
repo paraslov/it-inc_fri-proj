@@ -1,7 +1,14 @@
+.container {
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
 .form__block {
     width: 413px;
     height: 600px;
-    margin: auto;
+    margin: 30px auto 0;
     padding: 25px 33px 30px 33px;
     border-radius: 8px;
     background-color: #F9F9FE;

@@ -1,12 +1,12 @@
-.container{
-    height: 100vh;
-    margin: 0 auto;
+.container {
+    min-height: 80vh;
     display: flex;
     justify-content: center;
-    align-items: center;
-    background: linear-gradient(180deg, #E6D4DE 0%, #9890C7 100%);
+    align-items: flex-start;
 }
-.block{
+
+.block {
+    margin-top: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -14,9 +14,9 @@
     height: 540px;
     background: #F9F9FE;
     border-radius: 8px;
-
 }
-.text{
+
+.text {
     height: 30%;
     display: flex;
     flex-direction: column;
@@ -27,24 +27,28 @@
     font-weight: 600;
     color: #2D2E46;
 }
-.form{
+
+.form {
     height: 70%;
 }
-.form form{
+
+.form form {
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
-.inputs{
+
+.inputs {
 }
-.buttons{
+
+.buttons {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
 }
 
-.cancel{
+.cancel {
     font-size: 16px;
     line-height: 19px;
     text-align: center;
@@ -53,7 +57,8 @@
     opacity: 0.8;
     text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
 }
-.register{
+
+.register {
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
@@ -63,6 +68,7 @@
     color: #ECECF9;
     text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
 }
-.texterror{
+
+.texterror {
     color: red;
 }
