@@ -18,7 +18,7 @@ type SuperInputTextPropsType = DefaultInputPropsType & { // и + ещё проп
 
 const SuperInputText: React.FC<SuperInputTextPropsType> = (
     {
-        type, // достаём и игнорируем чтоб нельзя было задать другой тип инпута
+        //type, // достаём и игнорируем чтоб нельзя было задать другой тип инпута
         onChange, onChangeText,
         onKeyPress, onEnter,
         error,
@@ -54,6 +54,7 @@ const SuperInputText: React.FC<SuperInputTextPropsType> = (
 
                 {...restProps} // отдаём инпуту остальные пропсы если они есть (value например там внутри)
             />
+            <span className={s.borderBottom}/>
             {error && <span className={finalSpanClassName}>{error}</span>}
         </>
     )
