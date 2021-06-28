@@ -45,9 +45,12 @@ const Registration = (props: ReistrationPropsType) => {
                             }
                         }
                         onSubmit={(values, {setSubmitting}) => {
-                            if (values.password1 === values.password2) {
-                                props.registrationThunk(values.email, values.password1)
-                                setSubmitting(false)
+                            debugger
+                            if (values.email !== '' && values.password1 !== '' && values.password2 !== '') {
+                                if (values.password1 === values.password2) {
+                                    props.registrationThunk(values.email, values.password1)
+                                    setSubmitting(false)
+                                }
                             }
                             setSubmitting(false)
                         }}>

@@ -1,16 +1,24 @@
+import {authRegisterAction, registrationReducer} from "./registration_reducer";
+
 export let startState: any
 
 beforeEach(() => {
-    startState = {}
+    startState = {
+        email: '',
+        password: '',
+        completed: false
+    }
 })
 
-test('some test name here', () => {
+test('password and email should be correct added', () => {
     // data
-    let newData = 10
+    const endState = registrationReducer(startState, authRegisterAction('1@mail.ru', '123123'))
 
     // action
-    startState.newValue = newData
 
     // expectation
-    expect(startState.newValue).toBe(10)
+    expect(startState.completed).toBe(false)
+    expect(endState.completed).toBe(true)
+    expect(endState.email).toBe('1@mail.ru')
+    expect(endState.password).toBe('123123')
 })
