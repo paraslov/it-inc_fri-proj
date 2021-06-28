@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react'
 import './App.css'
-import {PATH, Routes} from '../a2-routes/Routes'
-import {HashRouter, Redirect} from 'react-router-dom'
+import {Routes} from '../a2-routes/Routes'
+import {HashRouter} from 'react-router-dom'
 import {NavBar} from '../../n4-common/components/c1-Navbar/NavBar'
 import {useDispatch, useSelector} from 'react-redux'
-import {TAppState} from "../../n2-bll/store";
-import {Preloader} from "../../n4-common/components/c2-Preloader/Preloader";
-import ErrorMessage from "../../n4-common/components/с3-ErrorMessage/ErrorMessage";
+import {TAppState} from '../../n2-bll/store';
+import {Preloader} from '../../n4-common/components/c2-Preloader/Preloader';
+import ErrorMessage from '../../n4-common/components/с3-ErrorMessage/ErrorMessage';
 import {initializeApp} from './app_reducer'
 
 export const App = () => {
@@ -19,10 +19,10 @@ export const App = () => {
 
     useEffect(() => {
         dispatch(initializeApp())
-    }, [])
+    }, [dispatch])
 
     // if app is not initialized yet show preloader
-   // if(isInitialized)  return <Preloader left={'40%'} top={'40%'} size={'200px'} />
+    if(!isInitialized)  return <Preloader left={'40%'} top={'40%'} size={'200px'} />
 
 
     return (

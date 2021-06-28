@@ -20,7 +20,6 @@ const Registration = React.memo(() => {
 
     if (isFetching) {
         return <Redirect to={PATH.LOGIN}/>
-
     }
 
 
