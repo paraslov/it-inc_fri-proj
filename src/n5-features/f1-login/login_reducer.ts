@@ -2,22 +2,18 @@
 import {setAppError, setIsFetching, setIsInitialized} from '../../n1-app/a1-app/app_reducer';
 import {TBaseThunk} from '../../n2-bll/store'
 import {loginAPI} from "../../n3-api/loginAPI";
+import {setUserData} from "../f3-profile/progile_reducer";
 
 const initState = {
-    _id: null,
-    email: null,
-    name: null,
-    avatar: null,
-    publicCardPacksCount: null,
     isAuth: false
 }
 
-export const loginReducer = (state: UserDataType = initState, action: TLoginReducerActions): UserDataType => {
+export const loginReducer = (state: TState = initState, action: TLoginReducerActions): TState => {
     switch (action.type) {
         case 'login/LOGIN_USER':
             return {
                 ...state,
-                ...action.data,
+                isAuth: action.isAuth,
             }
         default:
             return state
@@ -25,8 +21,7 @@ export const loginReducer = (state: UserDataType = initState, action: TLoginRedu
 }
 
 //* =============================================================== Action creators =================================>>
-export const setAuthUserDataAction = (data: UserDataType) => ({type: 'login/LOGIN_USER', data} as const)
-// export const authAction = () => ({type: 'login/AUTH_USER'} as const)
+export const setIsAuth = (isAuth: boolean) => ({type: 'login/LOGIN_USER', isAuth} as const)
 
 //* =============================================================== Thunk creators ==================================>>
 export const loginThunk = (data: UserLoginDataType): TThunk => dispatch => {
@@ -52,11 +47,11 @@ export const authThunk = (): TThunk => dispatch => {
                     name,
                     avatar,
                     publicCardPacksCount} = res.data
-                let isAuth = true
 
                 dispatch(setIsFetching(false))
                 dispatch(setIsInitialized(true))
-                dispatch(setAuthUserDataAction({email, _id, name, avatar, publicCardPacksCount, isAuth}))
+                dispatch(setIsAuth(true))
+                dispatch(setUserData({email, _id, name, avatar, publicCardPacksCount}))
             }
         }).catch(error => {
             dispatch(setIsInitialized(true))
@@ -68,14 +63,13 @@ export const logoutThunk = (): TThunk => dispatch => {
     loginAPI.logout()
         .then(res => {
             if (res.status === 200) {
-                let isAuth = false
                 let email = null
                 let _id = null
                 let name = null
                 let avatar = null
                 let publicCardPacksCount = null
-
-                dispatch(setAuthUserDataAction({email, _id, name, avatar, publicCardPacksCount, isAuth}))
+                dispatch(setIsAuth(false))
+                dispatch(setUserData({email, _id, name, avatar, publicCardPacksCount}))
             }
         }).catch(error => {
             dispatch(setAppError(error.response.data.error))
@@ -92,20 +86,14 @@ export const registerThunk = (data: UserLoginDataType): TThunk => dispatch => {
 }
 
 //* =============================================================== Types ===========================================>>
-// export type TState = typeof initState
-export type UserDataType = {
-    _id: null | string,
-    email: null | string,
-    name: null | string,
-    avatar: null | string,
-    publicCardPacksCount: null | number,
-    isAuth: boolean
-}
+export type TState = typeof initState
+
 
 export type TLoginReducerActions =
-    ReturnType<typeof setAuthUserDataAction> |
+    ReturnType<typeof setIsAuth> |
     ReturnType<typeof setIsFetching> |
-    ReturnType<typeof setIsInitialized>
+    ReturnType<typeof setIsInitialized> |
+    ReturnType<typeof setUserData>
 
 
 

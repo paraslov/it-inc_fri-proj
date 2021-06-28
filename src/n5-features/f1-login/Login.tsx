@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import {TAppState} from '../../n2-bll/store'
 import ErrorMessage from '../../n4-common/components/с3-ErrorMessage/ErrorMessage'
 import eye from '../../eye.svg'
+import eyeOff from '../../eyeOff.svg'
 import {setIsFetchingRegisterAction} from "../f2-registration/registration_reducer";
 
 type FormikErrorType = {
@@ -19,7 +20,7 @@ type FormikErrorType = {
 }
 
 export const Login = React.memo(() => {
-    const [show, setShow] = useState(true)
+    const [show, setShow] = useState(false)
     const isAuth = useSelector<TAppState>(state => state.login.isAuth)
     const isFetching = useSelector<TAppState>(state => state.app.isFetching)
     const dispatch = useDispatch()
@@ -92,12 +93,12 @@ useEffect( () => {
                              style={{width: '100%', position: 'relative', textAlign: 'center'}}>
                             <input
                                 autoComplete="current-password"
-                                type={show ? 'password' : 'text'}
+                                type={!show ? 'password' : 'text'}
                                 placeholder="*********"
                                 className={style.form__style_input}
                                 {...formik.getFieldProps('password')}
                             />
-                            <img className={style.input__eye} src={eye} alt="eye" onClick={handleShowPassword}/>
+                            <img className={style.input__eye} src={show ? eye : eyeOff} alt="eye" onClick={handleShowPassword}/>
                             {formik.touched.password && formik.errors.password ?
                                 <ErrorMessage>{formik.errors.password}</ErrorMessage> : null}
 

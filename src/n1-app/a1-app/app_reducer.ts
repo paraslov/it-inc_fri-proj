@@ -1,6 +1,6 @@
 //* =============================================================== Initial state ===================================>>
 import {TBaseThunk} from '../../n2-bll/store'
-import {authThunk, setAuthUserDataAction} from '../../n5-features/f1-login/login_reducer'
+import {authThunk} from '../../n5-features/f1-login/login_reducer'
 
 const initState = {
     isFetching: false,
@@ -56,6 +56,5 @@ export type ErrorMessageType = string | null
 export type TAppReducerActions = ReturnType<typeof setIsFetching>
     | ReturnType<typeof _setAppError>
     | ReturnType<typeof setIsInitialized>
-    | ReturnType<typeof setAuthUserDataAction>
 
 type TThunk = TBaseThunk<TAppReducerActions>

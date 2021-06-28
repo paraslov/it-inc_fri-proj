@@ -1,28 +1,41 @@
 //* ============================================================= Initial state =====================================>>
 import {TBaseThunk} from '../../n2-bll/store'
 
-const initState = {}
+const initState = {
+    _id: null,
+    email: null,
+    name: null,
+    avatar: null,
+    publicCardPacksCount: null,
+}
 
-export const profileReducer = (state: TState = initState, action: TProfileReducerActions): TState => {
+export const profileReducer = (state: UserDataType = initState, action: TProfileReducerActions): UserDataType => {
     switch (action.type) {
-        case 'para-slov/profileReducer/SOME_ACTION':
-            return state
+        case 'para-slov/profileReducer/SET_USER_DATA':
+            return {
+                ...state,
+                ...action.data
+            }
         default:
             return state
     }
 }
 
 //* =============================================================== Action creators =================================>>
-export const _someProfileAction = () => ({type: 'para-slov/profileReducer/SOME_ACTION'} as const)
+export const setUserData = (data: UserDataType) => ({type: 'para-slov/profileReducer/SET_USER_DATA', data} as const)
 
 //* =============================================================== Thunk creators ==================================>>
-export const profileThunk = (): TThunk => dispatch => {
-    dispatch(_someProfileAction())
-}
 
 //* =============================================================== Types ===========================================>>
-type TState = typeof initState
 
-export type TProfileReducerActions = ReturnType<typeof _someProfileAction>
+export type TProfileReducerActions = ReturnType<typeof setUserData>
 
 type TThunk = TBaseThunk<TProfileReducerActions>
+
+export type UserDataType = {
+    _id: null | string,
+    email: null | string,
+    name: null | string,
+    avatar: null | string,
+    publicCardPacksCount: null | number,
+}
