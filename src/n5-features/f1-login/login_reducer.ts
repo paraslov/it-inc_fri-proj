@@ -1,5 +1,5 @@
 //* =============================================================== Initial state ===================================>>
-import {setAppError, setIsFetching} from '../../n1-app/a1-app/app_reducer';
+import {setAppError, setIsFetching, setIsInitialized} from '../../n1-app/a1-app/app_reducer';
 import {TBaseThunk} from '../../n2-bll/store'
 import {loginAPI} from "../../n3-api/loginAPI";
 
@@ -55,12 +55,13 @@ export const authThunk = (): TThunk => dispatch => {
                 let isAuth = true
 
                 dispatch(setIsFetching(false))
+                dispatch(setIsInitialized(true))
                 dispatch(setAuthUserDataAction({email, _id, name, avatar, publicCardPacksCount, isAuth}))
             }
         }).catch(error => {
-            dispatch(setAppError(error.response.data.error))
+            dispatch(setIsInitialized(true))
             dispatch(setIsFetching(false))
-            setTimeout(() => dispatch(setAppError(null)), 6000)
+
     })
 }
 export const logoutThunk = (): TThunk => dispatch => {
@@ -104,7 +105,7 @@ export type UserDataType = {
 export type TLoginReducerActions =
     ReturnType<typeof setAuthUserDataAction> |
     ReturnType<typeof setIsFetching> |
-    ReturnType<typeof setAppError>
+    ReturnType<typeof setIsInitialized>
 
 
 

@@ -72,7 +72,7 @@ export type TPasswordReducerActions = ReturnType<typeof _setIsRestoreSuccess>
     | ReturnType<typeof setIsFetching>
     | ReturnType<typeof _setRestorationEmail>
     | ReturnType<typeof _setIsSetNewPasswordSuccess>
-    | ReturnType<typeof setAppError>
+    // | ReturnType<typeof setAppError>
 
 
 type TThunk = TBaseThunk<TPasswordReducerActions>

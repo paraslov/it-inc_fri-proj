@@ -12,7 +12,6 @@ import {initializeApp} from './app_reducer'
 export const App = () => {
     const dispatch = useDispatch()
 
-    const isFetching = useSelector<TAppState>(state => state.app.isFetching)
     const isInitialized = useSelector<TAppState>(state => state.app.isInitialized)
     const error = useSelector<TAppState, string | null>(state => state.app.error)
     console.log(error)
@@ -28,8 +27,6 @@ export const App = () => {
     return (
         <HashRouter>
             <div className="App">
-                {/*why isFetching and preloader here??*/}
-                {isFetching && <Preloader left={'calc(50% - 50px)'}/>}
                 <h6>FP.v.1.09</h6>
                 <NavBar/>
                 <Routes/>
