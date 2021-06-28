@@ -19,6 +19,9 @@ export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware))
 
 export type TAppState = ReturnType<typeof rootReducer>
 
+//@ts-ignore
+window.store = store
+
 //* Common actions type =============================================================================================>>
 export type TAppActions = TAppReducerActions | TLoginReducerActions | TRegistrationReducerActions
     | TProfileReducerActions | TPasswordReducerActions

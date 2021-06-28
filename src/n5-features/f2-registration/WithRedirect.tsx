@@ -20,7 +20,7 @@ export function WithAuthRedirect<T>( Component: React.ComponentType<T> )  {
     const RedirectComponent: React.FC<MapStatePropsType> = (props) => {
 
         let {error ,completed, ...restProps} = props
-        if (completed  && error === undefined) return <Redirect to={PATH.PROFILE} />
+        if (completed  && error === undefined) return <Redirect to={PATH.LOGIN} />
 
         return <Component {...restProps as unknown as T} />
     }
