@@ -14,7 +14,6 @@ export const App = () => {
 
     const isInitialized = useSelector<TAppState>(state => state.app.isInitialized)
     const error = useSelector<TAppState, string | null>(state => state.app.error)
-    console.log(error)
 
     useEffect(() => {
         dispatch(initializeApp())
@@ -22,7 +21,6 @@ export const App = () => {
 
     // if app is not initialized yet show preloader
     if(!isInitialized)  return <Preloader left={'40%'} top={'40%'} size={'200px'} />
-
 
     return (
         <HashRouter>

@@ -11,6 +11,9 @@ export const loginAPI = {
     logout() {
         return instance.delete<LoginResponse>('auth/me', {})
     },
+    changeData(userData: UserData) {
+        return instance.put('auth/me',userData)
+    },
     register(data: LoginUser) {
         return instance.post('/auth/register', data)
     }
@@ -21,6 +24,11 @@ interface LoginUser {
     email: string
     password: string
     rememberMe?: boolean
+}
+
+export interface UserData {
+    name?: string
+    avatar?: string
 }
 
 export interface LoginResponse {
