@@ -11,6 +11,7 @@ import {selectIsRestoreSuccess} from '../../../n2-bll/selectors/password_selecto
 import {CheckEmail} from '../check-email/CheckEmail'
 import {Preloader} from '../../../n4-common/components/c2-Preloader/Preloader'
 import {selectIsFetching} from '../../../n2-bll/selectors/app_selectors'
+import ErrorMessage from '../../../n4-common/components/с3-ErrorMessage/ErrorMessage'
 
 
 export const RestorePassword = () => {
@@ -60,11 +61,13 @@ export const RestorePassword = () => {
                     <h3>Forgot your password?</h3>
                 </div>
                 <form onSubmit={formik.handleSubmit}>
-                    <SuperInputText placeholder={'Email'}
-                                    style={{width: '80%', opacity: '0.7'}}
-                                    {...formik.getFieldProps('email')}/>
-                    {formik.touched.email && formik.errors.email ?
-                        <div className={s.error}>{formik.errors.email}</div> : null}
+                    <div className={s.inputBlock}>
+                        <SuperInputText placeholder={'Email'}
+                                       style={{width: '80%', opacity: '0.7'}}
+                                       {...formik.getFieldProps('email')}/>
+                        {formik.touched.email && formik.errors.email ?
+                            <ErrorMessage style={{top: '50px'}}>{formik.errors.email}</ErrorMessage> : null}
+                    </div>
                     <span className={s.instructions}>
                         Enter your email address and we will sent you further instructions
                     </span>

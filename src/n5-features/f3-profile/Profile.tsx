@@ -25,26 +25,26 @@ export const Profile = () => {
 
     useEffect(() => {
         // if userData not found, send request to auth/me
-        if(!isAuth) {
+        if (!isAuth) {
             dispatch(authThunk())
         }
-    },[])
+    }, [])
 
     useEffect(() => {
         setMyName(name)
-        if(avatar) {
+        if (avatar) {
             setMyAvatar(avatar)
         }
-    },[name,avatar])
+    }, [name, avatar])
 
     const logout = () => dispatch(logoutThunk())
 
-    const changeNameHandler = (e:ChangeEvent<HTMLInputElement>) => {
-        if(!updateProfileBtnIsActive) setUpdateProfileBtnIsActive(true)
+    const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        if (!updateProfileBtnIsActive) setUpdateProfileBtnIsActive(true)
         setMyName(e.currentTarget.value)
     }
-    const changeAvatarHandler = (e:ChangeEvent<HTMLInputElement>) => {
-        if(!updateProfileBtnIsActive) setUpdateProfileBtnIsActive(true)
+    const changeAvatarHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        if (!updateProfileBtnIsActive) setUpdateProfileBtnIsActive(true)
         setMyAvatar(e.currentTarget.value)
     }
     const changeDataHandler = () => {
@@ -52,7 +52,7 @@ export const Profile = () => {
         dispatch(changeUserData({name: myName, avatar: myAvatar}))
     }
     //if userData not found redirect to login page
-    if(!isAuth) {
+    if (!isAuth) {
         return <Redirect to={PATH.LOGIN}/>
     }
     return (
@@ -61,12 +61,12 @@ export const Profile = () => {
             <div style={{marginBottom: '20px', height: '300px'}}>
                 <img src={avatar} alt="" className={s.avatar}/>
                 <div>My name is:
-                    <SuperEditableSpan  onChange={changeNameHandler} value={myName}/>
+                    <SuperEditableSpan onChange={changeNameHandler} value={myName}/>
                 </div>
                 <span>My id is: {_id}</span> <br/>
                 <span>My email is: {email}</span> <br/>
                 <div>My avatar is:
-                    <SuperEditableSpan  onChange={changeAvatarHandler} value={myAvatar}/>
+                    <SuperEditableSpan onChange={changeAvatarHandler} value={myAvatar}/>
                 </div>
                 <span>My public card count is: {publicCardPacksCount}</span> <br/>
             </div>

@@ -10,6 +10,7 @@ import {selectIsSetNewPasswordSuccess} from '../../../n2-bll/selectors/password_
 import {PATH} from '../../../n1-app/a2-routes/Routes'
 import {Preloader} from '../../../n4-common/components/c2-Preloader/Preloader'
 import {selectIsFetching} from '../../../n2-bll/selectors/app_selectors'
+import ErrorMessage from '../../../n4-common/components/с3-ErrorMessage/ErrorMessage'
 
 
 export const SetNewPassword = () => {
@@ -62,12 +63,14 @@ export const SetNewPassword = () => {
                     <h3>Create new password</h3>
                 </div>
                 <form onSubmit={formik.handleSubmit}>
-                    <SuperInputText placeholder={'Password'}
-                                    type={'password'}
-                                    style={{width: '80%', opacity: '0.7'}}
-                                    {...formik.getFieldProps('password')}/>
-                    {formik.touched.password && formik.errors.password ?
-                        <div className={s.error}>{formik.errors.password}</div> : null}
+                    <div className={s.inputBlock}>
+                        <SuperInputText placeholder={'Password'}
+                                         type={'password'}
+                                         style={{width: '80%', opacity: '0.7'}}
+                                         {...formik.getFieldProps('password')}/>
+                        {formik.touched.password && formik.errors.password ?
+                            <ErrorMessage style={{top: '50px'}}>{formik.errors.password}</ErrorMessage> : null}
+                    </div>
                     <span className={s.instructions} style={{marginBottom: '100px'}}>
                         Create new password and we will send you further instructions to email
                     </span>
