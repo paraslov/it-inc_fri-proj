@@ -70,13 +70,15 @@ const Registration = React.memo(() => {
                         onSubmit={(values, {setSubmitting}) => {
                             if (values.email !== '' && values.password1 !== '' && values.password2 !== '') {
                                 if (values.password1 === values.password2) {
-                                    dispatch(registrationThunk(values.email, values.password1))
-                                    setSubmitting(false)
+                                    dispatch(registrationThunk(values.email, values.password1));
+                                    setTimeout( () => {
+                                        setSubmitting(false)}, 500)
                                 }
                             }
-                            setSubmitting(false)
+
                         }}>
                         {({isSubmitting, errors, touched}) => (
+
                             <Form noValidate>
 
                                 <div className={registration.inputs}>
