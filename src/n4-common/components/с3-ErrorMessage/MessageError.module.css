@@ -13,3 +13,12 @@
   text-align: center;
 }
 
+.register{
+  color: #fff;
+  max-width: 250px;
+  margin: 0 auto;
+  padding: 7px 10px;
+  background-color:#f54a4a8c;
+  border-radius: 5px 5px 5px 5px;
+  text-align: center;
+}
