@@ -18,7 +18,6 @@ test('password and email should be correct added', () => {
 
     // expectation
     expect(startState.completed).toBe(false)
-    expect(endState.isRegister).toBe(true)
     expect(endState.email).toBe('1@mail.ru')
     expect(endState.password).toBe('123123')
 })
