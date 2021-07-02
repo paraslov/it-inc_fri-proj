@@ -86,7 +86,7 @@ const Registration = React.memo(() => {
                                                component={SuperInputTextEmail}
                                         />
                                         {touched.email && errors.email ?
-                                            <ErrorMessage>{errors.email}</ErrorMessage> : null}
+                                            <ErrorMessage register={true}>{errors.email}</ErrorMessage> : null}
                                     </div>
                                     <div>
                                         <Field name="password1"
@@ -94,7 +94,7 @@ const Registration = React.memo(() => {
                                                error={error}
                                         />
                                         {touched.password1 && errors.password1 ?
-                                            <ErrorMessage>{errors.password1}</ErrorMessage> : null}
+                                            <ErrorMessage register={true}>{errors.password1}</ErrorMessage> : null}
                                     </div>
                                     <div>
                                         <Field name="password2"
@@ -102,7 +102,7 @@ const Registration = React.memo(() => {
                                                error={error}
                                         />
                                         {touched.password2 && errors.password2 ?
-                                            <ErrorMessage>{errors.password2}</ErrorMessage> : null}
+                                            <ErrorMessage register={true}>{errors.password2}</ErrorMessage> : null}
                                     </div>
                                 </div>
                                 <div className={registration.buttons}>
