@@ -37,6 +37,7 @@ export const changeUserData = (userData: UserData):TThunk => dispatch => {
             } else {
                 console.log('something went wrong', res)
             }
+            dispatch(setIsFetching(false))
         }).catch(error => {
             dispatch(setAppError(error.response.data.error))
             dispatch(setIsFetching(false))
