@@ -65,9 +65,9 @@ export const SetNewPassword = () => {
                 <form onSubmit={formik.handleSubmit}>
                     <div className={s.inputBlock}>
                         <SuperInputText placeholder={'Password'}
-                                         type={'password'}
-                                         style={{width: '80%', opacity: '0.7'}}
-                                         {...formik.getFieldProps('password')}/>
+                                        type={'password'}
+                                        style={{width: '80%', opacity: '0.7'}}
+                                        {...formik.getFieldProps('password')}/>
                         {formik.touched.password && formik.errors.password ?
                             <ErrorMessage style={{top: '50px'}}>{formik.errors.password}</ErrorMessage> : null}
                     </div>

@@ -5,7 +5,7 @@ import {Profile} from '../../n5-features/f3-profile/Profile'
 import {RestorePassword} from '../../n5-features/f4-password/restore_pw/RestorePassword'
 import {SetNewPassword} from '../../n5-features/f4-password/set_new_pw/SetNewPassword'
 import {Tests} from '../../n6-tests_and_trash/t1-tests/Tests'
-import Registration from "../../n5-features/f2-registration/Registration";
+import Registration from '../../n5-features/f2-registration/Registration';
 
 //* ========================================================= Constants for routes ================================>>
 export const PATH = {

@@ -1,8 +1,8 @@
 //* =============================================================== Initial state ===================================>>
 import {setAppError, setIsFetching, setIsInitialized} from '../../n1-app/a1-app/app_reducer';
 import {TBaseThunk} from '../../n2-bll/store'
-import {loginAPI} from "../../n3-api/loginAPI";
-import {setUserData} from "../f3-profile/progile_reducer";
+import {loginAPI} from '../../n3-api/loginAPI';
+import {setUserData} from '../f3-profile/progile_reducer';
 
 const initState = {
     isAuth: false
@@ -34,19 +34,21 @@ export const loginThunk = (data: UserLoginDataType): TThunk => dispatch => {
                 console.log('something went wrong', res)
             }
         }).catch(error => {
-            dispatch(setAppError(error.response.data.error))
-            dispatch(setIsFetching(false))
+        dispatch(setAppError(error.response.data.error))
+        dispatch(setIsFetching(false))
     })
 }
 export const authThunk = (): TThunk => dispatch => {
     loginAPI.auth()
         .then(res => {
             if (res.status === 200) {
-                let {email,
+                let {
+                    email,
                     _id,
                     name,
                     avatar,
-                    publicCardPacksCount} = res.data
+                    publicCardPacksCount
+                } = res.data
 
                 dispatch(setIsFetching(false))
                 dispatch(setIsInitialized(true))
@@ -54,8 +56,8 @@ export const authThunk = (): TThunk => dispatch => {
                 dispatch(setUserData({email, _id, name, avatar, publicCardPacksCount}))
             }
         }).catch(error => {
-            dispatch(setIsInitialized(true))
-            dispatch(setIsFetching(false))
+        dispatch(setIsInitialized(true))
+        dispatch(setIsFetching(false))
 
     })
 }
@@ -72,8 +74,8 @@ export const logoutThunk = (): TThunk => dispatch => {
                 dispatch(setUserData({email, _id, name, avatar, publicCardPacksCount}))
             }
         }).catch(error => {
-            dispatch(setAppError(error.response.data.error))
-            dispatch(setIsFetching(false))
+        dispatch(setAppError(error.response.data.error))
+        dispatch(setIsFetching(false))
     })
 }
 
@@ -94,7 +96,6 @@ export type TLoginReducerActions =
     ReturnType<typeof setIsFetching> |
     ReturnType<typeof setIsInitialized> |
     ReturnType<typeof setUserData>
-
 
 
 type TThunk = TBaseThunk<TLoginReducerActions>

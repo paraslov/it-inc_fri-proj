@@ -12,6 +12,7 @@ import ErrorMessage from '../../n4-common/components/с3-ErrorMessage/ErrorMessa
 import eye from '../../eye.svg'
 import eyeOff from '../../eyeOff.svg'
 import {setIsFetchingRegisterAction} from "../f2-registration/registration_reducer";
+import {_setIsSetNewPasswordSuccess} from '../f4-password/password_reducer';
 
 type FormikErrorType = {
     email?: string
@@ -27,6 +28,7 @@ export const Login = React.memo(() => {
 
 useEffect( () => {
     dispatch(setIsFetchingRegisterAction(false))
+    dispatch(_setIsSetNewPasswordSuccess(false))
 }, [])
 
     const formik = useFormik({

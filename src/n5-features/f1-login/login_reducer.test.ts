@@ -1,7 +1,7 @@
-import {loginReducer, setAuthUserDataAction, UserDataType} from "./login_reducer";
+import {loginReducer, setIsAuth} from './login_reducer';
 
 
-export let startState: UserDataType
+export let startState: any
 
 beforeEach(() => {
     startState = {
@@ -14,35 +14,12 @@ beforeEach(() => {
     }
 })
 
-test('isAuth should be true',  () => {
-    const data = {
-        _id: '12',
-        email: 'worlddesign1987@gmail.com',
-        name: 'Naytin',
-        avatar: '',
-        publicCardPacksCount: 0,
-        isAuth: true
-    }
+test('isAuth should be true', () => {
+    const data = true
 
-    const endState = loginReducer(startState, setAuthUserDataAction(data))
+    const endState = loginReducer(startState, setIsAuth(data))
     // expectation
     expect(endState.isAuth).toBe(true)
-})
-
-test('loginReducer must be changed', () => {
-    const data = {
-        _id: '12',
-        email: 'worlddesign1987@gmail.com',
-        name: 'Naytin',
-        avatar: '',
-        publicCardPacksCount: 0,
-        isAuth: true
-    }
-
-    const endState = loginReducer(startState, setAuthUserDataAction(data))
-
-    expect(startState.email).toBe(null)
-    expect(endState.email).toBe(data.email)
 })
 
 

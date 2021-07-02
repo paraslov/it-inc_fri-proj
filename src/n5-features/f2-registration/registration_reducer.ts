@@ -42,6 +42,7 @@ export const registrationThunk = (email: string, password: string): TThunk => {
                 dispatch(setIsFetchingRegisterAction(true))
             })
             .catch(error => {
+                debugger
                 const message = error.response.data.error
                 dispatch(authRegisterAction(email, password, message))
             })

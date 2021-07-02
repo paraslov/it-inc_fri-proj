@@ -1,8 +1,8 @@
-//* ============================================================= Initial state =====================================>>
 import {TBaseThunk} from '../../n2-bll/store'
 import {passwordAPI} from '../../n3-api/password_api'
 import {setAppError, setIsFetching} from '../../n1-app/a1-app/app_reducer'
 
+//* ============================================================= Initial state =====================================>>
 const initState = {
     restorationEmail: '',
     isRestoreSuccess: false,
@@ -54,9 +54,6 @@ export const setNewPassword = (password: string, token: string): TThunk => dispa
             dispatch(_setIsRestoreSuccess(false))
             dispatch(setIsFetching(false))
             dispatch(_setIsSetNewPasswordSuccess(true))
-            // to back to false setTimeout used, since login page is not ready yet
-            // todo: refactor setTimeout and replace it with dispatch in Login page.
-            setTimeout(() => dispatch(_setIsSetNewPasswordSuccess(false)), 1000)
         })
         .catch(error => {
             console.warn(error.response.data.error)
@@ -72,7 +69,6 @@ export type TPasswordReducerActions = ReturnType<typeof _setIsRestoreSuccess>
     | ReturnType<typeof setIsFetching>
     | ReturnType<typeof _setRestorationEmail>
     | ReturnType<typeof _setIsSetNewPasswordSuccess>
-    // | ReturnType<typeof setAppError>
 
 
 type TThunk = TBaseThunk<TPasswordReducerActions>

@@ -1,14 +1,12 @@
 import React from 'react'
 import s from '../restore_pw/RestorePassword.module.css'
 import {EmailImg} from '../../../assets/img/password/email_svg'
-import {useSelector} from 'react-redux'
-import {selectRestorationEmail} from '../../../n2-bll/selectors/password_selectors'
 
+type TProps = {
+    restorationEmail: string
+}
 
-export const CheckEmail = () => {
-
-    const restorationEmail = useSelector(selectRestorationEmail)
-
+export const CheckEmail: React.FC<TProps> = ({restorationEmail}) => {
     return (
         <div className={s.container}>
             <div className={s.restoreContainer}>

@@ -1,9 +1,9 @@
-import {instance} from "./api";
+import {instance} from './api';
 
 
 export const loginAPI = {
     login(data: LoginUser) {
-        return instance.post<LoginResponse>('auth/login',data)
+        return instance.post<LoginResponse>('auth/login', data)
     },
     auth() {
         return instance.post<LoginResponse>('auth/me', {})
@@ -12,7 +12,7 @@ export const loginAPI = {
         return instance.delete<LoginResponse>('auth/me', {})
     },
     changeData(userData: UserData) {
-        return instance.put('auth/me',userData)
+        return instance.put('auth/me', userData)
     },
     register(data: LoginUser) {
         return instance.post('/auth/register', data)

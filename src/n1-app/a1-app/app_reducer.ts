@@ -36,7 +36,7 @@ export const _setAppError = (error: string | null) => ({type: 'para-slov/appRedu
 
 //* =============================================================== Thunk creators ==================================>>
 
-export const setAppError = (error: string | null):TThunk => dispatch => {
+export const setAppError = (error: string | null): TThunk => dispatch => {
     dispatch(_setAppError(error))
     setTimeout(() => {
         dispatch(_setAppError(null))

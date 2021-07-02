@@ -7,7 +7,7 @@ import s from './RestorePassword.module.css'
 import {FormikErrors, useFormik} from 'formik'
 import {useDispatch, useSelector} from 'react-redux'
 import {restorePassword} from '../password_reducer'
-import {selectIsRestoreSuccess} from '../../../n2-bll/selectors/password_selectors'
+import {selectIsRestoreSuccess, selectRestorationEmail} from '../../../n2-bll/selectors/password_selectors'
 import {CheckEmail} from '../check-email/CheckEmail'
 import {Preloader} from '../../../n4-common/components/c2-Preloader/Preloader'
 import {selectIsFetching} from '../../../n2-bll/selectors/app_selectors'
@@ -18,6 +18,7 @@ export const RestorePassword = () => {
     const dispatch = useDispatch()
     const isRestoreSuccess = useSelector(selectIsRestoreSuccess)
     const isFetching = useSelector(selectIsFetching)
+    const restorationEmail = useSelector(selectRestorationEmail)
 
     //* =========================================================================== Formik validate =================>>
     type TFormikErrors = {
@@ -50,7 +51,7 @@ export const RestorePassword = () => {
     })
 
     // if request for restore successful then show chek your email page
-    if (isRestoreSuccess) return <CheckEmail/>
+    if (isRestoreSuccess) return <CheckEmail restorationEmail = {restorationEmail}/>
 
     return (
         <div className={s.container}>

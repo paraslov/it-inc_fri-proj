@@ -12,17 +12,17 @@ import {Preloader} from '../../n4-common/components/c2-Preloader/Preloader'
 
 export const Profile = () => {
     const dispatch = useDispatch()
-
+//* ==================================================================================== Data ==================>>
     const isAuth = useSelector<TAppState, boolean>(state => state.login.isAuth)
     const isFetching = useSelector<TAppState, boolean>(state => state.app.isFetching)
 
     const {_id, email, name, avatar, publicCardPacksCount} =
         useSelector<TAppState, UserDataType>(state => state.profile)
-
+//* ==================================================================================== Local state ===========>>
     const [myName, setMyName] = useState('')
     const [myAvatar, setMyAvatar] = useState('Avatar is not defined')
     const [updateProfileBtnIsActive, setUpdateProfileBtnIsActive] = useState(false)
-
+//* ==================================================================================== Authorization =========>>
     useEffect(() => {
         // if userData not found, send request to auth/me
         if (!isAuth) {
@@ -30,15 +30,15 @@ export const Profile = () => {
         }
     }, [])
 
+// setting start values for local state
     useEffect(() => {
         setMyName(name)
         if (avatar) {
             setMyAvatar(avatar)
         }
     }, [name, avatar])
-
+//* ==================================================================================== Callbacks =============>>
     const logout = () => dispatch(logoutThunk())
-
     const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
         if (!updateProfileBtnIsActive) setUpdateProfileBtnIsActive(true)
         setMyName(e.currentTarget.value)

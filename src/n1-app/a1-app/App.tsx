@@ -20,12 +20,12 @@ export const App = () => {
     }, [dispatch])
 
     // if app is not initialized yet show preloader
-    if(!isInitialized)  return <Preloader left={'40%'} top={'40%'} size={'200px'} />
+    if (!isInitialized) return <Preloader left={'40%'} top={'40%'} size={'200px'}/>
 
     return (
         <HashRouter>
             <div className="App">
-                <h6>FP.v.1.09</h6>
+                <h6>FP.v.1.17</h6>
                 <NavBar/>
                 <Routes/>
                 {error && <ErrorMessage>{error}</ErrorMessage>}
