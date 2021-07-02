@@ -33,8 +33,8 @@ useEffect( () => {
 
     const formik = useFormik({
         initialValues: {
-            email: '',
-            password: '',
+            email: 'v@mail.ru',
+            password: '12345678',
             rememberMe: false,
         },
         validate: (values) => {
@@ -100,7 +100,8 @@ useEffect( () => {
                                 className={style.form__style_input}
                                 {...formik.getFieldProps('password')}
                             />
-                            <img className={style.input__eye} src={show ? eye : eyeOff} alt="eye" onClick={handleShowPassword}/>
+                            <img className={style.input__eye} src={show ? eye : eyeOff} alt="eye"
+                                 onClick={handleShowPassword}/>
                             {formik.touched.password && formik.errors.password ?
                                 <ErrorMessage>{formik.errors.password}</ErrorMessage> : null}
 

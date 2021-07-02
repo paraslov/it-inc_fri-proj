@@ -32,12 +32,8 @@ export const changeUserData = (userData: UserData):TThunk => dispatch => {
     dispatch(setIsFetching(true))
     loginAPI.changeData(userData)
         .then(res => {
-            if (res.status === 200) {
                 dispatch(setUserData(res.data.updatedUser))
-            } else {
-                console.log('something went wrong', res)
-            }
-            dispatch(setIsFetching(false))
+                dispatch(setIsFetching(false))
         }).catch(error => {
             dispatch(setAppError(error.response.data.error))
             dispatch(setIsFetching(false))
