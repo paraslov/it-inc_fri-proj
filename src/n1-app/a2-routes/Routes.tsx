@@ -6,6 +6,8 @@ import {RestorePassword} from '../../n5-features/f4-password/restore_pw/RestoreP
 import {SetNewPassword} from '../../n5-features/f4-password/set_new_pw/SetNewPassword'
 import {Tests} from '../../n6-tests_and_trash/t1-tests/Tests'
 import Registration from '../../n5-features/f2-registration/Registration';
+import {CardDecks} from '../../n5-features/f5-cardDecks/CardDecks'
+import {Cards} from '../../n5-features/f6-cards/Cards'
 
 //* ========================================================= Constants for routes ================================>>
 export const PATH = {
@@ -15,6 +17,8 @@ export const PATH = {
     RESTORE_PASSWORD: '/restore',
     SET_NEW_PASSWORD: '/set-new-password/:token?',
     TESTS: '/tests',
+    CARD_DECKS: '/card-decks',
+    CARDS: '/cards',
     NOT_FOUND: '/404'
 }
 
@@ -28,6 +32,8 @@ export const Routes = () => {
                 <Route path={PATH.PROFILE} render={() => <Profile/>}/>
                 <Route path={PATH.RESTORE_PASSWORD} render={() => <RestorePassword/>}/>
                 <Route path={PATH.SET_NEW_PASSWORD} render={() => <SetNewPassword/>}/>
+                <Route path={PATH.CARD_DECKS} render={() => <CardDecks/>}/>
+                <Route path={PATH.CARDS} render={() => <Cards/>}/>
                 <Route path={PATH.TESTS} render={() => <Tests/>}/>
                 <Route path={PATH.NOT_FOUND} render={() => <h1>404 PAGE NOT FOUND</h1>}/>
                 <Route path={'/*'} render={() => <Redirect to={PATH.NOT_FOUND}/>}/>
