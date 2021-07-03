@@ -1,8 +1,9 @@
 //* =============================================================== Initial state ===================================>>
-import {setAppError, setIsFetching, setIsInitialized} from '../../n1-app/a1-app/app_reducer';
-import {TBaseThunk} from '../../n2-bll/store'
-import {loginAPI} from "../../n3-api/loginAPI";
-import {setUserData} from "../f3-profile/progile_reducer";
+import {setAppError, setIsFetching, setIsInitialized} from '../../n1-app/a1-app/app_reducer'
+import {TAppState, TBaseThunk} from '../../n2-bll/store'
+import {loginAPI} from '../../n3-api/loginAPI'
+import {setUserData} from '../f3-profile/progile_reducer'
+import {ThunkDispatch} from 'redux-thunk'
 
 const initState = {
     isAuth: false
@@ -24,43 +25,60 @@ export const loginReducer = (state: TState = initState, action: TLoginReducerAct
 export const setIsAuth = (isAuth: boolean) => ({type: 'login/LOGIN_USER', isAuth} as const)
 
 //* =============================================================== Thunk creators ==================================>>
-export const loginThunk = (data: UserLoginDataType): TThunk => dispatch => {
+
+const authHelper = (apiMethod: (data?: any) => Promise<any>, dispatch: ThunkDispatch<TAppState, any, TLoginReducerActions>,
+                    type: 'login' | 'auth', data?: any) => {
     dispatch(setIsFetching(true))
-    loginAPI.login(data)
-        .then(res => {
-                let {email,
-                    _id,
-                    name,
-                    avatar,
-                    publicCardPacksCount} = res.data
-                dispatch(setIsFetching(false))
-                dispatch(setIsInitialized(true))
-                dispatch(setIsAuth(true))
-                dispatch(setUserData({email, _id, name, avatar, publicCardPacksCount}))
-        }).catch(error => {
-            dispatch(setAppError(error.response.data.error))
-            dispatch(setIsFetching(false))
+    apiMethod(data).then(res => {
+        let {email, _id, name, avatar, publicCardPacksCount} = res.data
+        dispatch(setIsFetching(false))
+        dispatch(setIsInitialized(true))
+        dispatch(setIsAuth(true))
+        dispatch(setUserData({email, _id, name, avatar, publicCardPacksCount}))
+    }).catch(error => {
+        type === 'login' ? dispatch(setAppError(error.response.data.error)) : dispatch(setIsInitialized(true))
+        dispatch(setIsFetching(false))
     })
 }
+
+export const loginThunk = (data: UserLoginDataType): TThunk => dispatch => {
+    authHelper(loginAPI.login, dispatch, 'login', data)
+    // dispatch(setIsFetching(true))
+    // loginAPI.login(data)
+    //     .then(res => {
+    //             let {email,
+    //                 _id,
+    //                 name,
+    //                 avatar,
+    //                 publicCardPacksCount} = res.data
+    //             dispatch(setIsFetching(false))
+    //             dispatch(setIsInitialized(true))
+    //             dispatch(setIsAuth(true))
+    //             dispatch(setUserData({email, _id, name, avatar, publicCardPacksCount}))
+    //     }).catch(error => {
+    //         dispatch(setAppError(error.response.data.error))
+    //         dispatch(setIsFetching(false))
+    // })
+}
 export const authThunk = (): TThunk => dispatch => {
-    dispatch(setIsFetching(true))
-    loginAPI.auth()
-        .then(res => {
-                let {email,
-                    _id,
-                    name,
-                    avatar,
-                    publicCardPacksCount} = res.data
-
-                dispatch(setIsFetching(false))
-                dispatch(setIsInitialized(true))
-                dispatch(setIsAuth(true))
-                dispatch(setUserData({email, _id, name, avatar, publicCardPacksCount}))
-        }).catch(error => {
-            dispatch(setIsInitialized(true))
-            dispatch(setIsFetching(false))
-
-    })
+    authHelper(loginAPI.auth, dispatch, 'auth')
+    // dispatch(setIsFetching(true))
+    // loginAPI.auth()
+    //     .then(res => {
+    //             let {email,
+    //                 _id,
+    //                 name,
+    //                 avatar,
+    //                 publicCardPacksCount} = res.data
+    //
+    //             dispatch(setIsFetching(false))
+    //             dispatch(setIsInitialized(true))
+    //             dispatch(setIsAuth(true))
+    //             dispatch(setUserData({email, _id, name, avatar, publicCardPacksCount}))
+    //     }).catch(error => {
+    //         dispatch(setIsInitialized(true))
+    //         dispatch(setIsFetching(false))
+    // })
 }
 export const logoutThunk = (): TThunk => dispatch => {
     loginAPI.logout()
@@ -76,8 +94,8 @@ export const logoutThunk = (): TThunk => dispatch => {
                 dispatch(setUserData({email, _id, name, avatar, publicCardPacksCount}))
             }
         }).catch(error => {
-            dispatch(setAppError(error.response.data.error))
-            dispatch(setIsFetching(false))
+        dispatch(setAppError(error.response.data.error))
+        dispatch(setIsFetching(false))
     })
 }
 
@@ -90,7 +108,6 @@ export type TLoginReducerActions =
     ReturnType<typeof setIsFetching> |
     ReturnType<typeof setIsInitialized> |
     ReturnType<typeof setUserData>
-
 
 
 type TThunk = TBaseThunk<TLoginReducerActions>

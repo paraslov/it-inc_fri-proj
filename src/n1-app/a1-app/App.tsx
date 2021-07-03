@@ -16,7 +16,7 @@ export const App = () => {
     const error = useSelector<TAppState, string | null>(state => state.app.error)
 
     useEffect(() => {
-        dispatch(initializeApp())
+        if(!isInitialized) dispatch(initializeApp())
     }, [dispatch])
 
     // if app is not initialized yet show preloader

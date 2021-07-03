@@ -26,7 +26,9 @@ export const Profile = () => {
     useEffect(() => {
         // if userData not found, send request to auth/me
         if (!isAuth) {
-            dispatch(authThunk())
+            // problem is that we activate two thunks in one time: setInitialized in App.tsx and authThunk here...
+            // and as a result we have two auth/me requests.
+            // dispatch(authThunk())
         }
     }, [])
 
