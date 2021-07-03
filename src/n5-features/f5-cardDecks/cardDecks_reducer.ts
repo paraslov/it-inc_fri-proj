@@ -1,4 +1,5 @@
 import {TBaseThunk} from '../../n2-bll/store'
+import {cardDecksAPI} from "../../n3-api/card-decks_api";
 
 //* =============================================================== Initial state ===================================>>
 const initState = {}
@@ -17,7 +18,11 @@ export const _someCardDecksAction = () => ({type: 'para-slov/cardDecksReducer/SO
 
 //* =============================================================== Thunk creators ==================================>>
 export const cardDecksReducerThunk = (): TThunk => dispatch => {
-    dispatch(_someCardDecksAction())
+    // dispatch(_someCardDecksAction())
+    cardDecksAPI.getCards({min: 1, max: 5, sortPacks: 0})
+        .then(res => {
+            console.log(res)
+        })
 }
 
 //* =============================================================== Types ===========================================>>
