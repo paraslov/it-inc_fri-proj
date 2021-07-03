@@ -1,10 +1,10 @@
 //* =============================================================== Initial state ===================================>>
 import {TBaseThunk} from '../../n2-bll/store'
-import {instance} from '../../n3-api/api';
+import {loginAPI} from '../../n3-api/loginAPI'
 
 const initState = {
-    email: "nya-admin@nya.nya",
-    password: "1qazxcvBG",
+    email: 'nya-admin@nya.nya',
+    password: '1qazxcvBG',
     error: '',
     isFetching: false,
 }
@@ -12,14 +12,14 @@ const initState = {
 
 export const registrationReducer = (state: TState = initState, action: TRegistrationReducerActions): TState => {
     switch (action.type) {
-        case "para-slov/registrationReducer/AUTH-REGISTER":
+        case 'para-slov/registrationReducer/AUTH-REGISTER':
             return {
                 ...state,
                 email: action.email,
                 password: action.password,
                 error: action.message as string,
             }
-        case "para-slov/registrationReducer/IS-FETCHING":
+        case 'para-slov/registrationReducer/IS-FETCHING':
             return {...state, isFetching: action.isFetching}
         default:
             return state
@@ -36,9 +36,9 @@ export const setIsFetchingRegisterAction = (isFetching: boolean) =>
 //* =============================================================== Thunk creators ==================================>>
 export const registrationThunk = (email: string, password: string): TThunk => {
     return (dispatch) => {
-        usersAPI.registration(email, password)
+        loginAPI.registration(email, password)
             .then(() => {
-                dispatch(authRegisterAction(email, password));
+                dispatch(authRegisterAction(email, password))
                 dispatch(setIsFetchingRegisterAction(true))
             })
             .catch(error => {
@@ -64,15 +64,3 @@ type SetIsFetchingRegisterActionType = ReturnType<typeof setIsFetchingRegisterAc
 
 
 type TThunk = TBaseThunk<TRegistrationReducerActions>
-
-
-export const usersAPI = {
-    registration(email: string, password: string) {
-        return instance.post<RegistrationType>('auth/register', {email, password})
-    }
-}
-
-type RegistrationType = {
-    addedUser: {}
-    error?: string,
-}

@@ -25,7 +25,7 @@ export const App = () => {
     return (
         <HashRouter>
             <div className="App">
-                <h6>FP.v.2.02</h6>
+                <h6>FP.v.2.03</h6>
                 <NavBar/>
                 <Routes/>
                 {error && <ErrorMessage>{error}</ErrorMessage>}

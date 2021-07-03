@@ -1,4 +1,4 @@
-import {instance} from './api';
+import {instance} from './api'
 
 
 export const loginAPI = {
@@ -14,8 +14,8 @@ export const loginAPI = {
     changeData(userData: UserData) {
         return instance.put('auth/me', userData)
     },
-    register(data: LoginUser) {
-        return instance.post('/auth/register', data)
+    registration(email: string, password: string) {
+        return instance.post<RegistrationType>('auth/register', {email, password})
     }
 }
 
@@ -44,6 +44,11 @@ export interface LoginResponse {
     rememberMe: boolean
     token: string
     error: string
+}
+
+type RegistrationType = {
+    addedUser: {}
+    error?: string,
 }
 
 
