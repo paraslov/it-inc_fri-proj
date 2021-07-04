@@ -51,7 +51,10 @@ export const CardDecks = () => {
                             <CardDecksItem key={i} name={item.name}
                                            cardsCount={item.cardsCount}
                                            updated={item.updated}
-                                           user_name={item.user_name}/>)}
+                                           user_name={item.user_name}
+                                           id={item._id}
+                                           userId={item.user_id}
+                            />)}
                     </div>
                     <div className={s.pagination__block}>
 

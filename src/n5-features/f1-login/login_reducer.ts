@@ -85,7 +85,7 @@ export const logoutThunk = (): TThunk => dispatch => {
         .then(res => {
             if (res.status === 200) {
                 let email = null
-                let _id = null
+                let _id = ''
                 let name = ''
                 let avatar = ''
                 let publicCardPacksCount = null

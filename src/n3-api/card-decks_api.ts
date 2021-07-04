@@ -12,14 +12,14 @@ export const cardDecksAPI = {
     removeCards(id: string) {
         return instance.delete('cards/pack', {params: {id}})
     },
-    updateCards(updateData: UpdateCardType ) {
-        return instance.put('cards/pack',{updateData})
+    updateCards(cardsPack: UpdateCardType ) {
+        return instance.put('cards/pack',{cardsPack: {...cardsPack}})
     }
 }
 
 type UpdateCardType = {
     _id: string
-    name: string
+    name?: string
 }
 
 type CreateCardsType = {

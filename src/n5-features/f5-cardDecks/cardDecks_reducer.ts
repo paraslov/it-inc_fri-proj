@@ -1,6 +1,7 @@
 import {TBaseThunk} from '../../n2-bll/store'
 import {CardDecks, cardDecksAPI} from "../../n3-api/card-decks_api";
 import {setAppError} from "../../n1-app/a1-app/app_reducer";
+import {log} from "util";
 
 //* =============================================================== Initial state ===================================>>
 const initState: CardDecks = {
@@ -31,7 +32,7 @@ export const _setCardDecksAction = (decks: any) => ({type: 'para-slov/cardDecksR
 
 //* =============================================================== Thunk creators ==================================>>
 export const getCardDecksThunk = (): TThunk => dispatch => {
-    cardDecksAPI.getCards({})
+    cardDecksAPI.getCards({user_id: '60df3236eb85d100048700ba'})
         .then(res => {
             dispatch(_setCardDecksAction(res.data))
         }).catch(error => {
@@ -45,6 +46,27 @@ export const createDeckThunk = (): TThunk => dispatch => {
         .then(res =>
             dispatch(getCardDecksThunk())
         )
+        .catch(error => {
+            dispatch(setAppError(error.response.data.error))
+        })
+}
+export const removeDeckThunk = (id: string): TThunk => dispatch => {
+    cardDecksAPI.removeCards(id)
+        .then(res => {
+                dispatch(getCardDecksThunk())
+            })
+        .catch(error => {
+            dispatch(setAppError(error.response.data.error))
+        })
+}
+
+export const updateValueThunk = (id: string): TThunk => dispatch => {
+    const cardsPack = {_id: id, name: 'Sveta'}
+    cardDecksAPI.updateCards(cardsPack)
+        .then(res => {
+            console.log(res)
+            dispatch(getCardDecksThunk())
+        })
         .catch(error => {
             dispatch(setAppError(error.response.data.error))
         })
