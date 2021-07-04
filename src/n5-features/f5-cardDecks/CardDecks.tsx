@@ -5,6 +5,8 @@ import s from './CardDecks.module.css'
 import {TAppState} from "../../n2-bll/store";
 import {Pack} from "../../n3-api/card-decks_api";
 import CardDecksItem from "./CardDecksItem";
+import SuperInputText from "../../n4-common/components/Elements/e3-SuperInputText/SuperInputText";
+import SearchItem from "./SearchBlock/SearchItem";
 
 
 export const CardDecks = () => {
@@ -29,9 +31,7 @@ export const CardDecks = () => {
                 <div className={s.main__block_pack_list}>
                     <div className={s.packs__header}>
                         <h3>Pack list</h3>
-                        <div className={s.search__block}>
-
-                        </div>
+                        <SearchItem />
                     </div>
                     <div className={s.table}>
                         <div className={s.table__header}>
