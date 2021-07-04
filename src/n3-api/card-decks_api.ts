@@ -4,10 +4,10 @@ import {instance} from "./api";
 
 export const cardDecksAPI = {
     getCards(cardsParams: CardsParams) {
-        return instance.get<ResponseCards>('cards/pack', {params: {...cardsParams}})
+        return instance.get<CardDecks>('cards/pack', {params: {...cardsParams}})
     },
     postCards(cardsData: CreateCardsType) {
-        return instance.post<ResponseCards>('cards/pack',{cardsData})
+        return instance.post<CardDecks>('cards/pack',{cardsData})
     },
     removeCards(id: string) {
         return instance.delete('cards/pack', {params: {id}})
@@ -33,7 +33,7 @@ type CreateCardsType = {
     type?: string
 }
 
-type Pack = {
+export type Pack = {
     _id: string
     user_id: string
     user_name: string
@@ -45,13 +45,13 @@ type Pack = {
     cardsCount: number
     type: string
     rating: number
-    created: Date
-    updated: Date
+    created: string
+    updated: string
     more_id: string
     _v: number
 }
 
-type ResponseCards = {
+export type CardDecks = {
     cardPacks: Array<Pack>
     page: number,
     pageCount: number,
