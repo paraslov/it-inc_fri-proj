@@ -6,6 +6,7 @@ import {TAppState} from "../../n2-bll/store";
 import {Pack} from "../../n3-api/card-decks_api";
 import CardDecksItem from "./CardDecksItem";
 import SearchItem from "./SearchBlock/SearchItem";
+import MultiRangeSlider from "../../n4-common/components/Elements/e7-MultiRangeSlider/MultiRangeSlider";
 
 
 export const CardDecks = () => {
@@ -39,6 +40,7 @@ export const CardDecks = () => {
                         <button onClick={showAllDecksHandler}>All</button>
                     </div>
                    <h3>Number of cards</h3>
+                      <MultiRangeSlider min={10} max={50} onChange={() => console.log()}/>
                 </div>
                 <div className={s.main__block_pack_list}>
                     <div className={s.packs__header}>
