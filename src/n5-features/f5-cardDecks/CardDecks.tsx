@@ -5,7 +5,6 @@ import s from './CardDecks.module.css'
 import {TAppState} from "../../n2-bll/store";
 import {Pack} from "../../n3-api/card-decks_api";
 import CardDecksItem from "./CardDecksItem";
-import SuperInputText from "../../n4-common/components/Elements/e3-SuperInputText/SuperInputText";
 import SearchItem from "./SearchBlock/SearchItem";
 
 
@@ -17,9 +16,6 @@ export const CardDecks = () => {
     useEffect(() => {
         dispatch(cardDecksReducerThunk())
     },[])
-
-
-
 
 
     return (

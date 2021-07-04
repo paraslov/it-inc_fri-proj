@@ -30,7 +30,7 @@ export const _setCardDecksAction = (decks: any) => ({type: 'para-slov/cardDecksR
 
 //* =============================================================== Thunk creators ==================================>>
 export const cardDecksReducerThunk = (): TThunk => dispatch => {
-    cardDecksAPI.getCards({min: 1, max: 5, sortPacks: 0})
+    cardDecksAPI.getCards({pageCount: 10})
         .then(res => {
             dispatch(_setCardDecksAction(res.data))
         })

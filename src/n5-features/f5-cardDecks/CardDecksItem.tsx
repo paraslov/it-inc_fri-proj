@@ -18,13 +18,13 @@ const CardDecksItem = ({name,cardsCount,updated,user_name}: PropsType) => {
                 {cardsCount}
             </div>
             <div className={s.table__item}>
-                {updated.slice(0,6)}
+                {updated.slice(0,10)}
             </div>
             <div className={s.table__item}>
                 {user_name}
             </div>
             <div className={s.table__item +' '+ s.btn__group}>
-                {/*<button>Delete</button>*/}
+                <button>Delete</button>
                 <button>Edit</button>
                 <button>Learn</button>
             </div>
