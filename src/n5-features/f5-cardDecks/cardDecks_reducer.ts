@@ -1,5 +1,5 @@
 import {TBaseThunk} from '../../n2-bll/store'
-import {CardDecks, cardDecksAPI} from "../../n3-api/card-decks_api";
+import {CardDecks, cardDecksAPI, CardsParams} from "../../n3-api/card-decks_api";
 import {setAppError} from "../../n1-app/a1-app/app_reducer";
 import {log} from "util";
 
@@ -31,8 +31,8 @@ export const cardDecksReducer = (state: TState = initState, action: TCardDecksRe
 export const _setCardDecksAction = (decks: any) => ({type: 'para-slov/cardDecksReducer/SET_CARD_DECKS', decks} as const)
 
 //* =============================================================== Thunk creators ==================================>>
-export const getCardDecksThunk = (): TThunk => dispatch => {
-    cardDecksAPI.getCards({user_id: '60df3236eb85d100048700ba'})
+export const getCardDecksThunk = (params: CardsParams = {}): TThunk => dispatch => {
+    cardDecksAPI.getCards(params)
         .then(res => {
             dispatch(_setCardDecksAction(res.data))
         }).catch(error => {

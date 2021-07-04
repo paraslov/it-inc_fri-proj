@@ -62,7 +62,7 @@ export type CardDecks = {
     tokenDeathTime: number
 }
 
-interface CardsParams {
+export interface CardsParams {
     packName?: string
     min?: number
     max?: number
