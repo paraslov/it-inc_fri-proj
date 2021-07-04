@@ -8,7 +8,6 @@ type PropsType = {
     user_name: string
 }
 const CardDecksItem = ({name,cardsCount,updated,user_name}: PropsType) => {
-
     return (
         <div className={s.table__body}>
             <div className={s.table__item}>

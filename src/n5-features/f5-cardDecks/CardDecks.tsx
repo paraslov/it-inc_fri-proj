@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from "react-redux";
-import {cardDecksReducerThunk} from "./cardDecks_reducer";
+import {getCardDecksThunk} from "./cardDecks_reducer";
 import s from './CardDecks.module.css'
 import {TAppState} from "../../n2-bll/store";
 import {Pack} from "../../n3-api/card-decks_api";
@@ -10,13 +10,12 @@ import SearchItem from "./SearchBlock/SearchItem";
 
 export const CardDecks = () => {
     const decks = useSelector<TAppState, Pack[] >(state => state.cardDecks.cardPacks)
-    console.log(decks)
-
     const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch(cardDecksReducerThunk())
-    },[])
 
+
+    useEffect(() => {
+        dispatch(getCardDecksThunk())
+    },[])
 
     return (
         <div className={s.wrapper}>
@@ -48,8 +47,8 @@ export const CardDecks = () => {
                             </div>
                         </div>
 
-                        {decks.map((item) =>
-                            <CardDecksItem name={item.name}
+                        {decks.map((item, i) =>
+                            <CardDecksItem key={i} name={item.name}
                                            cardsCount={item.cardsCount}
                                            updated={item.updated}
                                            user_name={item.user_name}/>)}

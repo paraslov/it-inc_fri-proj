@@ -1,12 +1,13 @@
 import {TBaseThunk} from '../../n2-bll/store'
 import {CardDecks, cardDecksAPI} from "../../n3-api/card-decks_api";
+import {setAppError} from "../../n1-app/a1-app/app_reducer";
 
 //* =============================================================== Initial state ===================================>>
 const initState: CardDecks = {
     cardPacks: [],
     cardPacksTotalCount: 0,
-    minCardsCount: 0,
-    maxCardsCount: 0,
+    minCardsCount: 1,
+    maxCardsCount: 10,
     page: 0,
     pageCount: 0,
     token: '',
@@ -29,12 +30,27 @@ export const cardDecksReducer = (state: TState = initState, action: TCardDecksRe
 export const _setCardDecksAction = (decks: any) => ({type: 'para-slov/cardDecksReducer/SET_CARD_DECKS', decks} as const)
 
 //* =============================================================== Thunk creators ==================================>>
-export const cardDecksReducerThunk = (): TThunk => dispatch => {
-    cardDecksAPI.getCards({pageCount: 10})
+export const getCardDecksThunk = (): TThunk => dispatch => {
+    cardDecksAPI.getCards({})
         .then(res => {
             dispatch(_setCardDecksAction(res.data))
+        }).catch(error => {
+            dispatch(setAppError(error.response.data.error))
+    })
+}
+
+export const createDeckThunk = (): TThunk => dispatch => {
+    const cardsPack = {name: 'Naytin'}
+    cardDecksAPI.postCards(cardsPack)
+        .then(res =>
+            dispatch(getCardDecksThunk())
+        )
+        .catch(error => {
+            dispatch(setAppError(error.response.data.error))
         })
 }
+
+
 
 //* =============================================================== Types ===========================================>>
 type TState = typeof initState

@@ -6,8 +6,8 @@ export const cardDecksAPI = {
     getCards(cardsParams: CardsParams) {
         return instance.get<CardDecks>('cards/pack', {params: {...cardsParams}})
     },
-    postCards(cardsData: CreateCardsType) {
-        return instance.post<CardDecks>('cards/pack',{cardsData})
+    postCards(cardsPack: CreateCardsType ) {
+        return instance.post<CardDecks>('cards/pack', {cardsPack})
     },
     removeCards(id: string) {
         return instance.delete('cards/pack', {params: {id}})
@@ -23,7 +23,7 @@ type UpdateCardType = {
 }
 
 type CreateCardsType = {
-    name: string
+    name?: string
     path?: string
     grade?: number
     shots?: number
