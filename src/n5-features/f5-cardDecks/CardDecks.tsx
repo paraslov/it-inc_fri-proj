@@ -13,7 +13,6 @@ export const CardDecks = () => {
     const userId = useSelector<TAppState, string>(state => state.profile._id)
     const decks = useSelector<TAppState, Pack[] >(state => state.cardDecks.cardPacks)
     const dispatch = useDispatch()
-    console.log(userId)
 
     useEffect(() => {
         dispatch(getCardDecksThunk())
@@ -56,7 +55,19 @@ export const CardDecks = () => {
                                 Cards
                             </div>
                             <div className={s.table__item}>
-                                Last Updated
+                                <div className={s.table__item_wrapper}>
+                                    Last Updated
+                                    <div className={s.voting}>
+                                        <button className={s.voting__button}>
+                                            <div className={s.voting__triangle + ' ' + s.voting__triangle_up}/>
+                                        </button>
+
+                                        <button className={s.voting__button}>
+                                            <div className={s.voting__triangle + ' ' + s.voting__triangle_down}/>
+                                        </button>
+                                    </div>
+                                </div>
+
                             </div>
                             <div className={s.table__item}>
                                 Created by
