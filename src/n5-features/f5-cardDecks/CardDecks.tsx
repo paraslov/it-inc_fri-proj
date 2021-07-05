@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
-import {getCardDecksThunk} from "./cardDecks_reducer";
+import {_setMinMaxValues, getCardDecksThunk} from "./cardDecks_reducer";
 import s from './CardDecks.module.css'
 import {TAppState} from "../../n2-bll/store";
 import {Pack} from "../../n3-api/card-decks_api";
@@ -24,10 +24,12 @@ export const CardDecks = () => {
     }
     const showMyDecksHandler = () => {
         if (userId !== '') {
-            dispatch(getCardDecksThunk({user_id: userId}))
+            dispatch(getCardDecksThunk({user_id: userId, sortPacks: '0updated'}))
         }
     }
-
+    const getMinMaxValues = (min: number, max: number) => {
+        dispatch(_setMinMaxValues(min,max))
+    }
 
     return (
         <div className={s.wrapper}>
@@ -39,7 +41,7 @@ export const CardDecks = () => {
                         <button onClick={showAllDecksHandler}>All</button>
                     </div>
                    <h3>Number of cards</h3>
-                      <MultiRangeSlider min={10} max={50} onChange={() => console.log()}/>
+                      <MultiRangeSlider min={10} max={50} onChange={getMinMaxValues}/>
                 </div>
                 <div className={s.main__block_pack_list}>
                     <div className={s.packs__header}>
@@ -58,11 +60,11 @@ export const CardDecks = () => {
                                 <div className={s.table__item_wrapper}>
                                     Last Updated
                                     <div className={s.voting}>
-                                        <button className={s.voting__button}>
+                                        <button className={s.voting__button} onClick={() => console.log(1)}>
                                             <div className={s.voting__triangle + ' ' + s.voting__triangle_up}/>
                                         </button>
 
-                                        <button className={s.voting__button}>
+                                        <button className={s.voting__button} onClick={() => console.log(0)}>
                                             <div className={s.voting__triangle + ' ' + s.voting__triangle_down}/>
                                         </button>
                                     </div>
