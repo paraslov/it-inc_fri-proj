@@ -1,7 +1,6 @@
 import {TBaseThunk} from '../../n2-bll/store'
-import {CardDecks, cardDecksAPI, CardsParams} from "../../n3-api/card-decks_api";
-import {setAppError} from "../../n1-app/a1-app/app_reducer";
-import {log} from "util";
+import {CardDecks, cardDecksAPI, CardsParams} from '../../n3-api/card-decks_api'
+import {setAppError} from '../../n1-app/a1-app/app_reducer'
 
 //* =============================================================== Initial state ===================================>>
 const initState: CardDecks = {
@@ -41,10 +40,12 @@ export const getCardDecksThunk = (params: CardsParams = {}): TThunk => dispatch 
 }
 
 export const createDeckThunk = (): TThunk => dispatch => {
-    const cardsPack = {name: 'Naytin'}
+    const cardsPack = {name: 'Para Slov'}
     cardDecksAPI.postCards(cardsPack)
-        .then(res =>
-            dispatch(getCardDecksThunk())
+        .then(res => {
+                console.log(res.data)
+                dispatch(getCardDecksThunk())
+            }
         )
         .catch(error => {
             dispatch(setAppError(error.response.data.error))

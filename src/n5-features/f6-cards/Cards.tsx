@@ -1,11 +1,20 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import s from './Cards.module.css'
 import {PATH} from '../../n1-app/a2-routes/Routes'
 import {NavLink} from 'react-router-dom'
 import SuperInputText from '../../n4-common/components/Elements/e3-SuperInputText/SuperInputText'
+import {useDispatch} from 'react-redux'
+import {getCards} from './cards_reducer'
 
 
 export const Cards = () => {
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getCards())
+    })
+
     return (
         <div className={s.container}>
             <div className={s.cardsContainer}>
