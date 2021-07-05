@@ -58,6 +58,7 @@ export type CardDecks = {
     cardPacksTotalCount: number,
     minCardsCount: number,
     maxCardsCount: number,
+    sortPacks: string,
     token: string,
     tokenDeathTime: number
 }

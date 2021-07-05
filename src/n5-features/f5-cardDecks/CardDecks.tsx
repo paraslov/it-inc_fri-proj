@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
-import {_setMinMaxValues, getCardDecksThunk} from "./cardDecks_reducer";
+import {_setRangeValues, getCardDecksThunk} from "./cardDecks_reducer";
 import s from './CardDecks.module.css'
 import {TAppState} from "../../n2-bll/store";
 import {Pack} from "../../n3-api/card-decks_api";
@@ -27,8 +27,8 @@ export const CardDecks = () => {
             dispatch(getCardDecksThunk({user_id: userId, sortPacks: '0updated'}))
         }
     }
-    const getMinMaxValues = (min: number, max: number) => {
-        dispatch(_setMinMaxValues(min,max))
+    const getMinMaxValues = (min: number,max: number) => {
+        dispatch(_setRangeValues(min,max))
     }
 
     return (
@@ -41,7 +41,7 @@ export const CardDecks = () => {
                         <button onClick={showAllDecksHandler}>All</button>
                     </div>
                    <h3>Number of cards</h3>
-                      <MultiRangeSlider min={10} max={50} onChange={getMinMaxValues}/>
+                      <MultiRangeSlider min={0} max={50} onChange={getMinMaxValues}/>
                 </div>
                 <div className={s.main__block_pack_list}>
                     <div className={s.packs__header}>
