@@ -10,7 +10,7 @@ export const Cards = () => {
         <div className={s.container}>
             <div className={s.cardsContainer}>
                 <div className={s.title}>
-                    <div><NavLink to={PATH.CARD_DECKS}>arrow back</NavLink></div>
+                    <NavLink to={PATH.CARD_DECKS} className={s.arrow}>&larr;</NavLink>
                     <h2>Pack Name</h2>
                 </div>
                 <SuperInputText className={s.searchBar} placeholder={'Search'}>
@@ -24,26 +24,33 @@ export const Cards = () => {
                             <div>Grade</div>
                         </div>
                     </div>
-                    <div className={s.card}>
-                        <div>some question</div>
-                        <div>some answer</div>
-                        <div className={s.cardInfo}>
-                            <div>05.07.2021</div>
-                            <div>3 star</div>
-                        </div>
-                    </div>
-                    <div className={s.card}>
-                        <div>some question</div>
-                        <div>some answer</div>
-                        <div className={s.cardInfo}>
-                            <div>05.07.2021</div>
-                            <div>4 star</div>
-                        </div>
-                    </div>
+                    <Card/>
+                    <Card/>
+                    <Card/>
+                    <Card/>
+                    <Card/>
+                    <Card/>
+                    <Card/>
+                    <Card/>
+                    <Card/>
+                    <Card/>
                 </div>
-                <div>
+                <div className={s.paginator}>
                     1 2 3 4 5 ... 5 Show: 10 Cards per page
                 </div>
+            </div>
+        </div>
+    )
+}
+
+const Card: React.FC = () => {
+    return (
+        <div className={s.card}>
+            <div>some question</div>
+            <div>some answer</div>
+            <div className={s.cardInfo}>
+                <div>05.07.2021</div>
+                <div>3 star</div>
             </div>
         </div>
     )
