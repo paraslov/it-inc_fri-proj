@@ -4,7 +4,7 @@ import {loginAPI, UserData} from "../../n3-api/loginAPI";
 import {setAppError, setIsFetching} from "../../n1-app/a1-app/app_reducer";
 
 const initState = {
-    _id: null,
+    _id: '',
     email: null,
     name: '',
     avatar: '',
@@ -49,7 +49,7 @@ export type TProfileReducerActions =
 type TThunk = TBaseThunk<TProfileReducerActions>
 
 export type UserDataType = {
-    _id: null | string,
+    _id: string,
     email: null | string,
     name:  string,
     avatar: string,
