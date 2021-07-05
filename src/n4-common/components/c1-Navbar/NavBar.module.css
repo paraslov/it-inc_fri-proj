@@ -1,5 +1,14 @@
 .navbarContainer {
-    margin: 10px;
+    height: 60px;
+    background-color: #EBE0E9;
+    display: flex;
+    align-items: center;
+}
+
+.title {
+    color: #2D2E46;
+    margin: 0 40px;
+    font-size: 21px;
 }
 
 .navbarContainer a {

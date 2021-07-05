@@ -6,6 +6,7 @@ import s from './NavBar.module.css'
 export const NavBar = () => {
     return (
         <div className={s.navbarContainer}>
+            <b className={s.title}>It-incubator</b>
             <NavLink to={PATH.PROFILE} activeClassName={s.active}>Profile</NavLink>
             <NavLink to={PATH.LOGIN} activeClassName={s.active}>Login</NavLink>
             <NavLink to={PATH.REGISTRATION} activeClassName={s.active}>Registration</NavLink>
