@@ -6,6 +6,7 @@ import {registrationReducer, TRegistrationReducerActions} from '../n5-features/f
 import {profileReducer, TProfileReducerActions} from '../n5-features/f3-profile/progile_reducer'
 import {passwordReducer, TPasswordReducerActions} from '../n5-features/f4-password/password_reducer'
 import {cardDecksReducer} from "../n5-features/f5-cardDecks/cardDecks_reducer";
+import {cardsReducer} from '../n5-features/f6-cards/cards_reducer'
 
 
 const rootReducer = combineReducers({
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     registration: registrationReducer,
     profile: profileReducer,
     password: passwordReducer,
-    cardDecks: cardDecksReducer
+    cardDecks: cardDecksReducer,
+    cards: cardsReducer,
 })
 
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware))
