@@ -29,7 +29,7 @@ export type TGetCardsResponseData = {
     tokenDeathTime: number
 }
 
-type TGetCardParams = {
+export type TGetCardParams = {
     cardsPack_id: string
     cardAnswer?: string
     cardQuestion?: string

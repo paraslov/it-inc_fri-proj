@@ -2,9 +2,8 @@ import React, {useEffect} from 'react'
 import s from './Cards.module.css'
 import {PATH} from '../../n1-app/a2-routes/Routes'
 import {NavLink} from 'react-router-dom'
-import SuperInputText from '../../n4-common/components/Elements/e3-SuperInputText/SuperInputText'
 import {useDispatch, useSelector} from 'react-redux'
-import {createCard, deleteCard, getCards, updateCard} from './cards_reducer'
+import {createCard, deleteCard, getCards, setGetRequestParams, updateCard} from './cards_reducer'
 import SuperButton from '../../n4-common/components/Elements/e1-SuperButton/SuperButton'
 import {TCardData, TCardUpdateData} from '../../n3-api/cards_api'
 import {selectCards, selectCardsPack_id, selectPackUserId} from '../../n2-bll/selectors/cards_selectors'
@@ -12,6 +11,7 @@ import {selectUser_id} from '../../n2-bll/selectors/profile_selectors'
 import {Rating} from '../../n4-common/components/c4-Rating/Rating'
 import {selectIsFetching} from '../../n2-bll/selectors/app_selectors'
 import {Preloader} from '../../n4-common/components/c2-Preloader/Preloader'
+import {SearchBar} from '../../n4-common/components/c5-SearchBar/SearchBar'
 
 
 export const Cards = () => {
@@ -26,7 +26,7 @@ export const Cards = () => {
     const isUsersPack = packUserId === user_id
 
     useEffect(() => {
-        dispatch(getCards())
+        if (!packUserId) dispatch(getCards())
     }, [])
 
     const newCard: TCardData = {
@@ -40,6 +40,10 @@ export const Cards = () => {
     const addCard = () => dispatch(createCard(newCard))
     const deleteCardCallback = (cardId: string) => dispatch(deleteCard(cardId))
     const updateCardCallback = (cardData: TCardUpdateData) => dispatch(updateCard(cardData))
+    const searchCardCallback = (searchText: string) => {
+        dispatch(setGetRequestParams({cardQuestion: searchText}))
+        dispatch(getCards())
+    }
 
     console.log(cards)
 
@@ -52,7 +56,7 @@ export const Cards = () => {
                     <h2>Pack Name</h2>
                 </div>
                 <div className={s.search}>
-                    <SuperInputText className={s.searchBar} placeholder={'Search'}/>
+                    <SearchBar searchCallback={searchCardCallback} disabled={isFetching}/>
                     <SuperButton onClick={addCard} disabled={isFetching}>Add new card</SuperButton>
                 </div>
                 <div className={s.table}>
@@ -125,3 +129,4 @@ const Card: React.FC<TCardProps> = (props) => {
         </div>
     )
 }
+

@@ -40,7 +40,7 @@ export const getCardDecksThunk = (params: CardsParams = {}): TThunk => dispatch 
 }
 
 export const createDeckThunk = (): TThunk => dispatch => {
-    const cardsPack = {name: 'Para Slov'}
+    const cardsPack = {name: 'Naytlin'}
     cardDecksAPI.postCards(cardsPack)
         .then(res => {
                 console.log(res.data)

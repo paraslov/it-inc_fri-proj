@@ -39,13 +39,6 @@
     width: 960px;
 }
 
-.searchBar {
-    width: 75%;
-    height: 36px;
-    border: 1px solid rgba(45, 46, 70, 0.3);
-    border-radius: 3px;
-}
-
 .table {
     width: 960px;
     min-height: 432px;
