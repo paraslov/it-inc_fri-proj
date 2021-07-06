@@ -1,5 +1,5 @@
 import {TAppState, TBaseThunk} from '../../n2-bll/store'
-import { cardDecksAPI, CardsParams, Pack} from "../../n3-api/card-decks_api";
+import {cardDecksAPI, CardsParams, Pack} from "../../n3-api/card-decks_api";
 import {setAppError} from "../../n1-app/a1-app/app_reducer";
 
 
@@ -30,6 +30,11 @@ export const cardDecksReducer = (state: DecksStateType = initState, action: TCar
                 maxCardsCount: action.max,
                 minCardsCount: action.min
             }
+        case 'para-slov/cardDecksReducer/UPDATE_VALUES':
+            return {
+                ...state,
+                ...action.payload
+            }
         default:
             return state
     }
@@ -37,12 +42,17 @@ export const cardDecksReducer = (state: DecksStateType = initState, action: TCar
 
 //* =============================================================== Action creators =================================>>
 export const _setCardDecksAction = (decks: any) => ({type: 'para-slov/cardDecksReducer/SET_CARD_DECKS', decks} as const)
-export const _setRangeValues = (min: number, max: number) => ({type: 'para-slov/cardDecksReducer/SET_RANGE_VALUES', min,max} as const)
+export const _setRangeValues = (min: number, max: number) => ({
+    type: 'para-slov/cardDecksReducer/SET_RANGE_VALUES',
+    min,
+    max
+} as const)
+export const _updateValues = (payload: SetValuesType) => ({type: 'para-slov/cardDecksReducer/UPDATE_VALUES', payload} as const)
 
 //* =============================================================== Thunk creators ==================================>>
-export const getCardDecksThunk = (params: CardsParams = {}):TThunk =>
+export const getCardDecksThunk = (params: CardsParams = {}): TThunk =>
     (dispatch, getState: () => TAppState) => {
-    const cardDecks = getState().cardDecks
+        const cardDecks = getState().cardDecks
 
         const cardsParamsModel: CardsParams = {
             packName: cardDecks.packName,
@@ -53,13 +63,13 @@ export const getCardDecksThunk = (params: CardsParams = {}):TThunk =>
             pageCount: cardDecks.pageCount,
             ...params
         }
-    cardDecksAPI.getCards(cardsParamsModel)
-        .then(res => {
-            dispatch(_setCardDecksAction(res.data))
-        }).catch(error => {
+        cardDecksAPI.getCards(cardsParamsModel)
+            .then(res => {
+                dispatch(_setCardDecksAction(res.data))
+            }).catch(error => {
             dispatch(setAppError(error.response.data.error))
-    })
-}
+        })
+    }
 
 export const createDeckThunk = (): TThunk => dispatch => {
     const cardsPack = {name: 'Naytin'}
@@ -74,8 +84,8 @@ export const createDeckThunk = (): TThunk => dispatch => {
 export const removeDeckThunk = (id: string): TThunk => dispatch => {
     cardDecksAPI.removeCards(id)
         .then(res => {
-                dispatch(getCardDecksThunk())
-            })
+            dispatch(getCardDecksThunk())
+        })
         .catch(error => {
             dispatch(setAppError(error.response.data.error))
         })
@@ -94,7 +104,6 @@ export const updateValueThunk = (id: string): TThunk => dispatch => {
 }
 
 
-
 //* =============================================================== Types ===========================================>>
 
 
@@ -111,8 +120,19 @@ export type DecksStateType = {
     tokenDeathTime: number
 }
 
+export type SetValuesType = {
+    minCardsCount?: number,
+    maxCardsCount?: number,
+    sortPacks?: string,
+    page?: number,
+    pageCount?: number,
+    packName?: string
+}
+
 export type TCardDecksReducerActions =
     ReturnType<typeof _setCardDecksAction> |
-    ReturnType<typeof _setRangeValues>
+    ReturnType<typeof _setRangeValues> |
+    ReturnType<typeof _updateValues>
+
 
 type TThunk = TBaseThunk<TCardDecksReducerActions>

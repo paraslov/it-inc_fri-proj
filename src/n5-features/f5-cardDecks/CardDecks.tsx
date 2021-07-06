@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect} from 'react'
 import {useDispatch, useSelector} from "react-redux";
-import {_setRangeValues, DecksStateType, getCardDecksThunk} from "./cardDecks_reducer";
+import {_setRangeValues, _updateValues, DecksStateType, getCardDecksThunk, SetValuesType} from "./cardDecks_reducer";
 import s from './CardDecks.module.css'
 import {TAppState} from "../../n2-bll/store";
 import {Pack} from "../../n3-api/card-decks_api";
@@ -22,18 +22,20 @@ export const CardDecks = () => {
         pages.push(i)
     }
 
-
     useEffect(() => {
         dispatch(getCardDecksThunk())
     },[])
 
+    const updateValuesHandler = (values: SetValuesType) => {
+        dispatch(_updateValues(values))
+    }
 
-    const showAllDecksHandler = () => {
-        dispatch(getCardDecksThunk())
+    const getAllCardsHandler = (values?: SetValuesType) => {
+        dispatch(getCardDecksThunk(values))
     }
     const showMyDecksHandler = () => {
         if (userId !== '') {
-            dispatch(getCardDecksThunk({user_id: userId, sortPacks: '0updated'}))
+            dispatch(getCardDecksThunk({user_id: userId}))
         }
     }
     const getMinMaxValues = useCallback((min: number,max: number) => {
@@ -46,11 +48,12 @@ export const CardDecks = () => {
                 <div className={s.main__block_menu}>
                     <h3>Show packs cards</h3>
                     <div className={s.show__packs_btn_group}>
-                        <button onClick={showMyDecksHandler}>My</button>
-                        <button onClick={showAllDecksHandler}>All</button>
+                        <button onClick={showMyDecksHandler} >My</button>
+                        <button onClick={() => getAllCardsHandler()}>All</button>
                     </div>
                    <h3>Number of cards</h3>
                       <MultiRangeSlider min={0} max={50} onChange={getMinMaxValues}/>
+                    <SuperButton onClick={() => getAllCardsHandler()}>set values</SuperButton>
                 </div>
                 <div className={s.main__block_pack_list}>
                     <div className={s.packs__header}>
@@ -69,11 +72,13 @@ export const CardDecks = () => {
                                 <div className={s.table__item_wrapper}>
                                     Last Updated
                                     <div className={s.voting}>
-                                        <button className={s.voting__button} onClick={() => console.log(1)}>
+                                        <button className={s.voting__button} onClick={() =>
+                                            updateValuesHandler({ sortPacks: '1updated'})}>
                                             <div className={s.voting__triangle + ' ' + s.voting__triangle_up}/>
                                         </button>
 
-                                        <button className={s.voting__button} onClick={() => console.log(0)}>
+                                        <button className={s.voting__button} onClick={() =>
+                                            updateValuesHandler({ sortPacks: '0updated'})}>
                                             <div className={s.voting__triangle + ' ' + s.voting__triangle_down}/>
                                         </button>
                                     </div>
@@ -100,19 +105,26 @@ export const CardDecks = () => {
                     <div className={s.pagination__block}>
                         {pages.map((el, i) => {
                             if(i === 11){
-                                return <SuperButton key={i} className={s.paginator__btn}>...</SuperButton>
+                                return <SuperButton  key={i} className={s.paginator__btn}>...</SuperButton>
                             }
                             if(pages.length === i + 1) {
-                                return <SuperButton key={i} className={s.paginator__btn}>{el}</SuperButton>
+                                return <SuperButton onClick={() =>
+                                    getAllCardsHandler({page: el})}
+                                                    key={i} className={`${s.paginator__btn} 
+                                                    ${decksState.page ===  i + 1 ? s.active : null}`}>{el}</SuperButton>
                             }
                             if(i > 10) {
                                 return null
                             }
-                            return <SuperButton key={i} className={s.paginator__btn}>{el}</SuperButton>
+                            return <SuperButton onClick={() =>
+                                getAllCardsHandler({page: el})}
+                                                key={i} className={`${s.paginator__btn} 
+                                                ${decksState.page === i + 1 ? s.active : null}`}>{el}</SuperButton>
                         })}
                         <div className={s.select__block}>
                             <span>show </span>
-                            <select onChange={(e) => console.log(e.currentTarget.value)}>
+                            <select defaultValue={10} onChange={(e) =>
+                                updateValuesHandler({pageCount: +e.currentTarget.value}) }>
                                 <option value="4">4</option>
                                 <option value="7">7</option>
                                 <option value="10">10</option>
@@ -125,6 +137,5 @@ export const CardDecks = () => {
                 </div>
             </div>
         </div>
-
     )
 }
