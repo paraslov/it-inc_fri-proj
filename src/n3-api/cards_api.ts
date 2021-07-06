@@ -9,8 +9,8 @@ export const cardsAPI = {
     createCard(cardData: TCardData) {
         return instance.post('cards/card', {card: {...cardData}}).then(res => res.data)
     },
-    deleteCard(_id: string) {
-        return instance.delete('cards/card', {params: {_id}}).then(res => res.data)
+    deleteCard(id: string) {
+        return instance.delete('cards/card', {params: {id}}).then(res => res.data)
     },
     updateCard(cardData: TCardData) {
         return instance.put('cards/card', {card: {...cardData}}).then(res => res.data)

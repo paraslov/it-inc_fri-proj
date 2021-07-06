@@ -26,7 +26,8 @@ export function Preloader(props: PreloaderPropsType) {
         height: props.size ? props.size : '100px',
         position: 'absolute',
         left: props.left ? props.left : '40px',
-        top: props.top ? props.top : '40px'
+        top: props.top ? props.top : '40px',
+        zIndex: 1000
     }
 
     return (

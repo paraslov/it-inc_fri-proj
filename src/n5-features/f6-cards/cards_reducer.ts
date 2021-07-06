@@ -1,5 +1,6 @@
 import {TBaseThunk} from '../../n2-bll/store'
 import {cardsAPI, TCardData, TGetCardsResponseData} from '../../n3-api/cards_api'
+import {setAppError, setIsFetching} from '../../n1-app/a1-app/app_reducer'
 
 //* =============================================================== Initial state ===================================>>
 const initState = {
@@ -10,7 +11,7 @@ const initState = {
     maxGrade: 0,
     packUserId: '',
     page: 1,
-    pageCount: 1,
+    pageCount: 7,
     token: '',
     tokenDeathTime: 0,
 }
@@ -30,25 +31,50 @@ export const _setCardsState = (payload: TGetCardsResponseData) =>
 
 //* =============================================================== Thunk creators ==================================>>
 export const getCards = (): TThunk => (dispatch, getState) => {
-    cardsAPI.getCards({cardsPack_id: getState().cards.cardsPack_id})
+    dispatch(setIsFetching(true))
+    const cards = getState().cards
+    cardsAPI.getCards({cardsPack_id: cards.cardsPack_id, pageCount: cards.pageCount.toString()})
         .then(data => {
             console.log(data)
             dispatch(_setCardsState(data))
+            dispatch(setIsFetching(false))
+        })
+        .catch(error => {
+            dispatch(setAppError(error.response.data.error))
+            dispatch(setIsFetching(false))
         })
 }
-export const createCard = (cardData: TCardData): TThunk => (dispatch) => {
-
+export const createCard = (cardData: TCardData): TThunk => dispatch => {
+    dispatch(setIsFetching(true))
     cardsAPI.createCard(cardData)
         .then(data => {
             console.log(data)
+            dispatch(setIsFetching(false))
             dispatch(getCards())
+        })
+        .catch(error => {
+            dispatch(setAppError(error.response.data.error))
+            dispatch(setIsFetching(false))
+        })
+}
+export const deleteCard = (cardId: string): TThunk => dispatch => {
+    dispatch(setIsFetching(true))
+    cardsAPI.deleteCard(cardId)
+        .then(data => {
+            console.log(data)
+            dispatch(setIsFetching(false))
+            dispatch(getCards())
+        })
+        .catch(error => {
+            dispatch(setAppError(error.response.data.error))
+            dispatch(setIsFetching(false))
         })
 }
 
 //* =============================================================== Types ===========================================>>
 type TState = typeof initState
 
-export type TCardsReducerActions = ReturnType<typeof _setCardsState>
+export type TCardsReducerActions = ReturnType<typeof _setCardsState> | ReturnType<typeof setIsFetching>
 
 type TThunk = TBaseThunk<TCardsReducerActions>
 
