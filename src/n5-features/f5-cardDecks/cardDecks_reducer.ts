@@ -1,11 +1,10 @@
 import {TAppState, TBaseThunk} from '../../n2-bll/store'
-import {CardDecks, cardDecksAPI, CardsParams} from "../../n3-api/card-decks_api";
+import { cardDecksAPI, CardsParams, Pack} from "../../n3-api/card-decks_api";
 import {setAppError} from "../../n1-app/a1-app/app_reducer";
 
 
-
 //* =============================================================== Initial state ===================================>>
-const initState: CardDecks & {packName: string} = {
+const initState: DecksStateType = {
     cardPacks: [],
     cardPacksTotalCount: 0,
     minCardsCount: 1,
@@ -18,7 +17,7 @@ const initState: CardDecks & {packName: string} = {
     packName: ''
 }
 
-export const cardDecksReducer = (state: TState = initState, action: TCardDecksReducerActions): TState => {
+export const cardDecksReducer = (state: DecksStateType = initState, action: TCardDecksReducerActions): DecksStateType => {
     switch (action.type) {
         case 'para-slov/cardDecksReducer/SET_CARD_DECKS':
             return {
@@ -97,7 +96,20 @@ export const updateValueThunk = (id: string): TThunk => dispatch => {
 
 
 //* =============================================================== Types ===========================================>>
-type TState = typeof initState
+
+
+export type DecksStateType = {
+    packName: string
+    cardPacks: Array<Pack>
+    page: number,
+    pageCount: number,
+    cardPacksTotalCount: number,
+    minCardsCount: number,
+    maxCardsCount: number,
+    sortPacks: string,
+    token: string,
+    tokenDeathTime: number
+}
 
 export type TCardDecksReducerActions =
     ReturnType<typeof _setCardDecksAction> |

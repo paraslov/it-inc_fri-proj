@@ -1,18 +1,27 @@
-import React, {useEffect, useState} from 'react'
+import React, {useCallback, useEffect} from 'react'
 import {useDispatch, useSelector} from "react-redux";
-import {_setRangeValues, getCardDecksThunk} from "./cardDecks_reducer";
+import {_setRangeValues, DecksStateType, getCardDecksThunk} from "./cardDecks_reducer";
 import s from './CardDecks.module.css'
 import {TAppState} from "../../n2-bll/store";
 import {Pack} from "../../n3-api/card-decks_api";
 import CardDecksItem from "./CardDecksItem";
 import SearchItem from "./SearchBlock/SearchItem";
 import MultiRangeSlider from "../../n4-common/components/Elements/e7-MultiRangeSlider/MultiRangeSlider";
+import SuperButton from "../../n4-common/components/Elements/e1-SuperButton/SuperButton";
 
 
 export const CardDecks = () => {
     const userId = useSelector<TAppState, string>(state => state.profile._id)
     const decks = useSelector<TAppState, Pack[] >(state => state.cardDecks.cardPacks)
+    const decksState = useSelector<TAppState, DecksStateType >(state => state.cardDecks)
     const dispatch = useDispatch()
+
+    const pagesCount = Math.ceil(decksState.cardPacksTotalCount / decksState.pageCount)
+    let pages: Array<number> = [];
+    for (let i = 1; i <= pagesCount; i++) {
+        pages.push(i)
+    }
+
 
     useEffect(() => {
         dispatch(getCardDecksThunk())
@@ -27,9 +36,9 @@ export const CardDecks = () => {
             dispatch(getCardDecksThunk({user_id: userId, sortPacks: '0updated'}))
         }
     }
-    const getMinMaxValues = (min: number,max: number) => {
+    const getMinMaxValues = useCallback((min: number,max: number) => {
         dispatch(_setRangeValues(min,max))
-    }
+    },[])
 
     return (
         <div className={s.wrapper}>
@@ -89,7 +98,29 @@ export const CardDecks = () => {
                             />)}
                     </div>
                     <div className={s.pagination__block}>
-
+                        {pages.map((el, i) => {
+                            if(i === 11){
+                                return <SuperButton key={i} className={s.paginator__btn}>...</SuperButton>
+                            }
+                            if(pages.length === i + 1) {
+                                return <SuperButton key={i} className={s.paginator__btn}>{el}</SuperButton>
+                            }
+                            if(i > 10) {
+                                return null
+                            }
+                            return <SuperButton key={i} className={s.paginator__btn}>{el}</SuperButton>
+                        })}
+                        <div className={s.select__block}>
+                            <span>show </span>
+                            <select onChange={(e) => console.log(e.currentTarget.value)}>
+                                <option value="4">4</option>
+                                <option value="7">7</option>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="40">40</option>
+                            </select>
+                            <span> Cards per page</span>
+                        </div>
                     </div>
                 </div>
             </div>

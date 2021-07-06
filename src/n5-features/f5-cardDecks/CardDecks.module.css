@@ -136,3 +136,15 @@ button:hover {
     border-color: rgba(0, 0, 0, 0.3) transparent transparent;
     border-width: 0.4rem 0.4rem 0px;
 }
+
+
+.pagination__block {
+    margin-top: 20px;
+    display: flex;
+}
+
+.select__block {
+    margin-left: 20px;
+}
+
+
