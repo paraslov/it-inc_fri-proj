@@ -1,5 +1,5 @@
 import {TBaseThunk} from '../../n2-bll/store'
-import {cardsAPI, TCardData, TGetCardsResponseData} from '../../n3-api/cards_api'
+import {cardsAPI, TCardData, TCardUpdateData, TGetCardsResponseData} from '../../n3-api/cards_api'
 import {setAppError, setIsFetching} from '../../n1-app/a1-app/app_reducer'
 
 //* =============================================================== Initial state ===================================>>
@@ -60,6 +60,19 @@ export const createCard = (cardData: TCardData): TThunk => dispatch => {
 export const deleteCard = (cardId: string): TThunk => dispatch => {
     dispatch(setIsFetching(true))
     cardsAPI.deleteCard(cardId)
+        .then(data => {
+            console.log(data)
+            dispatch(setIsFetching(false))
+            dispatch(getCards())
+        })
+        .catch(error => {
+            dispatch(setAppError(error.response.data.error))
+            dispatch(setIsFetching(false))
+        })
+}
+export const updateCard = (cardData: TCardUpdateData): TThunk => dispatch => {
+    dispatch(setIsFetching(true))
+    cardsAPI.updateCard(cardData)
         .then(data => {
             console.log(data)
             dispatch(setIsFetching(false))

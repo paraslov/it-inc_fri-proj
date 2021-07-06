@@ -12,7 +12,7 @@ export const cardsAPI = {
     deleteCard(id: string) {
         return instance.delete('cards/card', {params: {id}}).then(res => res.data)
     },
-    updateCard(cardData: TCardData) {
+    updateCard(cardData: TCardUpdateData) {
         return instance.put('cards/card', {card: {...cardData}}).then(res => res.data)
     },
 }
@@ -42,6 +42,18 @@ type TGetCardParams = {
 
 export type TCardData = {
     cardsPack_id: string
+    question?: string
+    answer?: string
+    grade?: number
+    shots?: number
+    answerImg?: string
+    questionImg?: string
+    questionVideo?: string
+    answerVideo?: string
+}
+
+export type TCardUpdateData = {
+    _id: string
     question?: string
     answer?: string
     grade?: number

@@ -4,9 +4,9 @@ import {PATH} from '../../n1-app/a2-routes/Routes'
 import {NavLink} from 'react-router-dom'
 import SuperInputText from '../../n4-common/components/Elements/e3-SuperInputText/SuperInputText'
 import {useDispatch, useSelector} from 'react-redux'
-import {createCard, deleteCard, getCards} from './cards_reducer'
+import {createCard, deleteCard, getCards, updateCard} from './cards_reducer'
 import SuperButton from '../../n4-common/components/Elements/e1-SuperButton/SuperButton'
-import {TCardData} from '../../n3-api/cards_api'
+import {TCardData, TCardUpdateData} from '../../n3-api/cards_api'
 import {selectCards, selectCardsPack_id, selectPackUserId} from '../../n2-bll/selectors/cards_selectors'
 import {selectUser_id} from '../../n2-bll/selectors/profile_selectors'
 import {Rating} from '../../n4-common/components/c4-Rating/Rating'
@@ -31,32 +31,29 @@ export const Cards = () => {
 
     const newCard: TCardData = {
         cardsPack_id,
-        question: 'card to delete',
+        question: 'card to delete/update',
         answer: 'no card, no answer.. =0_0=',
         grade: 4
     }
 
-    const addCard = () => {
-        dispatch(createCard(newCard))
-    }
-    const deleteCardCallback = (cardId: string) => {
-        dispatch(deleteCard(cardId))
-    }
-
+    //* ==================================  Callbacks  ============================================================>>
+    const addCard = () => dispatch(createCard(newCard))
+    const deleteCardCallback = (cardId: string) => dispatch(deleteCard(cardId))
+    const updateCardCallback = (cardData: TCardUpdateData) => dispatch(updateCard(cardData))
 
     console.log(cards)
 
     return (
         <div className={s.container}>
+            {isFetching && <Preloader left={'40%'} top={'40%'} size={'100px'}/>}
             <div className={s.cardsContainer}>
-                {isFetching && <Preloader left={'40%'} top={'40%'} size={'100px'}/>}
                 <div className={s.title}>
                     <NavLink to={PATH.CARD_DECKS} className={s.arrow}>&larr;</NavLink>
                     <h2>Pack Name</h2>
                 </div>
                 <div className={s.search}>
                     <SuperInputText className={s.searchBar} placeholder={'Search'}/>
-                    <SuperButton onClick={addCard}>Add new card</SuperButton>
+                    <SuperButton onClick={addCard} disabled={isFetching}>Add new card</SuperButton>
                 </div>
                 <div className={s.table}>
                     <div className={s.card}>
@@ -75,7 +72,9 @@ export const Cards = () => {
                                              grade={card.grade}
                                              updatedAt={card.updated}
                                              isUsersPack={isUsersPack}
-                                             deleteCardCallback={deleteCardCallback}/>)}
+                                             isFetching={isFetching}
+                                             deleteCardCallback={deleteCardCallback}
+                                             updateCardCallback={updateCardCallback}/>)}
 
                 </div>
                 <div className={s.paginator}>
@@ -93,11 +92,22 @@ type TCardProps = {
     updatedAt: string
     grade: number
     isUsersPack: boolean
+    isFetching: boolean
     deleteCardCallback: (cardId: string) => void
+    updateCardCallback: (cardData: TCardUpdateData) => void
 }
 
 const Card: React.FC<TCardProps> = (props) => {
-    const {answer, cardId, question, updatedAt, grade, isUsersPack, deleteCardCallback} = props
+    const {
+        answer, cardId, question, updatedAt, grade, isUsersPack, isFetching, deleteCardCallback, updateCardCallback
+    } = props
+    const editedCard: TCardUpdateData = {
+        _id: cardId,
+        question: 'Card is successfully updated? :)',
+        answer: 'yeahs! The card is! |=^_^=|',
+        grade: 2
+    }
+
     return (
         <div className={s.card}>
             <div className={s.qaSections}>{question}</div>
@@ -106,8 +116,10 @@ const Card: React.FC<TCardProps> = (props) => {
                 <div>{updatedAt.slice(0, 16)}</div>
                 <Rating rating={grade}/>
                 {isUsersPack && <div>
-                    <SuperButton className={s.actionsBtn}>Edit</SuperButton>
-                    <SuperButton className={s.actionsBtn} red onClick={() => deleteCardCallback(cardId)}>Delete</SuperButton>
+                    <SuperButton className={s.actionsBtn} disabled={isFetching}
+                                 onClick={() => updateCardCallback(editedCard)}>Edit</SuperButton>
+                    <SuperButton className={s.actionsBtn} disabled={isFetching} red
+                                 onClick={() => deleteCardCallback(cardId)}>Delete</SuperButton>
                 </div>}
             </div>
         </div>
