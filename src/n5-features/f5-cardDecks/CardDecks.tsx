@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import {_setRangeValues, _updateValues, DecksStateType, getCardDecksThunk, SetValuesType} from "./cardDecks_reducer";
 import s from './CardDecks.module.css'
@@ -11,6 +11,7 @@ import SuperButton from "../../n4-common/components/Elements/e1-SuperButton/Supe
 
 
 export const CardDecks = () => {
+    const [active, setActive] = useState([false,true])
     const userId = useSelector<TAppState, string>(state => state.profile._id)
     const decks = useSelector<TAppState, Pack[] >(state => state.cardDecks.cardPacks)
     const decksState = useSelector<TAppState, DecksStateType >(state => state.cardDecks)
@@ -42,14 +43,15 @@ export const CardDecks = () => {
         dispatch(_setRangeValues(min,max))
     },[])
 
+
     return (
         <div className={s.wrapper}>
             <div className={s.main__block}>
                 <div className={s.main__block_menu}>
                     <h3>Show packs cards</h3>
                     <div className={s.show__packs_btn_group}>
-                        <button onClick={showMyDecksHandler} >My</button>
-                        <button onClick={() => getAllCardsHandler()}>All</button>
+                        <button onClick={showMyDecksHandler} className={active[0] ? s.active : ''}>My</button>
+                        <button onClick={() => getAllCardsHandler()} className={active[1] ? s.active: ''}>All</button>
                     </div>
                    <h3>Number of cards</h3>
                       <MultiRangeSlider min={0} max={50} onChange={getMinMaxValues}/>

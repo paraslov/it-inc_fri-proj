@@ -153,8 +153,16 @@ button:hover {
     background-color: #ECECF9;
     color: #333;
 }
+.paginator__btn:hover{
+  color: #333;
+}
 
 .active {
-    background-color: #21268F;
+    background-color: #21268F!important;
     color: #ECECF9;
 }
+.active:hover {
+    color: #ECECF9;
+    opacity: 0.8;
+}
+
