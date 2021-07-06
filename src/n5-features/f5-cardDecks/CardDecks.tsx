@@ -11,10 +11,10 @@ import SuperButton from "../../n4-common/components/Elements/e1-SuperButton/Supe
 
 
 export const CardDecks = () => {
-    const [active, setActive] = useState([false,true])
+    const [active, setActive] = useState([false, true])
     const userId = useSelector<TAppState, string>(state => state.profile._id)
-    const decks = useSelector<TAppState, Pack[] >(state => state.cardDecks.cardPacks)
-    const decksState = useSelector<TAppState, DecksStateType >(state => state.cardDecks)
+    const decks = useSelector<TAppState, Pack[]>(state => state.cardDecks.cardPacks)
+    const decksState = useSelector<TAppState, DecksStateType>(state => state.cardDecks)
     const dispatch = useDispatch()
 
     const pagesCount = Math.ceil(decksState.cardPacksTotalCount / decksState.pageCount)
@@ -25,7 +25,7 @@ export const CardDecks = () => {
 
     useEffect(() => {
         dispatch(getCardDecksThunk())
-    },[])
+    }, [])
 
     const updateValuesHandler = (values: SetValuesType) => {
         dispatch(_updateValues(values))
@@ -39,9 +39,9 @@ export const CardDecks = () => {
             dispatch(getCardDecksThunk({user_id: userId}))
         }
     }
-    const getMinMaxValues = useCallback((min: number,max: number) => {
-        dispatch(_setRangeValues(min,max))
-    },[])
+    const getMinMaxValues = useCallback((min: number, max: number) => {
+        dispatch(_setRangeValues(min, max))
+    }, [])
 
 
     return (
@@ -51,16 +51,16 @@ export const CardDecks = () => {
                     <h3>Show packs cards</h3>
                     <div className={s.show__packs_btn_group}>
                         <button onClick={showMyDecksHandler} className={active[0] ? s.active : ''}>My</button>
-                        <button onClick={() => getAllCardsHandler()} className={active[1] ? s.active: ''}>All</button>
+                        <button onClick={() => getAllCardsHandler()} className={active[1] ? s.active : ''}>All</button>
                     </div>
-                   <h3>Number of cards</h3>
-                      <MultiRangeSlider min={0} max={50} onChange={getMinMaxValues}/>
+                    <h3>Number of cards</h3>
+                    <MultiRangeSlider min={0} max={50} onChange={getMinMaxValues}/>
                     <SuperButton onClick={() => getAllCardsHandler()}>set values</SuperButton>
                 </div>
                 <div className={s.main__block_pack_list}>
                     <div className={s.packs__header}>
                         <h3>Pack list</h3>
-                        <SearchItem />
+                        <SearchItem/>
                     </div>
                     <div className={s.table}>
                         <div className={s.table__header}>
@@ -75,12 +75,12 @@ export const CardDecks = () => {
                                     Last Updated
                                     <div className={s.voting}>
                                         <button className={s.voting__button} onClick={() =>
-                                            updateValuesHandler({ sortPacks: '1updated'})}>
+                                            updateValuesHandler({sortPacks: '1updated'})}>
                                             <div className={s.voting__triangle + ' ' + s.voting__triangle_up}/>
                                         </button>
 
                                         <button className={s.voting__button} onClick={() =>
-                                            updateValuesHandler({ sortPacks: '0updated'})}>
+                                            updateValuesHandler({sortPacks: '0updated'})}>
                                             <div className={s.voting__triangle + ' ' + s.voting__triangle_down}/>
                                         </button>
                                     </div>
@@ -105,28 +105,31 @@ export const CardDecks = () => {
                             />)}
                     </div>
                     <div className={s.pagination__block}>
-                        {pages.map((el, i) => {
-                            if(i === 11){
-                                return <SuperButton  key={i} className={s.paginator__btn}>...</SuperButton>
+                        {pages.map((el, i) =>{
+                                if (i === 11) {
+                                    return <Pagination
+                                        value={0}
+                                        index={i}
+                                        callback={(value) => getAllCardsHandler({page: value})}/>
+                                }
+                            if (pages.length === i + 1) {
+                                return <Pagination
+                                    value={el}
+                                    index={i}
+                                    callback={(value) => getAllCardsHandler({page: value})}/>
                             }
-                            if(pages.length === i + 1) {
-                                return <SuperButton onClick={() =>
-                                    getAllCardsHandler({page: el})}
-                                                    key={i} className={`${s.paginator__btn} 
-                                                    ${decksState.page ===  i + 1 ? s.active : null}`}>{el}</SuperButton>
-                            }
-                            if(i > 10) {
+                            if (i > 10) {
                                 return null
                             }
-                            return <SuperButton onClick={() =>
-                                getAllCardsHandler({page: el})}
-                                                key={i} className={`${s.paginator__btn} 
-                                                ${decksState.page === i + 1 ? s.active : null}`}>{el}</SuperButton>
+                                return <Pagination
+                                    value={el}
+                                    index={i}
+                                    callback={(value) => getAllCardsHandler({page: value})}/>
                         })}
                         <div className={s.select__block}>
                             <span>show </span>
                             <select defaultValue={10} onChange={(e) =>
-                                updateValuesHandler({pageCount: +e.currentTarget.value}) }>
+                                updateValuesHandler({pageCount: +e.currentTarget.value})}>
                                 <option value="4">4</option>
                                 <option value="7">7</option>
                                 <option value="10">10</option>
@@ -139,5 +142,25 @@ export const CardDecks = () => {
                 </div>
             </div>
         </div>
+    )
+}
+
+
+type PropsType = {
+    value: number
+    callback: (page: number) => void
+    index: number
+}
+const Pagination = ({value,callback,index }: PropsType) => {
+    const onClickHandler = (value: number) => {
+        callback(value)
+    }
+    return (<>
+            <button disabled={value === 0} onClick={() =>
+                onClickHandler(value)}
+                         className={`${s.paginator__btn} 
+                         ${value === index + 1 ? s.active : null}`}>{value === 0 ? '...' : value}</button>
+        </>
+
     )
 }
