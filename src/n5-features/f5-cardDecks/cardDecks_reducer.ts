@@ -1,5 +1,5 @@
-import {TBaseThunk} from '../../n2-bll/store'
-import {CardDecks, cardDecksAPI, CardsParams} from "../../n3-api/card-decks_api";
+import {TAppState, TBaseThunk} from '../../n2-bll/store'
+import {CardDecks, cardDecksAPI, CardsParams, Pack} from "../../n3-api/card-decks_api";
 import {setAppError} from "../../n1-app/a1-app/app_reducer";
 
 //* =============================================================== Initial state ===================================>>
@@ -9,7 +9,7 @@ const initState: DecksStateType = {
     minCardsCount: 1,
     maxCardsCount: 10,
     page: 0,
-    pageCount: 0,
+    pageCount: 10,
     token: '',
     tokenDeathTime: 0,
     sortPacks: '',

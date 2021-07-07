@@ -3,6 +3,7 @@ import s from './CardDecks.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {removeDeckThunk, updateValueThunk} from "./cardDecks_reducer";
 import {TAppState} from "../../n2-bll/store";
+import { NavLink } from 'react-router-dom';
 
 type PropsType = {
     name: string
@@ -25,18 +26,20 @@ const CardDecksItem = ({name,cardsCount,updated,user_name, id, userId}: PropsTyp
     }
     return (
         <div className={s.table__body}>
-            <div className={s.table__item}>
-                {name}
-            </div>
-            <div className={s.table__item}>
-                {cardsCount}
-            </div>
-            <div className={s.table__item}>
-                {updated.slice(0,10) + ', ' + updated.slice(11,19)}
-            </div>
-            <div className={s.table__item}>
-                {user_name}
-            </div>
+            <NavLink to={`/cards/${userId}`} className={s.table__link}>
+                <div className={s.table__item}>
+                    {name}
+                </div>
+                <div className={s.table__item}>
+                    {cardsCount}
+                </div>
+                <div className={s.table__item}>
+                    {updated.slice(0,10) + ', ' + updated.slice(11,19)}
+                </div>
+                <div className={s.table__item}>
+                    {user_name}
+                </div>
+            </NavLink>
             <div className={s.table__item +' '+ s.btn__group}>
                 {user_id === userId ? <button onClick={removeDeckHandler}>Delete</button> : null}
                 <button onClick={updateNameHandler}>Edit</button>

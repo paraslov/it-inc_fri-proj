@@ -22,7 +22,6 @@ const SuperSelect: React.FC<SuperSelectPropsType> = (
 
         onChangeOption && onChangeOption(e.currentTarget.value)
     }
-
     return (
         <select className={s.default} onChange={onChangeCallback} {...restProps} value={defaultValue}>
             {mappedOptions}

@@ -24,6 +24,7 @@ import {SelectPage} from '../../n4-common/components/c7-SelectPage/SelectPage'
 import {SortArrow} from '../../n4-common/components/c8-SortArrow/SortArrow'
 
 
+
 export const Cards = () => {
     //* ==================================  Data  =================================================================>>
     const dispatch = useDispatch()
@@ -38,7 +39,6 @@ export const Cards = () => {
     const currentPage = useSelector(selectCurrentPage)
     const pageCount = useSelector(selectPageCount)
     const sortParam = useSelector(selectSortParam)
-
     // check if it's current user's deck of cards or not and renders Actions, edit and delete according to result
     const isUsersPack = packUserId === user_id
     console.log(sortParam)
