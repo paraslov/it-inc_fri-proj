@@ -28,49 +28,48 @@ export const Cards = () => {
     //* ==================================  Data  =================================================================>>
     const dispatch = useDispatch()
     const isFetching = useSelector(selectIsFetching)
-
+    // id's
     const cardsPack_id = useSelector(selectCardsPack_id)
     const user_id = useSelector(selectUser_id)
     const packUserId = useSelector(selectPackUserId)
-
+    // cards data
     const cards = useSelector(selectCards)
     const cardsTotalCount = useSelector(selectCardsTotalCount)
+    // page data
     const currentPage = useSelector(selectCurrentPage)
     const pageCount = useSelector(selectPageCount)
-    const sortParam = useSelector(selectSortParam)
 
     // check if it's current user's deck of cards or not and renders Actions, edit and delete according to result
     const isUsersPack = packUserId === user_id
-    console.log(sortParam)
-
-    useEffect(() => {
-        if (!packUserId) dispatch(getCards())
-    }, [])
-
+    // hardcode new card data
     const newCard: TCardData = {
         cardsPack_id,
         question: 'card to delete/update',
         answer: 'no card, no answer.. =0_0=',
         grade: 4
     }
+    // if no user id settled in redux, send request
+    useEffect(() => {
+        if (!packUserId) dispatch(getCards())
+    }, [])
+
+
 
     //* ==================================  Callbacks  ============================================================>>
-    const addCard = () => dispatch(createCard(newCard))
+    const createCardCallback = () => dispatch(createCard(newCard))
     const deleteCardCallback = (cardId: string) => dispatch(deleteCard(cardId))
     const updateCardCallback = (cardData: TCardUpdateData) => dispatch(updateCard(cardData))
+    // helper for all kind of searching and sorting operations
     const setGetRequestParamsCallback = (requestParams: TSetRequestParams) => {
         dispatch(setGetRequestParams(requestParams))
         dispatch(getCards())
     }
     const searchCard = (searchText: string) => setGetRequestParamsCallback({cardQuestion: searchText})
-    const pageNumberRequest = (page: number) => setGetRequestParamsCallback({page})
-    const onChangePageCount = (pageCount: number) => {
-        if(!isFetching) setGetRequestParamsCallback({pageCount})
-    }
     const sortCards = (param: string) => setGetRequestParamsCallback({sortCards: param})
+    // paginator callbacks
+    const onPageNumberChange = (page: number) => setGetRequestParamsCallback({page})
+    const onPageCountChange = (pageCount: number) => setGetRequestParamsCallback({pageCount})
 
-
-    console.log(cards)
 
     return (
         <div className={s.container}>
@@ -82,7 +81,7 @@ export const Cards = () => {
                 </div>
                 <div className={s.search}>
                     <SearchBar searchCallback={searchCard} disabled={isFetching}/>
-                    <SuperButton onClick={addCard} disabled={isFetching}>Add new card</SuperButton>
+                    <SuperButton onClick={createCardCallback} disabled={isFetching}>Add new card</SuperButton>
                 </div>
                 <ItemsTable items={cards}
                             isUsersPack={isUsersPack}
@@ -95,9 +94,9 @@ export const Cards = () => {
                                pageSize={pageCount}
                                currentPage={currentPage}
                                disabled={isFetching}
-                               onPageNumberClick={pageNumberRequest}
+                               onPageNumberClick={onPageNumberChange}
                     />
-                    <SelectPage onChangeOptions={onChangePageCount} defaultValue={pageCount} disabled={isFetching}/>
+                    <SelectPage onChangeOptions={onPageCountChange} defaultValue={pageCount} disabled={isFetching}/>
                 </div>
             </div>
         </div>
