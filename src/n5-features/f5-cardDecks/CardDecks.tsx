@@ -21,14 +21,12 @@ import {Preloader} from "../../n4-common/components/c2-Preloader/Preloader";
 
 
 export const CardDecks = () => {
-
     const [active, setActive] = useState([false, true])
     const userId = useSelector<TAppState, string>(state => state.profile._id)
     const decks = useSelector<TAppState, Pack[]>(state => state.cardDecks.cardPacks)
     const decksState = useSelector<TAppState, DecksStateType>(state => state.cardDecks)
     const isFetching = useSelector<TAppState, boolean>(state => state.app.isFetching)
     const dispatch = useDispatch()
-
 
     useEffect(() => {
         dispatch(getCardDecksThunk())
@@ -57,9 +55,15 @@ export const CardDecks = () => {
             dispatch(getCardDecksThunk({user_id: userId}))
         }
     }
+
+    let timeoutId:NodeJS.Timeout
     const getMinMaxValues = useCallback((min: number, max: number) => {
-        // dispatch(setParams(min, max))
-        dispatch(_updateValues({minCardsCount: min, maxCardsCount: max}))
+        clearTimeout(timeoutId)
+        timeoutId = setTimeout(() => {
+            dispatch(_updateValues({minCardsCount: min, maxCardsCount: max}))
+            dispatch(getCardDecksThunk())
+        }, 500)
+
     }, [])
 
     return (
@@ -73,8 +77,8 @@ export const CardDecks = () => {
                         <button onClick={getAllCardsHandler} className={active[1] ? s.active : ''}>All</button>
                     </div>
                     <h3>Number of cards</h3>
-                    <MultiRangeSlider min={decksState.minCardsCount}
-                                      max={decksState.maxCardsCount}
+                    <MultiRangeSlider min={0}
+                                      max={103}
                                       onChange={getMinMaxValues}/>
                 </div>
                 <div className={s.main__block_pack_list}>

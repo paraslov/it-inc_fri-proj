@@ -23,12 +23,6 @@ export const cardDecksReducer = (state: DecksStateType = initState, action: TCar
                 ...state,
                 ...action.decks
             }
-        case 'para-slov/cardDecksReducer/SET_RANGE_VALUES':
-            return {
-                ...state,
-                maxCardsCount: action.max,
-                minCardsCount: action.min
-            }
         case 'para-slov/cardDecksReducer/UPDATE_VALUES':
             return {
                 ...state,
@@ -41,11 +35,6 @@ export const cardDecksReducer = (state: DecksStateType = initState, action: TCar
 
 //* =============================================================== Action creators =================================>>
 export const _setCardDecksAction = (decks: any) => ({type: 'para-slov/cardDecksReducer/SET_CARD_DECKS', decks} as const)
-export const _setRangeValues = (min: number, max: number) => ({
-    type: 'para-slov/cardDecksReducer/SET_RANGE_VALUES',
-    min,
-    max
-} as const)
 export const _updateValues = (payload: SetValuesType) => ({type: 'para-slov/cardDecksReducer/UPDATE_VALUES', payload} as const)
 
 //* =============================================================== Thunk creators ==================================>>
@@ -131,7 +120,6 @@ export type SetValuesType = {
 
 export type TCardDecksReducerActions =
     ReturnType<typeof _setCardDecksAction> |
-    ReturnType<typeof _setRangeValues> |
     ReturnType<typeof _updateValues>
 
 
