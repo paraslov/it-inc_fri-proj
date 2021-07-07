@@ -107,4 +107,6 @@
     margin-bottom: 10px;
     margin-left: 48px;
     align-self: flex-start;
+    display: flex;
+    align-items: center;
 }

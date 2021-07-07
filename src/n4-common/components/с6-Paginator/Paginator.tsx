@@ -7,11 +7,12 @@ type TPaginatorProps = {
     pageSize: number
     currentPage: number
     portionSize?: number
+    disabled?: boolean
     onPageNumberClick: (pageNumber: number) => void
 }
 
 export function Paginator(props: TPaginatorProps) {
-    const {totalItemsCount, pageSize, currentPage, onPageNumberClick, portionSize = 10} = props
+    const {totalItemsCount, pageSize, currentPage, onPageNumberClick, portionSize = 10, disabled = false} = props
     const [portionNumber, setPortionNumber] = useState(1)
 
     const pagesCount = Math.ceil(totalItemsCount / pageSize)
@@ -24,6 +25,10 @@ export function Paginator(props: TPaginatorProps) {
     const leftPortionNumber = (portionNumber - 1) * portionSize
     const rightPortionNumber = portionNumber * portionSize
 
+    const onSpanClick = (p: number) => {
+        if (!disabled) onPageNumberClick(p)
+    }
+
     return (
         <div className={s.paginator}>
             <button onClick={() => setPortionNumber(portionNumber - 1)}
@@ -35,7 +40,7 @@ export function Paginator(props: TPaginatorProps) {
                 {pages.filter(p => p > leftPortionNumber && p <= rightPortionNumber)
                     .map(p => <span key={p}
                                     className={currentPage === p ? s.page + ' ' + s.currentPage : s.page}
-                                    onClick={() => onPageNumberClick(p)}
+                                    onClick={() => onSpanClick(p)}
                     >{p}</span>)}
                 {portionNumber >= portionCount || <span className={`${s.page} ${s.lastPage}`}
                                                         onClick={() => setPortionNumber(portionCount)}>... {pagesCount}</span>}
@@ -44,7 +49,6 @@ export function Paginator(props: TPaginatorProps) {
                     disabled={portionNumber >= portionCount}
                     className={s.btn}>
             </button>
-            {/*<input type="number" onKeyPress={(e) => e.key==='Enter' && setPortionNumber(+e.currentTarget.value)}/>*/}
         </div>
     )
 }

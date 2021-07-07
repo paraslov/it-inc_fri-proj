@@ -3,14 +3,16 @@ import s from './Cards.module.css'
 import {PATH} from '../../n1-app/a2-routes/Routes'
 import {NavLink} from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
-import {createCard, deleteCard, getCards, setGetRequestParams, updateCard} from './cards_reducer'
+import {createCard, deleteCard, getCards, setGetRequestParams, TSetRequestParams, updateCard} from './cards_reducer'
 import SuperButton from '../../n4-common/components/Elements/e1-SuperButton/SuperButton'
 import {TCardData, TCardUpdateData} from '../../n3-api/cards_api'
 import {
     selectCards,
     selectCardsPack_id,
-    selectCardsTotalCount, selectCurrentPage,
-    selectPackUserId, selectPageCount
+    selectCardsTotalCount,
+    selectCurrentPage,
+    selectPackUserId,
+    selectPageCount
 } from '../../n2-bll/selectors/cards_selectors'
 import {selectUser_id} from '../../n2-bll/selectors/profile_selectors'
 import {Rating} from '../../n4-common/components/c4-Rating/Rating'
@@ -18,6 +20,7 @@ import {selectIsFetching} from '../../n2-bll/selectors/app_selectors'
 import {Preloader} from '../../n4-common/components/c2-Preloader/Preloader'
 import {SearchBar} from '../../n4-common/components/c5-SearchBar/SearchBar'
 import {Paginator} from '../../n4-common/components/с6-Paginator/Paginator'
+import {SelectPage} from '../../n4-common/components/c7-SelectPage/SelectPage'
 
 
 export const Cards = () => {
@@ -49,10 +52,13 @@ export const Cards = () => {
     const addCard = () => dispatch(createCard(newCard))
     const deleteCardCallback = (cardId: string) => dispatch(deleteCard(cardId))
     const updateCardCallback = (cardData: TCardUpdateData) => dispatch(updateCard(cardData))
-    const searchCardCallback = (searchText: string) => {
-        dispatch(setGetRequestParams({cardQuestion: searchText}))
+    const setGetRequestParamsCallback = (requestParams: TSetRequestParams) => {
+        dispatch(setGetRequestParams(requestParams))
         dispatch(getCards())
     }
+    const searchCard = (searchText: string) => setGetRequestParamsCallback({cardQuestion: searchText})
+    const pageNumberRequest = (page: number) => setGetRequestParamsCallback({page})
+    const onChangePageCount = (pageCount: number) => setGetRequestParamsCallback({pageCount})
 
     console.log(cards)
 
@@ -65,7 +71,7 @@ export const Cards = () => {
                     <h2>Pack Name</h2>
                 </div>
                 <div className={s.search}>
-                    <SearchBar searchCallback={searchCardCallback} disabled={isFetching}/>
+                    <SearchBar searchCallback={searchCard} disabled={isFetching}/>
                     <SuperButton onClick={addCard} disabled={isFetching}>Add new card</SuperButton>
                 </div>
                 <div className={s.table}>
@@ -95,7 +101,10 @@ export const Cards = () => {
                                pageSize={pageCount}
                                currentPage={currentPage}
                                portionSize={5}
-                               onPageNumberClick={()=>{}}/>
+                               disabled={isFetching}
+                               onPageNumberClick={pageNumberRequest}
+                    />
+                    <SelectPage onChangeOptions={onChangePageCount} defaultValue={pageCount}/>
                 </div>
             </div>
         </div>
