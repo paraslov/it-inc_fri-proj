@@ -3,14 +3,18 @@ import SuperSelect from '../Elements/e4-SuperSelect/SuperSelect'
 import React from 'react'
 
 type TSelectPageProps = {
+    description?: string
     defaultValue?: any
     disabled?: boolean
     onChangeOptions?: (option: any) => void
 }
 
-export const SelectPage: React.FC<TSelectPageProps> = ({onChangeOptions,
+export const SelectPage: React.FC<TSelectPageProps> = ({
+                                                           onChangeOptions,
                                                            defaultValue,
-                                                           disabled}) => {
+                                                           disabled = false,
+                                                           description
+                                                       }) => {
     return (
         <div className={s.selectPage}>
             <span>Show</span>
@@ -18,7 +22,7 @@ export const SelectPage: React.FC<TSelectPageProps> = ({onChangeOptions,
                          onChangeOption={onChangeOptions}
                          defaultValue={defaultValue}
                          disabled={disabled}/>
-            <span>Cards per Page</span>
+            <span>{description}</span>
         </div>
     )
 }

@@ -12,8 +12,7 @@ import {
     selectCardsTotalCount,
     selectCurrentPage,
     selectPackUserId,
-    selectPageCount,
-    selectSortParam
+    selectPageCount
 } from '../../n2-bll/selectors/cards_selectors'
 import {selectUser_id} from '../../n2-bll/selectors/profile_selectors'
 import {selectIsFetching} from '../../n2-bll/selectors/app_selectors'
@@ -52,7 +51,6 @@ export const Cards = () => {
     useEffect(() => {
         if (!packUserId) dispatch(getCards())
     }, [])
-
 
 
     //* ==================================  Callbacks  ============================================================>>
@@ -96,7 +94,10 @@ export const Cards = () => {
                                disabled={isFetching}
                                onPageNumberClick={onPageNumberChange}
                     />
-                    <SelectPage onChangeOptions={onPageCountChange} defaultValue={pageCount} disabled={isFetching}/>
+                    <SelectPage onChangeOptions={onPageCountChange}
+                                defaultValue={pageCount}
+                                disabled={isFetching}
+                                description={'Cards per Page'}/>
                 </div>
             </div>
         </div>
