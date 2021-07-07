@@ -12,16 +12,16 @@ import {
     selectCardsTotalCount,
     selectCurrentPage,
     selectPackUserId,
-    selectPageCount, selectSortParam
+    selectPageCount,
+    selectSortParam
 } from '../../n2-bll/selectors/cards_selectors'
 import {selectUser_id} from '../../n2-bll/selectors/profile_selectors'
-import {Rating} from '../../n4-common/components/c4-Rating/Rating'
 import {selectIsFetching} from '../../n2-bll/selectors/app_selectors'
 import {Preloader} from '../../n4-common/components/c2-Preloader/Preloader'
 import {SearchBar} from '../../n4-common/components/c5-SearchBar/SearchBar'
 import {Paginator} from '../../n4-common/components/с6-Paginator/Paginator'
 import {SelectPage} from '../../n4-common/components/c7-SelectPage/SelectPage'
-import {SortArrow} from '../../n4-common/components/c8-SortArrow/SortArrow'
+import {ItemsTable} from './ItemsTable/ItemsTable'
 
 
 export const Cards = () => {
@@ -64,8 +64,11 @@ export const Cards = () => {
     }
     const searchCard = (searchText: string) => setGetRequestParamsCallback({cardQuestion: searchText})
     const pageNumberRequest = (page: number) => setGetRequestParamsCallback({page})
-    const onChangePageCount = (pageCount: number) => setGetRequestParamsCallback({pageCount})
+    const onChangePageCount = (pageCount: number) => {
+        if(!isFetching) setGetRequestParamsCallback({pageCount})
+    }
     const sortCards = (param: string) => setGetRequestParamsCallback({sortCards: param})
+
 
     console.log(cards)
 
@@ -81,34 +84,12 @@ export const Cards = () => {
                     <SearchBar searchCallback={searchCard} disabled={isFetching}/>
                     <SuperButton onClick={addCard} disabled={isFetching}>Add new card</SuperButton>
                 </div>
-                <div className={s.table}>
-                    <div className={s.card}>
-                        <div>Question</div>
-                        <div>Answer</div>
-                        <div className={`${s.cardInfo} ${isUsersPack && s.cardInfoWithActions}`}>
-                            <div>
-                                <span>Last Updated</span>
-                                <SortArrow onClick={sortCards} sortValue={'updated'}/>
-                            </div>
-                            <div className={s.gradeTitle}>
-                                <span>Grade</span>
-                                <SortArrow onClick={sortCards} sortValue={'grade'}/>
-                            </div>
-                            {isUsersPack && <div className={s.gradeTitle}>Actions</div>}
-                        </div>
-                    </div>
-                    {cards.map(card => <Card key={card._id}
-                                             cardId={card._id}
-                                             question={card.question}
-                                             answer={card.answer}
-                                             grade={card.grade}
-                                             updatedAt={card.updated}
-                                             isUsersPack={isUsersPack}
-                                             isFetching={isFetching}
-                                             deleteCardCallback={deleteCardCallback}
-                                             updateCardCallback={updateCardCallback}/>)}
-
-                </div>
+                <ItemsTable items={cards}
+                            isUsersPack={isUsersPack}
+                            isFetching={isFetching}
+                            sortCallback={sortCards}
+                            deleteCallback={deleteCardCallback}
+                            updateCallback={updateCardCallback}/>
                 <div className={s.paginator}>
                     <Paginator totalItemsCount={cardsTotalCount}
                                pageSize={pageCount}
@@ -116,49 +97,8 @@ export const Cards = () => {
                                disabled={isFetching}
                                onPageNumberClick={pageNumberRequest}
                     />
-                    <SelectPage onChangeOptions={onChangePageCount} defaultValue={pageCount}/>
+                    <SelectPage onChangeOptions={onChangePageCount} defaultValue={pageCount} disabled={isFetching}/>
                 </div>
-            </div>
-        </div>
-    )
-}
-
-type TCardProps = {
-    cardId: string
-    question: string
-    answer: string
-    updatedAt: string
-    grade: number
-    isUsersPack: boolean
-    isFetching: boolean
-    deleteCardCallback: (cardId: string) => void
-    updateCardCallback: (cardData: TCardUpdateData) => void
-}
-
-const Card: React.FC<TCardProps> = (props) => {
-    const {
-        answer, cardId, question, updatedAt, grade, isUsersPack, isFetching, deleteCardCallback, updateCardCallback
-    } = props
-    const editedCard: TCardUpdateData = {
-        _id: cardId,
-        question: 'Card is successfully updated? :)',
-        answer: 'yeahs! The card is! |=^_^=|',
-        grade: 2
-    }
-
-    return (
-        <div className={s.card}>
-            <div className={s.qaSections}>{question}</div>
-            <div className={s.qaSections}>{answer}</div>
-            <div className={`${s.cardInfo} ${isUsersPack && s.cardInfoWithActions}`}>
-                <div>{updatedAt.slice(0, 16)}</div>
-                <Rating rating={grade}/>
-                {isUsersPack && <div>
-                    <SuperButton className={s.actionsBtn} disabled={isFetching}
-                                 onClick={() => updateCardCallback(editedCard)}>Edit</SuperButton>
-                    <SuperButton className={s.actionsBtn} disabled={isFetching} red
-                                 onClick={() => deleteCardCallback(cardId)}>Delete</SuperButton>
-                </div>}
             </div>
         </div>
     )
