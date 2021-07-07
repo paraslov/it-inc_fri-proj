@@ -1,5 +1,15 @@
 .navbarContainer {
-    margin: 10px;
+    height: 60px;
+    background-color: #EBE0E9;
+    display: flex;
+    align-items: center;
+    filter: drop-shadow(0px 4px 14px rgba(45, 46, 70, 0.15));
+}
+
+.title {
+    color: #2D2E46;
+    margin: 0 40px;
+    font-size: 21px;
 }
 
 .navbarContainer a {

@@ -1,7 +1,6 @@
-import {TAppState, TBaseThunk} from '../../n2-bll/store'
-import {cardDecksAPI, CardsParams, Pack} from "../../n3-api/card-decks_api";
+import {TBaseThunk} from '../../n2-bll/store'
+import {CardDecks, cardDecksAPI, CardsParams} from "../../n3-api/card-decks_api";
 import {setAppError} from "../../n1-app/a1-app/app_reducer";
-
 
 //* =============================================================== Initial state ===================================>>
 const initState: DecksStateType = {
@@ -9,8 +8,8 @@ const initState: DecksStateType = {
     cardPacksTotalCount: 0,
     minCardsCount: 1,
     maxCardsCount: 10,
-    page: 1,
-    pageCount: 10,
+    page: 0,
+    pageCount: 0,
     token: '',
     tokenDeathTime: 0,
     sortPacks: '',
@@ -84,8 +83,8 @@ export const createDeckThunk = (): TThunk => dispatch => {
 export const removeDeckThunk = (id: string): TThunk => dispatch => {
     cardDecksAPI.removeCards(id)
         .then(res => {
-            dispatch(getCardDecksThunk())
-        })
+                dispatch(getCardDecksThunk())
+            })
         .catch(error => {
             dispatch(setAppError(error.response.data.error))
         })
@@ -102,6 +101,7 @@ export const updateValueThunk = (id: string): TThunk => dispatch => {
             dispatch(setAppError(error.response.data.error))
         })
 }
+
 
 
 //* =============================================================== Types ===========================================>>

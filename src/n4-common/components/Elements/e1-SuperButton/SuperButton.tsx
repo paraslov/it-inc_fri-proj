@@ -17,7 +17,7 @@ const SuperButton: React.FC<SuperButtonPropsType> = (
     }
 ) => {
 
-    const finalClassName = disabled ? `${s.disabled}` : `${s.default} ${red ? s.red : ''} ${registrationCancel ? s.registrationCancel : ''} ${className}`
+    const finalClassName = disabled ? `${s.disabled} ${className}` : `${s.default} ${red ? s.red : ''} ${registrationCancel ? s.registrationCancel : ''} ${className}`
 
     return (
         <button
