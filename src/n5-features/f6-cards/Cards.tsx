@@ -6,12 +6,18 @@ import {useDispatch, useSelector} from 'react-redux'
 import {createCard, deleteCard, getCards, setGetRequestParams, updateCard} from './cards_reducer'
 import SuperButton from '../../n4-common/components/Elements/e1-SuperButton/SuperButton'
 import {TCardData, TCardUpdateData} from '../../n3-api/cards_api'
-import {selectCards, selectCardsPack_id, selectPackUserId} from '../../n2-bll/selectors/cards_selectors'
+import {
+    selectCards,
+    selectCardsPack_id,
+    selectCardsTotalCount, selectCurrentPage,
+    selectPackUserId, selectPageCount
+} from '../../n2-bll/selectors/cards_selectors'
 import {selectUser_id} from '../../n2-bll/selectors/profile_selectors'
 import {Rating} from '../../n4-common/components/c4-Rating/Rating'
 import {selectIsFetching} from '../../n2-bll/selectors/app_selectors'
 import {Preloader} from '../../n4-common/components/c2-Preloader/Preloader'
 import {SearchBar} from '../../n4-common/components/c5-SearchBar/SearchBar'
+import {Paginator} from '../../n4-common/components/с6-Paginator/Paginator'
 
 
 export const Cards = () => {
@@ -20,6 +26,9 @@ export const Cards = () => {
     const isFetching = useSelector(selectIsFetching)
     const cardsPack_id = useSelector(selectCardsPack_id)
     const cards = useSelector(selectCards)
+    const cardsTotalCount = useSelector(selectCardsTotalCount)
+    const currentPage = useSelector(selectCurrentPage)
+    const pageCount = useSelector(selectPageCount)
     const packUserId = useSelector(selectPackUserId)
     const user_id = useSelector(selectUser_id)
     // check if it's current user's deck of cards or not and renders Actions, edit and delete according to result
@@ -82,7 +91,11 @@ export const Cards = () => {
 
                 </div>
                 <div className={s.paginator}>
-                    1 2 3 4 5 ... 5 Show: 10 Cards per page
+                    <Paginator totalItemsCount={cardsTotalCount}
+                               pageSize={pageCount}
+                               currentPage={currentPage}
+                               portionSize={5}
+                               onPageNumberClick={()=>{}}/>
                 </div>
             </div>
         </div>
@@ -129,4 +142,6 @@ const Card: React.FC<TCardProps> = (props) => {
         </div>
     )
 }
+
+
 

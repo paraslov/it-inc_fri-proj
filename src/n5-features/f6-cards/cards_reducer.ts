@@ -16,7 +16,7 @@ const initState = {
     maxGrade: 0,
     packUserId: '',
     page: 1,
-    pageCount: 7,
+    pageCount: 5,
     token: '',
     tokenDeathTime: 0,
 }
