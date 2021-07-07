@@ -12,7 +12,7 @@ import {
     selectCardsTotalCount,
     selectCurrentPage,
     selectPackUserId,
-    selectPageCount
+    selectPageCount, selectSortParam
 } from '../../n2-bll/selectors/cards_selectors'
 import {selectUser_id} from '../../n2-bll/selectors/profile_selectors'
 import {Rating} from '../../n4-common/components/c4-Rating/Rating'
@@ -21,21 +21,27 @@ import {Preloader} from '../../n4-common/components/c2-Preloader/Preloader'
 import {SearchBar} from '../../n4-common/components/c5-SearchBar/SearchBar'
 import {Paginator} from '../../n4-common/components/с6-Paginator/Paginator'
 import {SelectPage} from '../../n4-common/components/c7-SelectPage/SelectPage'
+import {SortArrow} from '../../n4-common/components/c8-SortArrow/SortArrow'
 
 
 export const Cards = () => {
     //* ==================================  Data  =================================================================>>
     const dispatch = useDispatch()
     const isFetching = useSelector(selectIsFetching)
+
     const cardsPack_id = useSelector(selectCardsPack_id)
+    const user_id = useSelector(selectUser_id)
+    const packUserId = useSelector(selectPackUserId)
+
     const cards = useSelector(selectCards)
     const cardsTotalCount = useSelector(selectCardsTotalCount)
     const currentPage = useSelector(selectCurrentPage)
     const pageCount = useSelector(selectPageCount)
-    const packUserId = useSelector(selectPackUserId)
-    const user_id = useSelector(selectUser_id)
+    const sortParam = useSelector(selectSortParam)
+
     // check if it's current user's deck of cards or not and renders Actions, edit and delete according to result
     const isUsersPack = packUserId === user_id
+    console.log(sortParam)
 
     useEffect(() => {
         if (!packUserId) dispatch(getCards())
@@ -59,6 +65,7 @@ export const Cards = () => {
     const searchCard = (searchText: string) => setGetRequestParamsCallback({cardQuestion: searchText})
     const pageNumberRequest = (page: number) => setGetRequestParamsCallback({page})
     const onChangePageCount = (pageCount: number) => setGetRequestParamsCallback({pageCount})
+    const sortCards = (param: string) => setGetRequestParamsCallback({sortCards: param})
 
     console.log(cards)
 
@@ -79,8 +86,14 @@ export const Cards = () => {
                         <div>Question</div>
                         <div>Answer</div>
                         <div className={`${s.cardInfo} ${isUsersPack && s.cardInfoWithActions}`}>
-                            <div>Last Updated</div>
-                            <div className={s.gradeTitle}>Grade</div>
+                            <div>
+                                <span>Last Updated</span>
+                                <SortArrow onClick={sortCards} sortValue={'updated'}/>
+                            </div>
+                            <div className={s.gradeTitle}>
+                                <span>Grade</span>
+                                <SortArrow onClick={sortCards} sortValue={'grade'}/>
+                            </div>
                             {isUsersPack && <div className={s.gradeTitle}>Actions</div>}
                         </div>
                     </div>
@@ -100,7 +113,6 @@ export const Cards = () => {
                     <Paginator totalItemsCount={cardsTotalCount}
                                pageSize={pageCount}
                                currentPage={currentPage}
-                               portionSize={5}
                                disabled={isFetching}
                                onPageNumberClick={pageNumberRequest}
                     />

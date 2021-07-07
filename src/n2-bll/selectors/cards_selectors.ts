@@ -7,3 +7,4 @@ export const selectPackUserId = (state: TAppState) => state.cards.packUserId
 export const selectCurrentPage = (state: TAppState) => state.cards.page
 export const selectPageCount = (state: TAppState) => state.cards.pageCount
 export const selectCardsTotalCount = (state: TAppState) => state.cards.cardsTotalCount
+export const selectSortParam = (state: TAppState) => state.cards.sortCards

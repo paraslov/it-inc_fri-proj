@@ -84,6 +84,7 @@
 
 .cardInfo {
     width: 25%;
+    margin-left: 3px;
     display: flex;
     justify-content: space-between;
     align-items: center;

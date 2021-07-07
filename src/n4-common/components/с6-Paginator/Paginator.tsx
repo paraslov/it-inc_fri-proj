@@ -12,7 +12,7 @@ type TPaginatorProps = {
 }
 
 export function Paginator(props: TPaginatorProps) {
-    const {totalItemsCount, pageSize, currentPage, onPageNumberClick, portionSize = 10, disabled = false} = props
+    const {totalItemsCount, pageSize, currentPage, onPageNumberClick, portionSize = 5, disabled = false} = props
     const [portionNumber, setPortionNumber] = useState(1)
 
     const pagesCount = Math.ceil(totalItemsCount / pageSize)
