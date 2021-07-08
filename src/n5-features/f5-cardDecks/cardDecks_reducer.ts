@@ -21,6 +21,7 @@ const initState: DecksStateType = {
 export const cardDecksReducer = (state: DecksStateType = initState, action: TCardDecksReducerActions): DecksStateType => {
     switch (action.type) {
         case 'para-slov/cardDecksReducer/SET_CARD_DECKS':
+            // return {...state, ...action.payload}
         case 'para-slov/cardDecksReducer/UPDATE_VALUES':
             return {...state, ...action.payload}
         default:
@@ -29,7 +30,7 @@ export const cardDecksReducer = (state: DecksStateType = initState, action: TCar
 }
 
 //* =============================================================== Action creators =================================>>
-export const _setCardDecksAction = (payload: any) => ({
+export const _setCardDecksAction = (payload: SetValuesType) => ({
     type: 'para-slov/cardDecksReducer/SET_CARD_DECKS',
     payload
 } as const)
@@ -54,7 +55,6 @@ export const getCardDecksThunk = (params: CardsParams = {}): TThunk => (dispatch
     }
     cardDecksAPI.getCards(cardsParamsModel)
         .then(res => {
-            console.log(res.data)
             dispatch(_setCardDecksAction(res.data))
             dispatch(setIsFetching(false))
         }).catch(error => {

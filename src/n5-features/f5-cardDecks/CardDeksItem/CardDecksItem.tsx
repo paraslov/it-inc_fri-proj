@@ -1,10 +1,11 @@
 import React from 'react'
-import s from './CardDecks.module.css'
 import {useDispatch, useSelector} from "react-redux";
-import {removeDeckThunk, updateValueThunk} from "./cardDecks_reducer";
-import {TAppState} from "../../n2-bll/store";
+import {removeDeckThunk, updateValueThunk} from "../cardDecks_reducer";
+import {TAppState} from "../../../n2-bll/store";
 import { NavLink } from 'react-router-dom';
-import {setPackName} from '../f6-cards/cards_reducer'
+import {setPackName} from '../../f6-cards/cards_reducer'
+import SuperButton from "../../../n4-common/components/Elements/e1-SuperButton/SuperButton";
+import s from './CardDecksItem.module.css'
 
 type PropsType = {
     name: string
@@ -16,6 +17,7 @@ type PropsType = {
 }
 const CardDecksItem = ({name,cardsCount,updated,user_name, id, userId}: PropsType) => {
     const user_id = useSelector<TAppState, string>(state => state.profile._id)
+    const isFetching = useSelector<TAppState, boolean>(state => state.app.isFetching)
     const dispatch = useDispatch()
 
     const removeDeckHandler = () => {
@@ -45,9 +47,18 @@ const CardDecksItem = ({name,cardsCount,updated,user_name, id, userId}: PropsTyp
                 </div>
             </NavLink>
             <div className={s.table__item +' '+ s.btn__group}>
-                {user_id === userId ? <button onClick={removeDeckHandler}>Delete</button> : null}
-                <button onClick={updateNameHandler}>Edit</button>
-                <button>Learn</button>
+                {user_id === userId ?
+                    <SuperButton
+                        className={s.actionBtn +' '+ s.alert}
+                        disabled={isFetching}
+                        onClick={removeDeckHandler}>Delete</SuperButton> : null}
+                <SuperButton
+                    className={s.actionBtn}
+                    disabled={isFetching}
+                    onClick={updateNameHandler}>Edit</SuperButton>
+                <SuperButton
+                    className={s.actionBtn}
+                    disabled={isFetching} >Learn</SuperButton>
             </div>
         </div>
 

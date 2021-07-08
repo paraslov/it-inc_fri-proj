@@ -72,8 +72,16 @@ button:hover {
     align-items: center;
 }
 
-.table__item:last-child, .table__item:first-child {
+.table__item:nth-child(2) {
+    width: 10%;
+}
+
+.table__item:last-child {
     width: 25%;
+    text-align: center;
+}
+.table__item:first-child {
+    width: 17%;
 }
 
 .btn__group {

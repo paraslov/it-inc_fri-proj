@@ -10,7 +10,7 @@ import {
 import s from './CardDecks.module.css'
 import {TAppState} from '../../n2-bll/store'
 import {Pack} from '../../n3-api/card-decks_api'
-import CardDecksItem from './CardDecksItem'
+import CardDecksItem from './CardDeksItem/CardDecksItem'
 import MultiRangeSlider from '../../n4-common/components/Elements/e7-MultiRangeSlider/MultiRangeSlider'
 import SuperButton from '../../n4-common/components/Elements/e1-SuperButton/SuperButton'
 import {Paginator} from '../../n4-common/components/с6-Paginator/Paginator'
@@ -61,11 +61,11 @@ export const CardDecks = () => {
     let timeoutId: NodeJS.Timeout
     const getMinMaxValues = useCallback((min: number, max: number) => {
         clearTimeout(timeoutId)
-        timeoutId = setTimeout(() => {
-            debugger
-            dispatch(_updateValues({minCardsCount: min, maxCardsCount: max}))
-            dispatch(getCardDecksThunk())
-        }, 1000)
+            timeoutId = setTimeout(() => {
+                setParams({minCardsCount: min, maxCardsCount: max})
+                // dispatch(_updateValues({minCardsCount: min, maxCardsCount: max}))
+                // dispatch(getCardDecksThunk())
+            }, 1000)
 
     }, [])
 
@@ -76,20 +76,21 @@ export const CardDecks = () => {
                 <div className={s.main__block_menu}>
                     <h3>Show packs cards</h3>
                     <div className={s.show__packs_btn_group}>
-                        <button onClick={showMyDecksHandler} className={active[0] ? s.active : ''}>My</button>
-                        <button onClick={getAllCardsHandler} className={active[1] ? s.active : ''}>All</button>
+                        <button disabled={isFetching} onClick={showMyDecksHandler} className={active[0] ? s.active : ''}>My</button>
+                        <button disabled={isFetching} onClick={getAllCardsHandler} className={active[1] ? s.active : ''}>All</button>
                     </div>
                     <h3>Number of cards</h3>
-                    <MultiRangeSlider min={0}
-                                      max={103}
-                                      onChange={getMinMaxValues}/>
+                    <MultiRangeSlider
+                        min={0}
+                        max={103}
+                        onChange={getMinMaxValues}/>
                 </div>
                 <div className={s.main__block_pack_list}>
                     <div className={s.packs__header}>
                         <h3>Pack list</h3>
                         <div className={s.packs__header_wrapper}>
                             <SearchBar searchCallback={searchCard} disabled={isFetching}/>
-                            <SuperButton onClick={addPackHandler}>
+                            <SuperButton disabled={isFetching} onClick={addPackHandler}>
                                 Add new pack
                             </SuperButton>
                         </div>
