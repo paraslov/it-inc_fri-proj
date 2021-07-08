@@ -102,7 +102,7 @@ export const CardDecks = () => {
                             <div className={s.table__item}>
                                 <div className={s.table__item_wrapper}>
                                     Last Updated
-                                    <SortArrow sortValue={'updated'} onClick={sortCards}/>
+                                    <SortArrow sortValue={'updated'} onClick={sortCards} isFetching={isFetching}/>
                                 </div>
 
                             </div>
