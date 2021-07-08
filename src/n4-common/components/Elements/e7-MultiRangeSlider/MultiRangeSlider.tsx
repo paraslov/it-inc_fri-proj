@@ -21,6 +21,7 @@ const MultiRangeSlider: FC<MultiRangeSliderProps> = ({
                                                      }) => {
     const [minVal, setMinVal] = useState(min);
     const [maxVal, setMaxVal] = useState(max);
+    const [firstLoad, setFirstLoad] = useState(true);
     const minValRef = useRef(min);
     const maxValRef = useRef(max);
     const range = useRef<HTMLDivElement>(null);
@@ -36,7 +37,8 @@ const MultiRangeSlider: FC<MultiRangeSliderProps> = ({
         setMaxVal(max)
     },[min,max])
     // Set width of the range to decrease from the left side
-    useEffect(() => {        const minPercent = getPercent(minVal);
+    useEffect(() => {
+        const minPercent = getPercent(minVal);
         const maxPercent = getPercent(maxValRef.current);
 
         if (range.current) {
@@ -57,8 +59,9 @@ const MultiRangeSlider: FC<MultiRangeSliderProps> = ({
 
     // Get min and max values when their state changes
     useEffect(() => {
-        onChange(minVal,maxVal);
-    }, [minVal, maxVal, onChange]);
+        if(!firstLoad) onChange(minVal,maxVal);
+        setFirstLoad(false)
+    }, [minVal, maxVal]);
 
     return (
         <div className="container">

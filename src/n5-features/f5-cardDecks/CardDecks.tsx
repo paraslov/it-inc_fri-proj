@@ -1,23 +1,23 @@
 import React, {useCallback, useEffect, useState} from 'react'
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from 'react-redux'
 import {
     _updateValues,
     createDeckThunk,
     DecksStateType,
     getCardDecksThunk,
     SetValuesType
-} from "./cardDecks_reducer";
+} from './cardDecks_reducer'
 import s from './CardDecks.module.css'
-import {TAppState} from "../../n2-bll/store";
-import {Pack} from "../../n3-api/card-decks_api";
-import CardDecksItem from "./CardDecksItem";
-import MultiRangeSlider from "../../n4-common/components/Elements/e7-MultiRangeSlider/MultiRangeSlider";
-import SuperButton from "../../n4-common/components/Elements/e1-SuperButton/SuperButton";
-import {Paginator} from "../../n4-common/components/с6-Paginator/Paginator";
-import {SelectPage} from "../../n4-common/components/c7-SelectPage/SelectPage";
-import {SortArrow} from "../../n4-common/components/c8-SortArrow/SortArrow";
-import {SearchBar} from "../../n4-common/components/c5-SearchBar/SearchBar";
-import {Preloader} from "../../n4-common/components/c2-Preloader/Preloader";
+import {TAppState} from '../../n2-bll/store'
+import {Pack} from '../../n3-api/card-decks_api'
+import CardDecksItem from './CardDecksItem'
+import MultiRangeSlider from '../../n4-common/components/Elements/e7-MultiRangeSlider/MultiRangeSlider'
+import SuperButton from '../../n4-common/components/Elements/e1-SuperButton/SuperButton'
+import {Paginator} from '../../n4-common/components/с6-Paginator/Paginator'
+import {SelectPage} from '../../n4-common/components/c7-SelectPage/SelectPage'
+import {SortArrow} from '../../n4-common/components/c8-SortArrow/SortArrow'
+import {SearchBar} from '../../n4-common/components/c5-SearchBar/SearchBar'
+import {Preloader} from '../../n4-common/components/c2-Preloader/Preloader'
 
 
 export const CardDecks = () => {
@@ -34,6 +34,7 @@ export const CardDecks = () => {
 
     const getAllCardsHandler = () => {
         dispatch(getCardDecksThunk())
+        setActive([false, true])
     }
 
     const addPackHandler = () => {
@@ -49,20 +50,22 @@ export const CardDecks = () => {
     const onChangePageCount = (pageCount: number) => setParams({pageCount})
     const sortCards = (param: string) => setParams({sortPacks: param})
     const searchCard = (searchText: string) => setParams({packName: searchText})
-    
+
     const showMyDecksHandler = () => {
         if (userId !== '') {
             dispatch(getCardDecksThunk({user_id: userId}))
+            setActive([true, false])
         }
     }
 
-    let timeoutId:NodeJS.Timeout
+    let timeoutId: NodeJS.Timeout
     const getMinMaxValues = useCallback((min: number, max: number) => {
         clearTimeout(timeoutId)
         timeoutId = setTimeout(() => {
+            debugger
             dispatch(_updateValues({minCardsCount: min, maxCardsCount: max}))
             dispatch(getCardDecksThunk())
-        }, 500)
+        }, 1000)
 
     }, [])
 
@@ -85,7 +88,7 @@ export const CardDecks = () => {
                     <div className={s.packs__header}>
                         <h3>Pack list</h3>
                         <div className={s.packs__header_wrapper}>
-                            <SearchBar searchCallback={searchCard}/>
+                            <SearchBar searchCallback={searchCard} disabled={isFetching}/>
                             <SuperButton onClick={addPackHandler}>
                                 Add new pack
                             </SuperButton>
@@ -130,7 +133,9 @@ export const CardDecks = () => {
                                    onPageNumberClick={pageNumberRequest}
                         />
                         <div className={s.select__block}>
-                            <SelectPage onChangeOptions={onChangePageCount} defaultValue={decksState.pageCount}/>
+                            <SelectPage onChangeOptions={onChangePageCount}
+                                        defaultValue={decksState.pageCount}
+                                        disabled={isFetching}/>
                         </div>
                     </div>
                 </div>

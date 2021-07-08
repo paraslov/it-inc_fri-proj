@@ -18,7 +18,7 @@ export const PATH = {
     SET_NEW_PASSWORD: '/set-new-password/:token?',
     TESTS: '/tests',
     CARD_DECKS: '/card-decks',
-    CARDS: '/cards',
+    CARDS: '/cards/:packId?',
     NOT_FOUND: '/404'
 }
 

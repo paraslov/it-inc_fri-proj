@@ -1,6 +1,8 @@
 import {TAppState, TBaseThunk} from '../../n2-bll/store'
 import {cardDecksAPI, CardsParams, Pack} from '../../n3-api/card-decks_api'
-import {setAppError} from '../../n1-app/a1-app/app_reducer'
+import {setIsFetching} from '../../n1-app/a1-app/app_reducer'
+import {thunkErrorHandler} from '../../n4-common/helpers/thunk-error'
+import {thunkRequestHelper} from '../../n4-common/helpers/thunkRequestHelper'
 
 //* =============================================================== Initial state ===================================>>
 const initState: DecksStateType = {
@@ -27,61 +29,50 @@ export const cardDecksReducer = (state: DecksStateType = initState, action: TCar
 }
 
 //* =============================================================== Action creators =================================>>
-export const _setCardDecksAction = (payload: any) => ({type: 'para-slov/cardDecksReducer/SET_CARD_DECKS', payload} as const)
-export const _updateValues = (payload: SetValuesType) => ({type: 'para-slov/cardDecksReducer/UPDATE_VALUES', payload} as const)
+export const _setCardDecksAction = (payload: any) => ({
+    type: 'para-slov/cardDecksReducer/SET_CARD_DECKS',
+    payload
+} as const)
+export const _updateValues = (payload: SetValuesType) => ({
+    type: 'para-slov/cardDecksReducer/UPDATE_VALUES',
+    payload
+} as const)
 
 //* =============================================================== Thunk creators ==================================>>
 export const getCardDecksThunk = (params: CardsParams = {}): TThunk => (dispatch,
-     getState: () => TAppState) => {
-        const cardDecks = getState().cardDecks
-
-        const cardsParamsModel: CardsParams = {
-            packName: cardDecks.packName,
-            min: cardDecks.minCardsCount,
-            max: cardDecks.maxCardsCount,
-            sortPacks: cardDecks.sortPacks,
-            page: cardDecks.page,
-            pageCount: cardDecks.pageCount,
-            ...params
-        }
-        cardDecksAPI.getCards(cardsParamsModel)
-            .then(res => {
-                dispatch(_setCardDecksAction(res.data))
-            }).catch(error => {
-            dispatch(setAppError(error.response.data.error))
-        })
+                                                                        getState: () => TAppState) => {
+    dispatch(setIsFetching(true))
+    const cardDecks = getState().cardDecks
+    const cardsParamsModel: CardsParams = {
+        packName: cardDecks.packName,
+        min: cardDecks.minCardsCount,
+        max: cardDecks.maxCardsCount,
+        sortPacks: cardDecks.sortPacks,
+        page: cardDecks.page,
+        pageCount: cardDecks.pageCount,
+        ...params
     }
-
+    cardDecksAPI.getCards(cardsParamsModel)
+        .then(res => {
+            console.log(res.data)
+            dispatch(_setCardDecksAction(res.data))
+            dispatch(setIsFetching(false))
+        }).catch(error => {
+        thunkErrorHandler(error, dispatch)
+    })
+}
+const cardDecksRequestHelper = thunkRequestHelper(getCardDecksThunk)
 export const createDeckThunk = (): TThunk => dispatch => {
     const cardsPack = {name: 'Test Deck'}
-    cardDecksAPI.postCards(cardsPack)
-        .then(res =>
-            dispatch(getCardDecksThunk())
-        )
-        .catch(error => {
-            dispatch(setAppError(error.response.data.error))
-        })
+    cardDecksRequestHelper(cardDecksAPI.postCards, dispatch, cardsPack)
 }
 export const removeDeckThunk = (id: string): TThunk => dispatch => {
-    cardDecksAPI.removeCards(id)
-        .then(res => {
-                dispatch(getCardDecksThunk())
-            })
-        .catch(error => {
-            dispatch(setAppError(error.response.data.error))
-        })
+    cardDecksRequestHelper(cardDecksAPI.removeCards, dispatch, id)
 }
 
 export const updateValueThunk = (id: string): TThunk => dispatch => {
     const cardsPack = {_id: id, name: 'Updated Deck'}
-    cardDecksAPI.updateCards(cardsPack)
-        .then(res => {
-            console.log(res)
-            dispatch(getCardDecksThunk())
-        })
-        .catch(error => {
-            dispatch(setAppError(error.response.data.error))
-        })
+    cardDecksRequestHelper(cardDecksAPI.updateCards, dispatch, cardsPack)
 }
 
 //* =============================================================== Types ===========================================>>
@@ -108,6 +99,7 @@ export type SetValuesType = {
 }
 export type TCardDecksReducerActions =
     ReturnType<typeof _setCardDecksAction> |
-    ReturnType<typeof _updateValues>
+    ReturnType<typeof _updateValues> |
+    ReturnType<typeof setIsFetching>
 
 type TThunk = TBaseThunk<TCardDecksReducerActions>

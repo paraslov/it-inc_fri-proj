@@ -1,7 +1,8 @@
 //* ============================================================= Initial state =====================================>>
 import {TBaseThunk} from '../../n2-bll/store'
-import {loginAPI, UserData} from "../../n3-api/loginAPI";
-import {setAppError, setIsFetching} from "../../n1-app/a1-app/app_reducer";
+import {loginAPI, UserData} from '../../n3-api/loginAPI'
+import {setIsFetching} from '../../n1-app/a1-app/app_reducer'
+import {thunkErrorHandler} from '../../n4-common/helpers/thunk-error'
 
 const initState = {
     _id: '',
@@ -35,8 +36,7 @@ export const changeUserData = (userData: UserData):TThunk => dispatch => {
                 dispatch(setUserData(res.data.updatedUser))
                 dispatch(setIsFetching(false))
         }).catch(error => {
-            dispatch(setAppError(error.response.data.error))
-            dispatch(setIsFetching(false))
+            thunkErrorHandler(error, dispatch)
     })
 }
 

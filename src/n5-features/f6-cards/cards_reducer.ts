@@ -1,13 +1,13 @@
-import {TAppState, TBaseThunk} from '../../n2-bll/store'
+import {TBaseThunk} from '../../n2-bll/store'
 import {cardsAPI, TCardData, TCardUpdateData, TGetCardParams, TGetCardsResponseData} from '../../n3-api/cards_api'
 import {setIsFetching} from '../../n1-app/a1-app/app_reducer'
 import {thunkErrorHandler} from '../../n4-common/helpers/thunk-error'
-import {ThunkDispatch} from 'redux-thunk'
-import {TLoginReducerActions} from '../f1-login/login_reducer'
+import {thunkRequestHelper} from '../../n4-common/helpers/thunkRequestHelper'
 
 //* =============================================================== Initial state ===================================>>
 const initState = {
-    cardsPack_id: '60e3022aa8b1610004c03ce1',
+    packName: '',
+    cardsPack_id: '',
     cardAnswer: undefined as string | undefined,
     cardQuestion: undefined as string | undefined,
     sortCards: undefined as string | undefined,
@@ -26,6 +26,7 @@ export const cardsReducer = (state: TState = initState, action: TCardsReducerAct
     switch (action.type) {
         case 'para-slov/cardsReducer/SET_CARDS_STATE':
         case 'para-slov/cardsReducer/SET_GET_REQUEST_PARAMS':
+        case 'para-slov/cardsReducer/SET_PACK_NAME':
             return {...state, ...action.payload}
         default:
             return state
@@ -37,6 +38,8 @@ export const _setCardsState = (payload: TGetCardsResponseData) =>
     ({type: 'para-slov/cardsReducer/SET_CARDS_STATE', payload} as const)
 export const setGetRequestParams = (payload: TSetRequestParams) =>
     ({type: 'para-slov/cardsReducer/SET_GET_REQUEST_PARAMS', payload} as const)
+export const setPackName = (payload: { packName: string }) =>
+    ({type: 'para-slov/cardsReducer/SET_PACK_NAME', payload} as const)
 
 //* =============================================================== Thunk creators ==================================>>
 export const getCards = (): TThunk => (dispatch,
@@ -53,7 +56,6 @@ export const getCards = (): TThunk => (dispatch,
     }
     cardsAPI.getCards(newCardParams)
         .then(data => {
-            console.log(data)
             dispatch(_setCardsState(data))
             dispatch(setIsFetching(false))
         })
@@ -61,20 +63,7 @@ export const getCards = (): TThunk => (dispatch,
             thunkErrorHandler(error, dispatch)
         })
 }
-const cardsThunkRequestHelper = (apiMethod: (data?: any) => Promise<any>,
-                                 dispatch: ThunkDispatch<TAppState, any, TLoginReducerActions>,
-                                 data?: any) => {
-    dispatch(setIsFetching(true))
-    apiMethod(data)
-        .then(data => {
-            console.log(data)
-            dispatch(setIsFetching(false))
-            dispatch(getCards())
-        })
-        .catch(error => {
-            thunkErrorHandler(error, dispatch)
-        })
-}
+const cardsThunkRequestHelper = thunkRequestHelper(getCards)
 export const createCard = (cardData: TCardData): TThunk => dispatch => {
     cardsThunkRequestHelper(cardsAPI.createCard, dispatch, cardData)
 }
@@ -91,6 +80,7 @@ type TState = typeof initState
 export type TCardsReducerActions = ReturnType<typeof _setCardsState>
     | ReturnType<typeof setIsFetching>
     | ReturnType<typeof setGetRequestParams>
+    | ReturnType<typeof setPackName>
 
 type TThunk = TBaseThunk<TCardsReducerActions>
 
@@ -119,20 +109,3 @@ export type TSetRequestParams = {
     page?: number
     pageCount?: number
 }
-
-// My test pack info:
-// cardsCount: 0
-// created: "2021-07-05T12:59:22.538Z"
-// grade: 0
-// more_id: "60d6ab539fa2b22e6cdcf70c"
-// name: "Para Slov"
-// path: "/def"
-// private: false
-// rating: 0
-// shots: 0
-// type: "pack"
-// updated: "2021-07-05T12:59:22.538Z"
-// user_id: "60d6ab539fa2b22e6cdcf70c"
-// user_name: "JoyMe"
-// __v: 0
-// _id: "60e3022aa8b1610004c03ce1"

@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import s from './Cards.module.css'
 import {PATH} from '../../n1-app/a2-routes/Routes'
-import {NavLink} from 'react-router-dom'
+import {NavLink, Redirect, useParams} from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
 import {createCard, deleteCard, getCards, setGetRequestParams, TSetRequestParams, updateCard} from './cards_reducer'
 import SuperButton from '../../n4-common/components/Elements/e1-SuperButton/SuperButton'
@@ -10,7 +10,7 @@ import {
     selectCards,
     selectCardsPack_id,
     selectCardsTotalCount,
-    selectCurrentPage,
+    selectCurrentPage, selectPackName,
     selectPackUserId,
     selectPageCount
 } from '../../n2-bll/selectors/cards_selectors'
@@ -32,11 +32,14 @@ export const Cards = () => {
     const user_id = useSelector(selectUser_id)
     const packUserId = useSelector(selectPackUserId)
     // cards data
+    const packName = useSelector(selectPackName)
     const cards = useSelector(selectCards)
     const cardsTotalCount = useSelector(selectCardsTotalCount)
     // page data
     const currentPage = useSelector(selectCurrentPage)
     const pageCount = useSelector(selectPageCount)
+
+    const packIdParam = useParams<{ packId: string }>()
 
     // check if it's current user's deck of cards or not and renders Actions, edit and delete according to result
     const isUsersPack = packUserId === user_id
@@ -49,8 +52,8 @@ export const Cards = () => {
     }
     // if no packUserId is settled in redux, send request
     useEffect(() => {
-        if (!packUserId) dispatch(getCards())
-    }, [])
+        if(packIdParam.packId !== ':packId') setGetRequestParamsCallback({cardsPack_id: packIdParam.packId})
+    }, [packIdParam])
 
 
     //* ==================================  Callbacks  ============================================================>>
@@ -68,13 +71,15 @@ export const Cards = () => {
     const onPageNumberChange = (page: number) => setGetRequestParamsCallback({page})
     const onPageCountChange = (pageCount: number) => setGetRequestParamsCallback({pageCount})
 
+    if(packIdParam.packId === ':packId') return <Redirect to={PATH.CARD_DECKS}/>
+
     return (
         <div className={s.container}>
             {isFetching && <Preloader left={'40%'} top={'40%'} size={'100px'}/>}
             <div className={s.cardsContainer}>
                 <div className={s.title}>
                     <NavLink to={PATH.CARD_DECKS} className={s.arrow}>&larr;</NavLink>
-                    <h2>Pack Name</h2>
+                    <h2>{packName}</h2>
                 </div>
                 <div className={s.search}>
                     <SearchBar searchCallback={searchCard} disabled={isFetching}/>

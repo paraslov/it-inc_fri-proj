@@ -33,8 +33,8 @@ useEffect( () => {
 
     const formik = useFormik({
         initialValues: {
-            email: 'v@mail.ru',
-            password: '12345678',
+            email: 'tsfoe@mail.ru',
+            password: 'Fp777666',
             rememberMe: false,
         },
         validate: (values) => {

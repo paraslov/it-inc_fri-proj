@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {removeDeckThunk, updateValueThunk} from "./cardDecks_reducer";
 import {TAppState} from "../../n2-bll/store";
 import { NavLink } from 'react-router-dom';
+import {setPackName} from '../f6-cards/cards_reducer'
 
 type PropsType = {
     name: string
@@ -24,9 +25,12 @@ const CardDecksItem = ({name,cardsCount,updated,user_name, id, userId}: PropsTyp
     const updateNameHandler = () => {
         dispatch(updateValueThunk(id))
     }
+
+    const onNavLinkClick = () => dispatch(setPackName({packName: name}))
+
     return (
         <div className={s.table__body}>
-            <NavLink to={`/cards/${userId}`} className={s.table__link}>
+            <NavLink to={`/cards/${id}`} className={s.table__link} onClick={onNavLinkClick}>
                 <div className={s.table__item}>
                     {name}
                 </div>
