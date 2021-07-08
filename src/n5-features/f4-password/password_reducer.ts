@@ -1,6 +1,7 @@
 import {TBaseThunk} from '../../n2-bll/store'
 import {passwordAPI} from '../../n3-api/password_api'
-import {setAppError, setIsFetching} from '../../n1-app/a1-app/app_reducer'
+import {setIsFetching} from '../../n1-app/a1-app/app_reducer'
+import {thunkErrorHandler} from '../../n4-common/helpers/thunk-error'
 
 //* ============================================================= Initial state =====================================>>
 const initState = {
@@ -34,31 +35,25 @@ export const _setRestorationEmail = (restorationEmail: string) =>
 export const restorePassword = (email: string): TThunk => dispatch => {
     dispatch(setIsFetching(true))
     passwordAPI.restorePassword(email)
-        .then(data => {
-            console.log(data)
+        .then(() => {
             dispatch(_setIsRestoreSuccess(true))
             dispatch(setIsFetching(false))
             dispatch(_setRestorationEmail(email))
         })
         .catch(error => {
-            console.warn(error.response.data.error)
-            dispatch(setAppError(error.response.data.error))
-            dispatch(setIsFetching(false))
+            thunkErrorHandler(error, dispatch)
         })
 }
 export const setNewPassword = (password: string, token: string): TThunk => dispatch => {
     dispatch(setIsFetching(true))
     passwordAPI.setNewPassword({password, resetPasswordToken: token})
-        .then(data => {
-            console.log(data)
+        .then(()=> {
             dispatch(_setIsRestoreSuccess(false))
             dispatch(setIsFetching(false))
             dispatch(_setIsSetNewPasswordSuccess(true))
         })
         .catch(error => {
-            console.warn(error.response.data.error)
-            dispatch(setAppError(error.response.data.error))
-            dispatch(setIsFetching(false))
+            thunkErrorHandler(error, dispatch)
         })
 }
 

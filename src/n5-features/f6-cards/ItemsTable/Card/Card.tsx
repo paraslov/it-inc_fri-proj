@@ -15,10 +15,12 @@ type TCardProps = {
     deleteCardCallback: (cardId: string) => void
     updateCardCallback: (cardData: TCardUpdateData) => void
 }
+
 export const Card: React.FC<TCardProps> = (props) => {
     const {
         answer, cardId, question, updatedAt, grade, isUsersPack, isFetching, deleteCardCallback, updateCardCallback
     } = props
+    // hardcode data for edit card testing
     const editedCard: TCardUpdateData = {
         _id: cardId,
         question: 'Card is successfully updated? :)',

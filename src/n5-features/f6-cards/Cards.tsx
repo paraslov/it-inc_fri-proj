@@ -40,14 +40,14 @@ export const Cards = () => {
 
     // check if it's current user's deck of cards or not and renders Actions, edit and delete according to result
     const isUsersPack = packUserId === user_id
-    // hardcode new card data
+    // hardcode data for create card testing
     const newCard: TCardData = {
         cardsPack_id,
         question: 'card to delete/update',
         answer: 'no card, no answer.. =0_0=',
         grade: 4
     }
-    // if no user id settled in redux, send request
+    // if no packUserId is settled in redux, send request
     useEffect(() => {
         if (!packUserId) dispatch(getCards())
     }, [])
@@ -67,7 +67,6 @@ export const Cards = () => {
     // paginator callbacks
     const onPageNumberChange = (page: number) => setGetRequestParamsCallback({page})
     const onPageCountChange = (pageCount: number) => setGetRequestParamsCallback({pageCount})
-
 
     return (
         <div className={s.container}>

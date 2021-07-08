@@ -13,8 +13,10 @@ type TItemsTableProps = {
     deleteCallback: (cardId: string) => void
     updateCallback: (cardData: TCardUpdateData) => void
 }
+
 export const ItemsTable: React.FC<TItemsTableProps> = (props) => {
     const {items, isUsersPack, isFetching, sortCallback, deleteCallback, updateCallback} = props
+
     return (
         <div className={s.table}>
             <div className={s.card}>
