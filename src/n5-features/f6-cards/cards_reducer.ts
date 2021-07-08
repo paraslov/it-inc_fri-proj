@@ -1,6 +1,9 @@
-import {TBaseThunk} from '../../n2-bll/store'
+import {TAppState, TBaseThunk} from '../../n2-bll/store'
 import {cardsAPI, TCardData, TCardUpdateData, TGetCardParams, TGetCardsResponseData} from '../../n3-api/cards_api'
-import {setAppError, setIsFetching} from '../../n1-app/a1-app/app_reducer'
+import {setIsFetching} from '../../n1-app/a1-app/app_reducer'
+import {thunkErrorHandler} from '../../n4-common/helpers/thunk-error'
+import {ThunkDispatch} from 'redux-thunk'
+import {TLoginReducerActions} from '../f1-login/login_reducer'
 
 //* =============================================================== Initial state ===================================>>
 const initState = {
@@ -8,8 +11,6 @@ const initState = {
     cardAnswer: undefined as string | undefined,
     cardQuestion: undefined as string | undefined,
     sortCards: undefined as string | undefined,
-    min: undefined as string | undefined,
-    max: undefined as string | undefined,
     cards: [] as TCardType[],
     cardsTotalCount: 0,
     minGrade: 0,
@@ -24,7 +25,6 @@ const initState = {
 export const cardsReducer = (state: TState = initState, action: TCardsReducerActions): TState => {
     switch (action.type) {
         case 'para-slov/cardsReducer/SET_CARDS_STATE':
-            return {...state, ...action.payload}
         case 'para-slov/cardsReducer/SET_GET_REQUEST_PARAMS':
             return {...state, ...action.payload}
         default:
@@ -39,7 +39,8 @@ export const setGetRequestParams = (payload: TSetRequestParams) =>
     ({type: 'para-slov/cardsReducer/SET_GET_REQUEST_PARAMS', payload} as const)
 
 //* =============================================================== Thunk creators ==================================>>
-export const getCards = (): TThunk => (dispatch, getState) => {
+export const getCards = (): TThunk => (dispatch,
+                                       getState) => {
     dispatch(setIsFetching(true))
     const cards = getState().cards
     const newCardParams: TGetCardParams = {
@@ -57,48 +58,31 @@ export const getCards = (): TThunk => (dispatch, getState) => {
             dispatch(setIsFetching(false))
         })
         .catch(error => {
-            dispatch(setAppError(error.response.data.error))
+            thunkErrorHandler(error, dispatch)
+        })
+}
+const cardsThunkRequestHelper = (apiMethod: (data?: any) => Promise<any>,
+                                 dispatch: ThunkDispatch<TAppState, any, TLoginReducerActions>,
+                                 data?: any) => {
+    dispatch(setIsFetching(true))
+    apiMethod(data)
+        .then(data => {
+            console.log(data)
             dispatch(setIsFetching(false))
+            dispatch(getCards())
+        })
+        .catch(error => {
+            thunkErrorHandler(error, dispatch)
         })
 }
 export const createCard = (cardData: TCardData): TThunk => dispatch => {
-    dispatch(setIsFetching(true))
-    cardsAPI.createCard(cardData)
-        .then(data => {
-            console.log(data)
-            dispatch(setIsFetching(false))
-            dispatch(getCards())
-        })
-        .catch(error => {
-            dispatch(setAppError(error.response.data.error))
-            dispatch(setIsFetching(false))
-        })
+    cardsThunkRequestHelper(cardsAPI.createCard, dispatch, cardData)
 }
 export const deleteCard = (cardId: string): TThunk => dispatch => {
-    dispatch(setIsFetching(true))
-    cardsAPI.deleteCard(cardId)
-        .then(data => {
-            console.log(data)
-            dispatch(setIsFetching(false))
-            dispatch(getCards())
-        })
-        .catch(error => {
-            dispatch(setAppError(error.response.data.error))
-            dispatch(setIsFetching(false))
-        })
+    cardsThunkRequestHelper(cardsAPI.deleteCard, dispatch, cardId)
 }
 export const updateCard = (cardData: TCardUpdateData): TThunk => dispatch => {
-    dispatch(setIsFetching(true))
-    cardsAPI.updateCard(cardData)
-        .then(data => {
-            console.log(data)
-            dispatch(setIsFetching(false))
-            dispatch(getCards())
-        })
-        .catch(error => {
-            dispatch(setAppError(error.response.data.error))
-            dispatch(setIsFetching(false))
-        })
+    cardsThunkRequestHelper(cardsAPI.updateCard, dispatch, cardData)
 }
 
 //* =============================================================== Types ===========================================>>
@@ -131,14 +115,12 @@ export type TSetRequestParams = {
     cardsPack_id?: string
     cardAnswer?: string
     cardQuestion?: string
-    min?: string
-    max?: string
     sortCards?: string
     page?: number
     pageCount?: number
 }
 
-
+// My test pack info:
 // cardsCount: 0
 // created: "2021-07-05T12:59:22.538Z"
 // grade: 0

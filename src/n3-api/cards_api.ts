@@ -40,20 +40,13 @@ export type TGetCardParams = {
     pageCount?: string
 }
 
-export type TCardData = {
+export type TCardData = TCommonCardDataUpdateCardData & {
     cardsPack_id: string
-    question?: string
-    answer?: string
-    grade?: number
-    shots?: number
-    answerImg?: string
-    questionImg?: string
-    questionVideo?: string
-    answerVideo?: string
 }
-
-export type TCardUpdateData = {
+export type TCardUpdateData =TCommonCardDataUpdateCardData & {
     _id: string
+}
+type TCommonCardDataUpdateCardData = {
     question?: string
     answer?: string
     grade?: number

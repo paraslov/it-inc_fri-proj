@@ -7,11 +7,12 @@ type TSearchBarProps = {
     disabled?: boolean
 }
 
-export const SearchBar: React.FC<TSearchBarProps> = ({searchCallback, disabled= false}) => {
+export const SearchBar: React.FC<TSearchBarProps> = ({searchCallback, disabled = false}) => {
 
     const [searchText, setSearchText] = useState('')
+
     const onEnterCB = () => {
-        if(!disabled) {
+        if (!disabled) {
             searchCallback(searchText)
         }
     }
@@ -21,7 +22,7 @@ export const SearchBar: React.FC<TSearchBarProps> = ({searchCallback, disabled= 
             <SuperInputText className={s.searchBarInput}
                             placeholder={'Search...'}
                             onChangeText={setSearchText}
-                onEnter={onEnterCB}/>
+                            onEnter={onEnterCB}/>
             <button className={s.searchBarBtn} onClick={() => searchCallback(searchText)} disabled={disabled}/>
         </div>
     )
