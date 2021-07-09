@@ -23,7 +23,7 @@ import {SelectPage} from '../../n4-common/components/c7-SelectPage/SelectPage'
 import {ItemsTable} from './ItemsTable/ItemsTable'
 
 
-export const Cards = () => {
+export const Cards = React.memo(() => {
     //* ==================================  Data  =================================================================>>
     const dispatch = useDispatch()
     const isFetching = useSelector(selectIsFetching)
@@ -105,7 +105,7 @@ export const Cards = () => {
             </div>
         </div>
     )
-}
+})
 
 
 
