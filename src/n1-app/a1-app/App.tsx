@@ -17,7 +17,7 @@ export const App = () => {
 
     useEffect(() => {
         if(!isInitialized) dispatch(initializeApp())
-    }, [dispatch])
+    }, [dispatch, isInitialized])
 
     // if app is not initialized yet show preloader
     if (!isInitialized) return <Preloader left={'40%'} top={'40%'} size={'200px'}/>
@@ -27,7 +27,7 @@ export const App = () => {
             <div className="App">
                 <NavBar/>
                 <Routes/>
-                <h6>FP.v.2.05</h6>
+                <h6>FP.v.2.07</h6>
                 {error && <ErrorMessage>{error}</ErrorMessage>}
             </div>
         </HashRouter>

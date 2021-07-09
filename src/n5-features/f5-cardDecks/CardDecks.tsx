@@ -1,10 +1,11 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useCallback, useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {
     _updateValues,
     createDeckThunk,
     DecksStateType,
     getCardDecksThunk,
+    setMinMaxCardsSearchParams,
     SetValuesType
 } from './cardDecks_reducer'
 import s from './CardDecks.module.css'
@@ -21,20 +22,22 @@ import {Preloader} from '../../n4-common/components/c2-Preloader/Preloader'
 
 
 export const CardDecks = () => {
-    const [active, setActive] = useState([false, true])
     const userId = useSelector<TAppState, string>(state => state.profile._id)
+    const user_id = useSelector<TAppState, string>(state => state.cardDecks.user_id)
     const decks = useSelector<TAppState, Pack[]>(state => state.cardDecks.cardPacks)
     const decksState = useSelector<TAppState, DecksStateType>(state => state.cardDecks)
     const isFetching = useSelector<TAppState, boolean>(state => state.app.isFetching)
     const dispatch = useDispatch()
 
+    const minParam = useSelector<TAppState, number>(state => state.cardDecks.minParam)
+    const maxParam = useSelector<TAppState, number>(state => state.cardDecks.maxParam)
+
     useEffect(() => {
         dispatch(getCardDecksThunk())
-    }, [])
+    }, [dispatch])
 
     const getAllCardsHandler = () => {
-        dispatch(getCardDecksThunk())
-        setActive([false, true])
+        setParams({minCardsCount: minParam, maxCardsCount: maxParam, user_id: ''})
     }
 
     const addPackHandler = () => {
@@ -53,20 +56,19 @@ export const CardDecks = () => {
 
     const showMyDecksHandler = () => {
         if (userId !== '') {
-            dispatch(getCardDecksThunk({user_id: userId}))
-            setActive([true, false])
+            setParams({minCardsCount: minParam, maxCardsCount: maxParam, user_id: userId})
         }
     }
 
     let timeoutId: NodeJS.Timeout
     const getMinMaxValues = useCallback((min: number, max: number) => {
         clearTimeout(timeoutId)
+        if (minParam !== min || maxParam !== max) {
             timeoutId = setTimeout(() => {
+                dispatch(setMinMaxCardsSearchParams({minParam: min, maxParam: max}))
                 setParams({minCardsCount: min, maxCardsCount: max})
-                // dispatch(_updateValues({minCardsCount: min, maxCardsCount: max}))
-                // dispatch(getCardDecksThunk())
             }, 1000)
-
+        }
     }, [])
 
     return (
@@ -76,13 +78,20 @@ export const CardDecks = () => {
                 <div className={s.main__block_menu}>
                     <h3>Show packs cards</h3>
                     <div className={s.show__packs_btn_group}>
-                        <button disabled={isFetching} onClick={showMyDecksHandler} className={active[0] ? s.active : ''}>My</button>
-                        <button disabled={isFetching} onClick={getAllCardsHandler} className={active[1] ? s.active : ''}>All</button>
+                        <button disabled={isFetching} onClick={showMyDecksHandler}
+                                className={user_id ? s.active : ''}>My
+                        </button>
+                        <button disabled={isFetching} onClick={getAllCardsHandler}
+                                className={user_id ? '' : s.active}>All
+                        </button>
                     </div>
                     <h3>Number of cards</h3>
                     <MultiRangeSlider
                         min={0}
                         max={103}
+                        currentMin={minParam}
+                        currentMax={maxParam}
+                        disabled={isFetching}
                         onChange={getMinMaxValues}/>
                 </div>
                 <div className={s.main__block_pack_list}>

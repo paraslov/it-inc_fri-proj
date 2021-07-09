@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useCallback, useEffect} from 'react'
 import s from './Cards.module.css'
 import {PATH} from '../../n1-app/a2-routes/Routes'
 import {NavLink, Redirect, useParams} from 'react-router-dom'
@@ -50,26 +50,25 @@ export const Cards = () => {
         answer: 'no card, no answer.. =0_0=',
         grade: 4
     }
-    // if no packUserId is settled in redux, send request
-    useEffect(() => {
-        if(packIdParam.packId !== ':packId') setGetRequestParamsCallback({cardsPack_id: packIdParam.packId})
-    }, [packIdParam])
-
-
     //* ==================================  Callbacks  ============================================================>>
     const createCardCallback = () => dispatch(createCard(newCard))
     const deleteCardCallback = (cardId: string) => dispatch(deleteCard(cardId))
     const updateCardCallback = (cardData: TCardUpdateData) => dispatch(updateCard(cardData))
     // helper for all kind of searching and sorting operations
-    const setGetRequestParamsCallback = (requestParams: TSetRequestParams) => {
+    const setGetRequestParamsCallback = useCallback((requestParams: TSetRequestParams) => {
         dispatch(setGetRequestParams(requestParams))
         dispatch(getCards())
-    }
+    }, [dispatch])
     const searchCard = (searchText: string) => setGetRequestParamsCallback({cardQuestion: searchText})
     const sortCards = (param: string) => setGetRequestParamsCallback({sortCards: param})
     // paginator callbacks
     const onPageNumberChange = (page: number) => setGetRequestParamsCallback({page})
     const onPageCountChange = (pageCount: number) => setGetRequestParamsCallback({pageCount})
+
+    // if no packUserId is settled in redux, send request
+    useEffect(() => {
+        if(packIdParam.packId !== ':packId') setGetRequestParamsCallback({cardsPack_id: packIdParam.packId})
+    }, [packIdParam, setGetRequestParamsCallback])
 
     if(packIdParam.packId === ':packId') return <Redirect to={PATH.CARD_DECKS}/>
 
@@ -83,7 +82,7 @@ export const Cards = () => {
                 </div>
                 <div className={s.search}>
                     <SearchBar searchCallback={searchCard} disabled={isFetching}/>
-                    <SuperButton onClick={createCardCallback} disabled={isFetching}>Add new card</SuperButton>
+                    {isUsersPack && <SuperButton onClick={createCardCallback} disabled={isFetching}>Add new card</SuperButton>}
                 </div>
                 <ItemsTable items={cards}
                             isUsersPack={isUsersPack}

@@ -32,9 +32,8 @@ const CardDecksItem = ({name,cardsCount,updated,user_name, id, userId}: PropsTyp
 
     return (
         <div className={s.table__body}>
-            <NavLink to={`/cards/${id}`} className={s.table__link} onClick={onNavLinkClick}>
                 <div className={s.table__item}>
-                    {name}
+                    <NavLink to={`/cards/${id}`} className={s.table__link} onClick={onNavLinkClick}>{name}</NavLink>
                 </div>
                 <div className={s.table__item}>
                     {cardsCount}
@@ -45,12 +44,12 @@ const CardDecksItem = ({name,cardsCount,updated,user_name, id, userId}: PropsTyp
                 <div className={s.table__item}>
                     {user_name}
                 </div>
-            </NavLink>
             <div className={s.table__item +' '+ s.btn__group}>
                 {user_id === userId ?
                     <SuperButton
-                        className={s.actionBtn +' '+ s.alert}
+                        className={s.actionBtn}
                         disabled={isFetching}
+                        red
                         onClick={removeDeckHandler}>Delete</SuperButton> : null}
                 <SuperButton
                     className={s.actionBtn}

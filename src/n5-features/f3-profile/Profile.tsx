@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {TAppState} from '../../n2-bll/store'
-import {authThunk, logoutThunk} from '../f1-login/login_reducer'
+import {logoutThunk} from '../f1-login/login_reducer'
 import {PATH} from '../../n1-app/a2-routes/Routes'
 import {Redirect} from 'react-router-dom'
 import SuperButton from '../../n4-common/components/Elements/e1-SuperButton/SuperButton'
@@ -30,7 +30,7 @@ export const Profile = () => {
             // and as a result we have two auth/me requests.
             // dispatch(authThunk())
         }
-    }, [])
+    }, [isAuth])
 
 // setting start values for local state
     useEffect(() => {

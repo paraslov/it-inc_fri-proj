@@ -8,21 +8,24 @@ import {thunkRequestHelper} from '../../n4-common/helpers/thunkRequestHelper'
 const initState: DecksStateType = {
     cardPacks: [],
     cardPacksTotalCount: 0,
-    minCardsCount: 1,
-    maxCardsCount: 10,
+    minCardsCount: 0,
+    maxCardsCount: 103,
     page: 0,
     pageCount: 10,
     token: '',
     tokenDeathTime: 0,
     sortPacks: '',
-    packName: ''
+    packName: '',
+    minParam: 0,
+    maxParam: 103,
+    user_id: ''
 }
 
 export const cardDecksReducer = (state: DecksStateType = initState, action: TCardDecksReducerActions): DecksStateType => {
     switch (action.type) {
         case 'para-slov/cardDecksReducer/SET_CARD_DECKS':
-            // return {...state, ...action.payload}
         case 'para-slov/cardDecksReducer/UPDATE_VALUES':
+        case 'para-slov/cardDecksReducer/SET_MIN_MAX_SEARCH_PARAMS':
             return {...state, ...action.payload}
         default:
             return state
@@ -38,6 +41,10 @@ export const _updateValues = (payload: SetValuesType) => ({
     type: 'para-slov/cardDecksReducer/UPDATE_VALUES',
     payload
 } as const)
+export const setMinMaxCardsSearchParams = (payload: { minParam: number, maxParam: number }) => ({
+    type: 'para-slov/cardDecksReducer/SET_MIN_MAX_SEARCH_PARAMS',
+    payload
+} as const)
 
 //* =============================================================== Thunk creators ==================================>>
 export const getCardDecksThunk = (params: CardsParams = {}): TThunk => (dispatch,
@@ -46,11 +53,12 @@ export const getCardDecksThunk = (params: CardsParams = {}): TThunk => (dispatch
     const cardDecks = getState().cardDecks
     const cardsParamsModel: CardsParams = {
         packName: cardDecks.packName,
-        min: cardDecks.minCardsCount,
-        max: cardDecks.maxCardsCount,
+        min: cardDecks.minParam,
+        max: cardDecks.maxParam,
         sortPacks: cardDecks.sortPacks,
         page: cardDecks.page,
         pageCount: cardDecks.pageCount,
+        user_id: cardDecks.user_id,
         ...params
     }
     cardDecksAPI.getCards(cardsParamsModel)
@@ -87,7 +95,10 @@ export type DecksStateType = {
     maxCardsCount: number,
     sortPacks: string,
     token: string,
-    tokenDeathTime: number
+    tokenDeathTime: number,
+    minParam: number,
+    maxParam: number,
+    user_id: string
 }
 export type SetValuesType = {
     minCardsCount?: number,
@@ -95,11 +106,13 @@ export type SetValuesType = {
     sortPacks?: string,
     page?: number,
     pageCount?: number,
-    packName?: string
+    packName?: string,
+    user_id?: string
 }
 export type TCardDecksReducerActions =
     ReturnType<typeof _setCardDecksAction> |
     ReturnType<typeof _updateValues> |
-    ReturnType<typeof setIsFetching>
+    ReturnType<typeof setIsFetching> |
+    ReturnType<typeof setMinMaxCardsSearchParams>
 
 type TThunk = TBaseThunk<TCardDecksReducerActions>

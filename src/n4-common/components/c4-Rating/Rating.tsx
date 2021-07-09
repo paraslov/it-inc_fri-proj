@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Rating: React.FC<{ rating: number }> = ({rating: rating}) => {
+export const Rating: React.FC<{ rating: number }> = ({rating}) => {
     return (
         <div>
             {rating < 1 && <span>&#9734;&#9734;&#9734;&#9734;&#9734;</span>}

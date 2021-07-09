@@ -29,7 +29,7 @@ export const Login = React.memo(() => {
 useEffect( () => {
     dispatch(setIsFetchingRegisterAction(false))
     dispatch(_setIsSetNewPasswordSuccess(false))
-}, [])
+}, [dispatch])
 
     const formik = useFormik({
         initialValues: {

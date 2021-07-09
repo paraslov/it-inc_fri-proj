@@ -11,7 +11,7 @@ button:hover {
 
 .main__block {
     overflow: hidden;
-    width: 80vw;
+    width: 1068px;
     background: rgba(254, 254, 255, 1);
     border-radius: 8px;
     display: flex;

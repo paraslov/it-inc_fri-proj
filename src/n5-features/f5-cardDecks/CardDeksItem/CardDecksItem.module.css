@@ -7,10 +7,13 @@ button:hover {
 }
 .table__body, .table__link {
     display: flex;
-
     width: 100%;
     height: 48px;
     z-index: 9999;
+}
+
+.table__link {
+    cursor: pointer;
 }
 
 
@@ -50,9 +53,5 @@ button:hover {
 
 .actionBtn + .actionBtn {
     margin-left: 5px;
-}
-
-.alert {
-    background-color: red!important;
 }
 
