@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/it-inc_fri-proj/static/css/main.4f24dfc3.chunk.css",
-    "main.js": "/it-inc_fri-proj/static/js/main.21457ad8.chunk.js",
-    "main.js.map": "/it-inc_fri-proj/static/js/main.21457ad8.chunk.js.map",
-    "runtime-main.js": "/it-inc_fri-proj/static/js/runtime-main.52f264e7.js",
-    "runtime-main.js.map": "/it-inc_fri-proj/static/js/runtime-main.52f264e7.js.map",
-    "static/js/2.be870f3e.chunk.js": "/it-inc_fri-proj/static/js/2.be870f3e.chunk.js",
-    "static/js/2.be870f3e.chunk.js.map": "/it-inc_fri-proj/static/js/2.be870f3e.chunk.js.map",
-    "static/js/3.3219c649.chunk.js": "/it-inc_fri-proj/static/js/3.3219c649.chunk.js",
-    "static/js/3.3219c649.chunk.js.map": "/it-inc_fri-proj/static/js/3.3219c649.chunk.js.map",
+    "main.css": "/it-inc_fri-proj/static/css/main.b10e1e8d.chunk.css",
+    "main.js": "/it-inc_fri-proj/static/js/main.b4fe0027.chunk.js",
+    "main.js.map": "/it-inc_fri-proj/static/js/main.b4fe0027.chunk.js.map",
+    "runtime-main.js": "/it-inc_fri-proj/static/js/runtime-main.5b50cb35.js",
+    "runtime-main.js.map": "/it-inc_fri-proj/static/js/runtime-main.5b50cb35.js.map",
+    "static/js/2.0fd9bbc4.chunk.js": "/it-inc_fri-proj/static/js/2.0fd9bbc4.chunk.js",
+    "static/js/2.0fd9bbc4.chunk.js.map": "/it-inc_fri-proj/static/js/2.0fd9bbc4.chunk.js.map",
+    "static/js/3.87be058b.chunk.js": "/it-inc_fri-proj/static/js/3.87be058b.chunk.js",
+    "static/js/3.87be058b.chunk.js.map": "/it-inc_fri-proj/static/js/3.87be058b.chunk.js.map",
     "index.html": "/it-inc_fri-proj/index.html",
-    "static/css/main.4f24dfc3.chunk.css.map": "/it-inc_fri-proj/static/css/main.4f24dfc3.chunk.css.map",
-    "static/js/2.be870f3e.chunk.js.LICENSE.txt": "/it-inc_fri-proj/static/js/2.be870f3e.chunk.js.LICENSE.txt",
+    "static/css/main.b10e1e8d.chunk.css.map": "/it-inc_fri-proj/static/css/main.b10e1e8d.chunk.css.map",
+    "static/js/2.0fd9bbc4.chunk.js.LICENSE.txt": "/it-inc_fri-proj/static/js/2.0fd9bbc4.chunk.js.LICENSE.txt",
     "static/media/eye.1cfae06c.svg": "/it-inc_fri-proj/static/media/eye.1cfae06c.svg",
     "static/media/eyeOff.e7937c4d.svg": "/it-inc_fri-proj/static/media/eyeOff.e7937c4d.svg",
     "static/media/preloader1.af17ae06.gif": "/it-inc_fri-proj/static/media/preloader1.af17ae06.gif"
   },
   "entrypoints": [
-    "static/js/runtime-main.52f264e7.js",
-    "static/js/2.be870f3e.chunk.js",
-    "static/css/main.4f24dfc3.chunk.css",
-    "static/js/main.21457ad8.chunk.js"
+    "static/js/runtime-main.5b50cb35.js",
+    "static/js/2.0fd9bbc4.chunk.js",
+    "static/css/main.b10e1e8d.chunk.css",
+    "static/js/main.b4fe0027.chunk.js"
   ]
 }
