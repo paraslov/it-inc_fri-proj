@@ -51,10 +51,10 @@ const CardDecksItem = ({name,cardsCount,updated,user_name, id, userId}: PropsTyp
                         disabled={isFetching}
                         red
                         onClick={removeDeckHandler}>Delete</SuperButton> : null}
-                <SuperButton
+                {user_id === userId ? <SuperButton
                     className={s.actionBtn}
                     disabled={isFetching}
-                    onClick={updateNameHandler}>Edit</SuperButton>
+                    onClick={updateNameHandler}>Edit</SuperButton> : null}
                 <SuperButton
                     className={s.actionBtn}
                     disabled={isFetching} >Learn</SuperButton>
