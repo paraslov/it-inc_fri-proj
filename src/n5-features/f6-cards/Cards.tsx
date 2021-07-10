@@ -7,6 +7,7 @@ import {createCard, deleteCard, getCards, setGetRequestParams, TSetRequestParams
 import SuperButton from '../../n4-common/components/Elements/e1-SuperButton/SuperButton'
 import {TCardData, TCardUpdateData} from '../../n3-api/cards_api'
 import {
+    selectCardQuestion,
     selectCards,
     selectCardsPack_id,
     selectCardsTotalCount,
@@ -35,6 +36,7 @@ export const Cards = () => {
     const packName = useSelector(selectPackName)
     const cards = useSelector(selectCards)
     const cardsTotalCount = useSelector(selectCardsTotalCount)
+    const cardQuestion = useSelector(selectCardQuestion)
     // page data
     const currentPage = useSelector(selectCurrentPage)
     const pageCount = useSelector(selectPageCount)
@@ -81,7 +83,7 @@ export const Cards = () => {
                     <h2>{packName}</h2>
                 </div>
                 <div className={s.search}>
-                    <SearchBar searchCallback={searchCard} disabled={isFetching}/>
+                    <SearchBar searchCallback={searchCard} disabled={isFetching} searchTextRequest={cardQuestion}/>
                     {isUsersPack && <SuperButton onClick={createCardCallback} disabled={isFetching}>Add new card</SuperButton>}
                 </div>
                 <ItemsTable items={cards}

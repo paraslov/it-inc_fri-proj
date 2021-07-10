@@ -4,12 +4,17 @@ import SuperInputText from '../Elements/e3-SuperInputText/SuperInputText'
 
 type TSearchBarProps = {
     searchCallback: (searchText: string) => void
+    /**
+     * param to connect FLUX to redux, if needed.
+     */
+    searchTextRequest?: string
     disabled?: boolean
 }
 
-export const SearchBar: React.FC<TSearchBarProps> = ({searchCallback, disabled = false}) => {
+export const SearchBar: React.FC<TSearchBarProps> = ({searchCallback, searchTextRequest = '',
+                                                         disabled = false}) => {
 
-    const [searchText, setSearchText] = useState('')
+    const [searchText, setSearchText] = useState(searchTextRequest)
 
     const onEnterCB = () => {
         if (!disabled) {
@@ -22,6 +27,7 @@ export const SearchBar: React.FC<TSearchBarProps> = ({searchCallback, disabled =
             <SuperInputText className={s.searchBarInput}
                             placeholder={'Search...'}
                             onChangeText={setSearchText}
+                            value={searchText}
                             onEnter={onEnterCB}/>
             <button className={s.searchBarBtn} onClick={() => searchCallback(searchText)} disabled={disabled}/>
         </div>

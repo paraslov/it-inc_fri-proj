@@ -14,6 +14,8 @@ button:hover {
 
 .table__link {
     cursor: pointer;
+    color: #21268F;
+    font-size: 14px;
 }
 
 

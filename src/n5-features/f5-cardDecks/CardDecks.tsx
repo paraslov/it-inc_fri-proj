@@ -52,7 +52,7 @@ export const CardDecks = () => {
     const pageNumberRequest = (page: number) => setParams({page})
     const onChangePageCount = (pageCount: number) => setParams({pageCount})
     const sortCards = (param: string) => setParams({sortPacks: param})
-    const searchCard = (searchText: string) => setParams({packName: searchText})
+    const searchPack = (searchText: string) => setParams({packName: searchText})
 
     const showMyDecksHandler = () => {
         if (userId !== '') {
@@ -98,7 +98,7 @@ export const CardDecks = () => {
                     <div className={s.packs__header}>
                         <h3>Pack list</h3>
                         <div className={s.packs__header_wrapper}>
-                            <SearchBar searchCallback={searchCard} disabled={isFetching}/>
+                            <SearchBar searchCallback={searchPack} disabled={isFetching} searchTextRequest={decksState.packName}/>
                             <SuperButton disabled={isFetching} onClick={addPackHandler}>
                                 Add new pack
                             </SuperButton>
