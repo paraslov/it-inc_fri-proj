@@ -108,9 +108,11 @@ export const CardDecks = () => {
                         <div className={s.table__header}>
                             <div className={s.table__item}>
                                 Name
+                                <SortArrow sortValue={'name'} onClick={sortCards} isFetching={isFetching}/>
                             </div>
                             <div className={s.table__item}>
                                 Cards
+                                <SortArrow sortValue={'cardsCount'} onClick={sortCards} isFetching={isFetching}/>
                             </div>
                             <div className={s.table__item}>
                                 <div className={s.table__item_wrapper}>
@@ -121,6 +123,7 @@ export const CardDecks = () => {
                             </div>
                             <div className={s.table__item}>
                                 Created by
+                                <SortArrow sortValue={'user_name'} onClick={sortCards} isFetching={isFetching}/>
                             </div>
                             <div className={s.table__item}>
                                 Actions
