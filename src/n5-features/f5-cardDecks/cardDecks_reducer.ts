@@ -77,9 +77,8 @@ export const removeDeckThunk = (id: string): TThunk => dispatch => {
     cardDecksRequestHelper(cardDecksAPI.removeCards, dispatch, id)
 }
 
-export const updateValueThunk = (id: string): TThunk => dispatch => {
-    const cardsPack = {_id: id, name: 'Updated Deck'}
-    cardDecksRequestHelper(cardDecksAPI.updateCards, dispatch, cardsPack)
+export const updateValueThunk = (_id: string, name: string): TThunk => dispatch => {
+    cardDecksRequestHelper(cardDecksAPI.updateCards, dispatch, {_id, name})
 }
 
 //* =============================================================== Types ===========================================>>
