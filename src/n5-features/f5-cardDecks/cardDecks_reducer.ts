@@ -70,9 +70,8 @@ export const getCardDecksThunk = (params: CardsParams = {}): TThunk => (dispatch
     })
 }
 const cardDecksRequestHelper = thunkRequestHelper(getCardDecksThunk)
-export const createDeckThunk = (): TThunk => dispatch => {
-    const cardsPack = {name: 'Test Deck'}
-    cardDecksRequestHelper(cardDecksAPI.postCards, dispatch, cardsPack)
+export const createDeckThunk = (name: string): TThunk => dispatch => {
+    cardDecksRequestHelper(cardDecksAPI.postCards, dispatch, {name})
 }
 export const removeDeckThunk = (id: string): TThunk => dispatch => {
     cardDecksRequestHelper(cardDecksAPI.removeCards, dispatch, id)

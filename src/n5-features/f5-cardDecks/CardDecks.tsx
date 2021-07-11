@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {
     _updateValues,
@@ -19,10 +19,14 @@ import {SelectPage} from '../../n4-common/components/c7-SelectPage/SelectPage'
 import {SortArrow} from '../../n4-common/components/c8-SortArrow/SortArrow'
 import {SearchBar} from '../../n4-common/components/c5-SearchBar/SearchBar'
 import {Preloader} from '../../n4-common/components/c2-Preloader/Preloader'
-
-
+import Modal from "../../n4-common/components/c6-Modal/Modal";
+import SuperInputText from "../../n4-common/components/Elements/e3-SuperInputText/SuperInputText";
 
 export const CardDecks = () => {
+    const [shownModal, setShownModal] = useState(false)
+    const [nameOfPack, setNameOfPack] = useState('')
+
+
     const userId = useSelector<TAppState, string>(state => state.profile._id)
     const user_id = useSelector<TAppState, string>(state => state.cardDecks.user_id)
     const decks = useSelector<TAppState, Pack[]>(state => state.cardDecks.cardPacks)
@@ -42,7 +46,11 @@ export const CardDecks = () => {
     }
 
     const addPackHandler = () => {
-        dispatch(createDeckThunk())
+        if(nameOfPack.length) {
+            dispatch(createDeckThunk(nameOfPack))
+            setShownModal(false)
+            setNameOfPack('')
+        }
     }
 
     const setParams = (requestParams: SetValuesType) => {
@@ -72,9 +80,12 @@ export const CardDecks = () => {
         }
     }, [])
 
+
     return (
         <div className={s.wrapper}>
             {isFetching && <Preloader left={'40%'} top={'40%'} size={'100px'}/>}
+            <AddNewPackModal open={shownModal} close={() => setShownModal(false)} value={nameOfPack}
+                             onChange={(e) => setNameOfPack(e.currentTarget.value)} onClick={addPackHandler}/>
             <div className={s.main__block}>
                 <div className={s.main__block_menu}>
                     <h3>Show packs cards</h3>
@@ -99,8 +110,9 @@ export const CardDecks = () => {
                     <div className={s.packs__header}>
                         <h3>Pack list</h3>
                         <div className={s.packs__header_wrapper}>
-                            <SearchBar searchCallback={searchPack} disabled={isFetching} searchTextRequest={decksState.packName}/>
-                            <SuperButton disabled={isFetching} onClick={addPackHandler}>
+                            <SearchBar searchCallback={searchPack} disabled={isFetching}
+                                       searchTextRequest={decksState.packName}/>
+                            <SuperButton disabled={isFetching} onClick={() => setShownModal(true)}>
                                 Add new pack
                             </SuperButton>
                         </div>
@@ -157,3 +169,33 @@ export const CardDecks = () => {
         </div>
     )
 }
+
+
+type ModalType = {
+    open: boolean,
+    close: () => void,
+    value: string,
+    onChange: (e: any) => void,
+    onClick: () => void
+}
+
+const AddNewPackModal: React.FC<ModalType> =(
+    {open, close, value, onChange, onClick}
+) => {
+        return <Modal title={"Add new pack"} isOpen={open} close={close}>
+            <SuperInputText label={"Name of pack"}
+                            value={value}
+                            onChange={onChange}/>
+            <div>
+                <SuperButton width={"100px"}
+                             onClick={close}>
+                    Cancel
+                </SuperButton>
+                <SuperButton width={"100px"} onClick={onClick}>
+                    Save
+                </SuperButton>
+            </div>
+        </Modal>;
+}
+
+
