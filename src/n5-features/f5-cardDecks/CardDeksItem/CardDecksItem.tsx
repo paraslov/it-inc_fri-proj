@@ -84,9 +84,8 @@ const CardDecksItem = ({name, cardsCount, updated, user_name, id, userId}: Props
                     className={s.actionBtn}
                     disabled={isFetching}
                     onClick={() => setShownUpdateModal(true)}>Edit</SuperButton> : null}
-                <SuperButton
-                    className={s.actionBtn}
-                    disabled={isFetching}>Learn</SuperButton>
+                <NavLink to={`/learn/${id}`}
+                    className={s.actionBtn + ' ' + s.actionLinkBtn}>Learn</NavLink>
             </div>
         </div>
 

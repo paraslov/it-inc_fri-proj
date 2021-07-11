@@ -1,0 +1,14 @@
+.question, .answer {
+    justify-content: start!important;
+}
+
+.question span, .answer > span {
+    margin-right: 10px;
+    font-weight: 700;
+}
+
+.radio__block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start!important;
+}

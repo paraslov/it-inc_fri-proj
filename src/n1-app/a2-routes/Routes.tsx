@@ -8,6 +8,7 @@ import {Tests} from '../../n6-tests_and_trash/t1-tests/Tests'
 import Registration from '../../n5-features/f2-registration/Registration';
 import {CardDecks} from '../../n5-features/f5-cardDecks/CardDecks'
 import {Cards} from '../../n5-features/f6-cards/Cards'
+import Learn from "../../n5-features/f7-learn/Learn";
 
 //* ========================================================= Constants for routes ================================>>
 export const PATH = {
@@ -19,6 +20,7 @@ export const PATH = {
     TESTS: '/tests',
     CARD_DECKS: '/card-decks',
     CARDS: '/cards/:packId?',
+    LEARN: '/learn/:packId?',
     NOT_FOUND: '/404'
 }
 
@@ -34,6 +36,7 @@ export const Routes = () => {
                 <Route path={PATH.SET_NEW_PASSWORD} render={() => <SetNewPassword/>}/>
                 <Route path={PATH.CARD_DECKS} render={() => <CardDecks/>}/>
                 <Route path={PATH.CARDS} render={() => <Cards/>}/>
+                <Route path={PATH.LEARN} render={() => <Learn/>}/>
                 <Route path={PATH.TESTS} render={() => <Tests/>}/>
                 <Route path={PATH.NOT_FOUND} render={() => <h1>404 PAGE NOT FOUND</h1>}/>
                 <Route path={'/*'} render={() => <Redirect to={PATH.NOT_FOUND}/>}/>
