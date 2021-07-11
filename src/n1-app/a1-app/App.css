@@ -3,6 +3,10 @@
     background: linear-gradient(180deg, #E6D4DE 0%, #9890C7 100%);
     min-height: 100vh;
 }
+h6 {
+    margin: 0;
+    padding: 10px;
+}
 /**{*/
 /*    margin: 0px;*/
 /*    padding: 0px;*/

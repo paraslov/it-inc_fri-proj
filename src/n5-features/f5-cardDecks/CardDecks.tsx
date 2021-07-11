@@ -21,6 +21,7 @@ import {SearchBar} from '../../n4-common/components/c5-SearchBar/SearchBar'
 import {Preloader} from '../../n4-common/components/c2-Preloader/Preloader'
 
 
+
 export const CardDecks = () => {
     const userId = useSelector<TAppState, string>(state => state.profile._id)
     const user_id = useSelector<TAppState, string>(state => state.cardDecks.user_id)
