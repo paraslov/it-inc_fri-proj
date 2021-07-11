@@ -1,5 +1,4 @@
 import {TCardType} from '../cards_reducer'
-import {TCardUpdateData} from '../../../n3-api/cards_api'
 import React from 'react'
 import s from './ItemsTable.module.css'
 import {SortArrow} from '../../../n4-common/components/c8-SortArrow/SortArrow'
@@ -10,12 +9,19 @@ type TItemsTableProps = {
     isUsersPack: boolean
     isFetching: boolean
     sortCallback: (param: string) => void
-    deleteCallback: (cardId: string) => void
-    updateCallback: (cardData: TCardUpdateData) => void
+    shownDeleteModal: (shownDeleteModal: boolean) => void
+    shownUpdateModal: (shownDeleteModal: boolean) => void
+    setCardId: (activeCardId: string) => void
+    setQuestion: (question: string) => void
+    setAnswer: (answer: string) => void
+
 }
 
 export const ItemsTable: React.FC<TItemsTableProps> = (props) => {
-    const {items, isUsersPack, isFetching, sortCallback, deleteCallback, updateCallback} = props
+    const {items, isUsersPack,
+        isFetching, sortCallback,
+        shownDeleteModal, shownUpdateModal,
+        setCardId,setQuestion,setAnswer } = props
 
     return (
         <div className={s.table}>
@@ -34,7 +40,11 @@ export const ItemsTable: React.FC<TItemsTableProps> = (props) => {
                     {isUsersPack && <div className={s.gradeTitle}>Actions</div>}
                 </div>
             </div>
-            {items.map(item => <Card key={item._id}
+            {items.map(item => <Card
+                                     shownDeleteModal={shownDeleteModal}
+                                     shownUpdateModal={shownUpdateModal}
+                                     setCardId={setCardId}
+                                     key={item._id}
                                      cardId={item._id}
                                      question={item.question}
                                      answer={item.answer}
@@ -42,8 +52,9 @@ export const ItemsTable: React.FC<TItemsTableProps> = (props) => {
                                      updatedAt={item.updated}
                                      isUsersPack={isUsersPack}
                                      isFetching={isFetching}
-                                     deleteCardCallback={deleteCallback}
-                                     updateCardCallback={updateCallback}/>)}
+                                     setQuestion={setQuestion}
+                                     setAnswer={setAnswer}
+             />)}
 
         </div>
     )

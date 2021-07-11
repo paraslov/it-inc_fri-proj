@@ -8,6 +8,7 @@ type ModalPropsType = DefaultModalPropsType & {
     title?: string
     isOpen: boolean
     close: () => void
+    closeBtn?: boolean
 }
 
 const Modal: React.FC<ModalPropsType> = (
@@ -16,20 +17,27 @@ const Modal: React.FC<ModalPropsType> = (
         title,
         children,
         className,
+        closeBtn,
         ...restProps// все остальные пропсы попадут в объект restProps, там же будет children
 
     }
+
 ) => {
+
+
+
+    const defaultStyle = `${s.title__wrapper} ${!closeBtn ? s.center : null}`
     return (<>
             {isOpen &&
             <div className={s.wrapper} onClick={close}>
                 <div className={s.form__block} onClick={(e: MouseEvent<HTMLDivElement>) => e.stopPropagation()}>
-                    <div className={s.title__wrapper}>
+                    <div className={defaultStyle}>
                         <h4 className={s.title}>{title}</h4>
-                        <button className={s.button} onClick={close}>
+                        {closeBtn && <button className={s.button} onClick={close}>
                             <span className={s.button__line + ' ' + s.button__line_first}/>
                             <span className={s.button__line + ' ' + s.button__line_second}/>
                         </button>
+                        }
                     </div>
                     {children}
                 </div>

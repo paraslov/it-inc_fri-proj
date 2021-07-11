@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react'
+import React, {ChangeEvent, useCallback, useEffect, useState} from 'react'
 import s from './Cards.module.css'
 import {PATH} from '../../n1-app/a2-routes/Routes'
 import {NavLink, Redirect, useParams} from 'react-router-dom'
@@ -22,9 +22,19 @@ import {SearchBar} from '../../n4-common/components/c5-SearchBar/SearchBar'
 import {Paginator} from '../../n4-common/components/с6-Paginator/Paginator'
 import {SelectPage} from '../../n4-common/components/c7-SelectPage/SelectPage'
 import {ItemsTable} from './ItemsTable/ItemsTable'
+import Modal from "../../n4-common/components/c6-Modals/Modal";
+import SuperInputText from "../../n4-common/components/Elements/e3-SuperInputText/SuperInputText";
+import {DeleteModal} from "../../n4-common/components/c6-Modals/DeleteModal/DeleteModal";
 
 
 export const Cards = React.memo(() => {
+    //* ==================================  local state  ==========================================================>>
+    const [shownModal, setShownModal] = useState(false)
+    const [shownDeleteModal, setShownDeleteModal] = useState(false)
+    const [shownUpdateModal, setShownUpdateModal] = useState(false)
+    const [activeCardId, setActiveCardId] = useState('')
+    const [question, setQuestion] = useState('')
+    const [answer, setAnswer] = useState('')
     //* ==================================  Data  =================================================================>>
     const dispatch = useDispatch()
     const isFetching = useSelector(selectIsFetching)
@@ -48,14 +58,37 @@ export const Cards = React.memo(() => {
     // hardcode data for create card testing
     const newCard: TCardData = {
         cardsPack_id,
-        question: 'card to delete/update',
-        answer: 'no card, no answer.. =0_0=',
+        question: question,
+        answer: answer,
         grade: 4
     }
+
+    const editedCard: TCardUpdateData = {
+        _id: activeCardId,
+        question: question,
+        answer: answer,
+        grade: 2
+    }
+
     //* ==================================  Callbacks  ============================================================>>
-    const createCardCallback = () => dispatch(createCard(newCard))
-    const deleteCardCallback = (cardId: string) => dispatch(deleteCard(cardId))
-    const updateCardCallback = (cardData: TCardUpdateData) => dispatch(updateCard(cardData))
+    const createCardCallback = () => {
+        if (newCard.question?.length) {
+            dispatch(createCard(newCard))
+            setShownModal(false)
+            setQuestion('')
+            setAnswer('')
+        }
+    }
+    const deleteCardCallback = () => {
+        dispatch(deleteCard(activeCardId))
+        setShownDeleteModal(false)
+    }
+    const updateCardCallback = () => {
+        dispatch(updateCard(editedCard))
+        setShownUpdateModal(false)
+        setQuestion('')
+        setAnswer('')
+    }
     // helper for all kind of searching and sorting operations
     const setGetRequestParamsCallback = useCallback((requestParams: TSetRequestParams) => {
         dispatch(setGetRequestParams(requestParams))
@@ -69,14 +102,40 @@ export const Cards = React.memo(() => {
 
     // if no packUserId is settled in redux, send request
     useEffect(() => {
-        if(packIdParam.packId !== ':packId') setGetRequestParamsCallback({cardsPack_id: packIdParam.packId})
+        if (packIdParam.packId !== ':packId') setGetRequestParamsCallback({cardsPack_id: packIdParam.packId})
     }, [packIdParam, setGetRequestParamsCallback])
 
-    if(packIdParam.packId === ':packId') return <Redirect to={PATH.CARD_DECKS}/>
+    if (packIdParam.packId === ':packId') return <Redirect to={PATH.CARD_DECKS}/>
 
     return (
         <div className={s.container}>
             {isFetching && <Preloader left={'40%'} top={'40%'} size={'100px'}/>}
+            {isUsersPack &&
+            <AddNewCardModal open={shownModal}
+                             close={() => setShownModal(false)}
+                             closeBtn={false}
+                             question={question}
+                             answer={answer}
+                             questionOnchange={(e) => setQuestion(e.currentTarget.value)}
+                             answerOnchange={(e) => setAnswer(e.currentTarget.value)}
+                             onClick={createCardCallback}/>}
+            {isUsersPack &&
+            <AddNewCardModal open={shownUpdateModal}
+                             close={() => setShownUpdateModal(false)}
+                             closeBtn={false}
+                             question={question}
+                             answer={answer}
+                             questionOnchange={(e) => setQuestion(e.currentTarget.value)}
+                             answerOnchange={(e) => setAnswer(e.currentTarget.value)}
+                             onClick={updateCardCallback}/>}
+            {isUsersPack &&
+            <DeleteModal onClick={deleteCardCallback}
+                         title={'Delete Pack'}
+                         value={`Do you really want to remove this card?`}
+                         close={() => setShownDeleteModal(false)}
+                         open={shownDeleteModal}
+            />}
+
             <div className={s.cardsContainer}>
                 <div className={s.title}>
                     <NavLink to={PATH.CARD_DECKS} className={s.arrow}>&larr;</NavLink>
@@ -84,14 +143,20 @@ export const Cards = React.memo(() => {
                 </div>
                 <div className={s.search}>
                     <SearchBar searchCallback={searchCard} disabled={isFetching} searchTextRequest={cardQuestion}/>
-                    {isUsersPack && <SuperButton onClick={createCardCallback} disabled={isFetching}>Add new card</SuperButton>}
+                    {isUsersPack &&
+                    <SuperButton onClick={() => setShownModal(true)} disabled={isFetching}>Add new card</SuperButton>}
                 </div>
                 <ItemsTable items={cards}
                             isUsersPack={isUsersPack}
                             isFetching={isFetching}
                             sortCallback={sortCards}
-                            deleteCallback={deleteCardCallback}
-                            updateCallback={updateCardCallback}/>
+                            shownDeleteModal={setShownDeleteModal}
+                            shownUpdateModal={setShownUpdateModal}
+                            setCardId={setActiveCardId}
+                            setAnswer={setAnswer}
+                            setQuestion={setQuestion}
+                />
+
                 <div className={s.paginator}>
                     <Paginator totalItemsCount={cardsTotalCount}
                                pageSize={pageCount}
@@ -108,6 +173,40 @@ export const Cards = React.memo(() => {
         </div>
     )
 })
+
+type ModalType = {
+    open: boolean,
+    close: () => void,
+    question: string,
+    answer: string
+    questionOnchange: (e: ChangeEvent<HTMLInputElement>) => void,
+    answerOnchange: (e: ChangeEvent<HTMLInputElement>) => void,
+    onClick: () => void
+    closeBtn: boolean
+}
+
+const AddNewCardModal: React.FC<ModalType> = (
+    {open, close, question, answer, questionOnchange, answerOnchange, onClick, closeBtn}
+) => {
+    return <Modal closeBtn={closeBtn} title={"Card Info"} isOpen={open} close={close}>
+        <SuperInputText label={"Question"}
+                        value={question}
+                        onChange={questionOnchange}/>
+        <SuperInputText label={"Answer"}
+                        value={answer}
+                        onChange={answerOnchange}/>
+        <div>
+            <SuperButton width={"100px"}
+                         onClick={close}>
+                Cancel
+            </SuperButton>
+            <SuperButton width={"100px"} onClick={onClick}>
+                Save
+            </SuperButton>
+        </div>
+    </Modal>;
+}
+
 
 
 

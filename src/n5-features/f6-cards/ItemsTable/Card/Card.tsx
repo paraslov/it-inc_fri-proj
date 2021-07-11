@@ -7,25 +7,47 @@ import {TCardUpdateData} from '../../../../n3-api/cards_api'
 type TCardProps = {
     cardId: string
     question: string
+    shownDeleteModal: (shownDeleteModal: boolean) => void
+    shownUpdateModal: (shownUpdateModal: boolean) => void
+    setCardId: (activeCardId: string) => void
     answer: string
+    setQuestion: (question: string) => void
+    setAnswer: (answer: string) => void
     updatedAt: string
     grade: number
     isUsersPack: boolean
     isFetching: boolean
-    deleteCardCallback: (cardId: string) => void
-    updateCardCallback: (cardData: TCardUpdateData) => void
 }
 
 export const Card: React.FC<TCardProps> = (props) => {
     const {
-        answer, cardId, question, updatedAt, grade, isUsersPack, isFetching, deleteCardCallback, updateCardCallback
+        answer, cardId,
+        question, updatedAt,
+        grade, isUsersPack,
+        isFetching, shownDeleteModal,shownUpdateModal,
+        setCardId,
+        setQuestion,
+        setAnswer
     } = props
+
     // hardcode data for edit card testing
     const editedCard: TCardUpdateData = {
         _id: cardId,
         question: 'Card is successfully updated? :)',
         answer: 'yeahs! The card is! |=^_^=|',
         grade: 2
+    }
+
+    const deleteCard = () => {
+        shownDeleteModal(true)
+        setCardId(cardId)
+    }
+
+    const updateCard = () => {
+        setQuestion(question)
+        setAnswer(answer)
+        shownUpdateModal(true)
+        setCardId(cardId)
     }
 
     return (
@@ -37,11 +59,14 @@ export const Card: React.FC<TCardProps> = (props) => {
                 <Rating rating={grade}/>
                 {isUsersPack && <div>
                     <SuperButton className={s.actionsBtn} disabled={isFetching}
-                                 onClick={() => updateCardCallback(editedCard)}>Edit</SuperButton>
+                                 onClick={updateCard}>Edit</SuperButton>
                     <SuperButton className={s.actionsBtn} disabled={isFetching} red
-                                 onClick={() => deleteCardCallback(cardId)}>Delete</SuperButton>
+                                 onClick={deleteCard}>Delete</SuperButton>
                 </div>}
             </div>
         </div>
     )
 }
+
+
+

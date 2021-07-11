@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {ChangeEvent, useCallback, useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {
     _updateValues,
@@ -19,7 +19,7 @@ import {SelectPage} from '../../n4-common/components/c7-SelectPage/SelectPage'
 import {SortArrow} from '../../n4-common/components/c8-SortArrow/SortArrow'
 import {SearchBar} from '../../n4-common/components/c5-SearchBar/SearchBar'
 import {Preloader} from '../../n4-common/components/c2-Preloader/Preloader'
-import Modal from "../../n4-common/components/c6-Modal/Modal";
+import Modal from "../../n4-common/components/c6-Modals/Modal";
 import SuperInputText from "../../n4-common/components/Elements/e3-SuperInputText/SuperInputText";
 
 export const CardDecks = () => {
@@ -84,8 +84,13 @@ export const CardDecks = () => {
     return (
         <div className={s.wrapper}>
             {isFetching && <Preloader left={'40%'} top={'40%'} size={'100px'}/>}
-            <AddNewPackModal open={shownModal} close={() => setShownModal(false)} value={nameOfPack}
-                             onChange={(e) => setNameOfPack(e.currentTarget.value)} onClick={addPackHandler}/>
+            <AddNewPackModal
+                open={shownModal}
+                close={() => setShownModal(false)}
+                value={nameOfPack}
+                onChange={(e) => setNameOfPack(e.currentTarget.value)}
+                onClick={addPackHandler}
+            />
             <div className={s.main__block}>
                 <div className={s.main__block_menu}>
                     <h3>Show packs cards</h3>
@@ -175,14 +180,14 @@ type ModalType = {
     open: boolean,
     close: () => void,
     value: string,
-    onChange: (e: any) => void,
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void,
     onClick: () => void
 }
 
 const AddNewPackModal: React.FC<ModalType> =(
     {open, close, value, onChange, onClick}
 ) => {
-        return <Modal title={"Add new pack"} isOpen={open} close={close}>
+        return <Modal closeBtn={true} title={"Add new pack"} isOpen={open} close={close}>
             <SuperInputText label={"Name of pack"}
                             value={value}
                             onChange={onChange}/>
