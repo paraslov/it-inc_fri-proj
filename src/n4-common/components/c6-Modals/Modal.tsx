@@ -24,8 +24,6 @@ const Modal: React.FC<ModalPropsType> = (
 
 ) => {
 
-
-
     const defaultStyle = `${s.title__wrapper} ${!closeBtn ? s.center : null}`
     return (<>
             {isOpen &&

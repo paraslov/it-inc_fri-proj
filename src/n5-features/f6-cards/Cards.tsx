@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useCallback, useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import s from './Cards.module.css'
 import {PATH} from '../../n1-app/a2-routes/Routes'
 import {NavLink, Redirect, useParams} from 'react-router-dom'
@@ -22,9 +22,8 @@ import {SearchBar} from '../../n4-common/components/c5-SearchBar/SearchBar'
 import {Paginator} from '../../n4-common/components/с6-Paginator/Paginator'
 import {SelectPage} from '../../n4-common/components/c7-SelectPage/SelectPage'
 import {ItemsTable} from './ItemsTable/ItemsTable'
-import Modal from "../../n4-common/components/c6-Modals/Modal";
-import SuperInputText from "../../n4-common/components/Elements/e3-SuperInputText/SuperInputText";
 import {DeleteModal} from "../../n4-common/components/c6-Modals/DeleteModal/DeleteModal";
+import {CardModal} from "../../n4-common/components/c6-Modals/CardModal/CardModal";
 
 
 export const Cards = React.memo(() => {
@@ -89,6 +88,13 @@ export const Cards = React.memo(() => {
         setQuestion('')
         setAnswer('')
     }
+
+    const closeEditCardModal = () => {
+        setQuestion('')
+        setAnswer('')
+        setShownUpdateModal(false)
+    }
+
     // helper for all kind of searching and sorting operations
     const setGetRequestParamsCallback = useCallback((requestParams: TSetRequestParams) => {
         dispatch(setGetRequestParams(requestParams))
@@ -111,23 +117,23 @@ export const Cards = React.memo(() => {
         <div className={s.container}>
             {isFetching && <Preloader left={'40%'} top={'40%'} size={'100px'}/>}
             {isUsersPack &&
-            <AddNewCardModal open={shownModal}
-                             close={() => setShownModal(false)}
-                             closeBtn={false}
-                             question={question}
-                             answer={answer}
-                             questionOnchange={(e) => setQuestion(e.currentTarget.value)}
-                             answerOnchange={(e) => setAnswer(e.currentTarget.value)}
-                             onClick={createCardCallback}/>}
+            <CardModal open={shownModal}
+                       close={() => setShownModal(false)}
+                       closeBtn={false}
+                       question={question}
+                       answer={answer}
+                       questionOnchange={(e) => setQuestion(e.currentTarget.value)}
+                       answerOnchange={(e) => setAnswer(e.currentTarget.value)}
+                       onClick={createCardCallback}/>}
             {isUsersPack &&
-            <AddNewCardModal open={shownUpdateModal}
-                             close={() => setShownUpdateModal(false)}
-                             closeBtn={false}
-                             question={question}
-                             answer={answer}
-                             questionOnchange={(e) => setQuestion(e.currentTarget.value)}
-                             answerOnchange={(e) => setAnswer(e.currentTarget.value)}
-                             onClick={updateCardCallback}/>}
+            <CardModal open={shownUpdateModal}
+                       close={closeEditCardModal}
+                       closeBtn={false}
+                       question={question}
+                       answer={answer}
+                       questionOnchange={(e) => setQuestion(e.currentTarget.value)}
+                       answerOnchange={(e) => setAnswer(e.currentTarget.value)}
+                       onClick={updateCardCallback}/>}
             {isUsersPack &&
             <DeleteModal onClick={deleteCardCallback}
                          title={'Delete Pack'}
@@ -174,38 +180,6 @@ export const Cards = React.memo(() => {
     )
 })
 
-type ModalType = {
-    open: boolean,
-    close: () => void,
-    question: string,
-    answer: string
-    questionOnchange: (e: ChangeEvent<HTMLInputElement>) => void,
-    answerOnchange: (e: ChangeEvent<HTMLInputElement>) => void,
-    onClick: () => void
-    closeBtn: boolean
-}
-
-const AddNewCardModal: React.FC<ModalType> = (
-    {open, close, question, answer, questionOnchange, answerOnchange, onClick, closeBtn}
-) => {
-    return <Modal closeBtn={closeBtn} title={"Card Info"} isOpen={open} close={close}>
-        <SuperInputText label={"Question"}
-                        value={question}
-                        onChange={questionOnchange}/>
-        <SuperInputText label={"Answer"}
-                        value={answer}
-                        onChange={answerOnchange}/>
-        <div>
-            <SuperButton width={"100px"}
-                         onClick={close}>
-                Cancel
-            </SuperButton>
-            <SuperButton width={"100px"} onClick={onClick}>
-                Save
-            </SuperButton>
-        </div>
-    </Modal>;
-}
 
 
 
