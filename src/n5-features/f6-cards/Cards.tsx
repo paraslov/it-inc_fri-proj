@@ -59,14 +59,14 @@ export const Cards = React.memo(() => {
         cardsPack_id,
         question: question,
         answer: answer,
-        grade: 4
+        grade: 3
     }
 
     const editedCard: TCardUpdateData = {
         _id: activeCardId,
         question: question,
         answer: answer,
-        grade: 2
+        grade: 3
     }
 
     //* ==================================  Callbacks  ============================================================>>

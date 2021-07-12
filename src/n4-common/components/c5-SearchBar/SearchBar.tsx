@@ -8,11 +8,16 @@ type TSearchBarProps = {
      * param to connect FLUX to redux, if needed.
      */
     searchTextRequest?: string
+    placeholder?: string
     disabled?: boolean
 }
 
-export const SearchBar: React.FC<TSearchBarProps> = ({searchCallback, searchTextRequest = '',
-                                                         disabled = false}) => {
+export const SearchBar: React.FC<TSearchBarProps> = ({
+                                                         searchCallback,
+                                                         searchTextRequest = '',
+                                                         placeholder = 'Search...',
+                                                         disabled = false
+                                                     }) => {
 
     const [searchText, setSearchText] = useState(searchTextRequest)
 
@@ -25,7 +30,7 @@ export const SearchBar: React.FC<TSearchBarProps> = ({searchCallback, searchText
     return (
         <div className={s.searchBar}>
             <SuperInputText className={s.searchBarInput}
-                            placeholder={'Search...'}
+                            placeholder={placeholder}
                             onChangeText={setSearchText}
                             value={searchText}
                             onEnter={onEnterCB}/>
