@@ -18,9 +18,12 @@ button:hover {
     justify-content: space-between;
 }
 .main__block_menu {
-    width: 20%;
+    width: 243px;
     background-color: rgba(236, 236, 249, 1);
-    padding: 24px;
+}
+
+.main__block_menu h3 {
+    margin-left: 40px;
 }
 
 .main__block_pack_list {
@@ -28,6 +31,40 @@ button:hover {
     width: 80%;
 
 }
+
+.profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 216px;
+    background-color: #D9D9F1;
+    border-radius: 8px 0 8px 8px;
+}
+
+.profile__avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 48px;
+}
+
+.profile span {
+    margin: 4px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #2D2E46;
+}
+
+.profile__edit {
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 6px;
+    color: #21268F;
+    border: 1px solid rgba(99, 93, 128, 0.4);
+}
+
 .packs__header_wrapper {
     display: flex;
     justify-content: space-between;

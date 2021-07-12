@@ -19,14 +19,25 @@ import {SelectPage} from '../../n4-common/components/c7-SelectPage/SelectPage'
 import {SortArrow} from '../../n4-common/components/c8-SortArrow/SortArrow'
 import {SearchBar} from '../../n4-common/components/c5-SearchBar/SearchBar'
 import {Preloader} from '../../n4-common/components/c2-Preloader/Preloader'
-import Modal from "../../n4-common/components/c6-Modals/Modal";
-import SuperInputText from "../../n4-common/components/Elements/e3-SuperInputText/SuperInputText";
+import Modal from '../../n4-common/components/c6-Modals/Modal'
+import SuperInputText from '../../n4-common/components/Elements/e3-SuperInputText/SuperInputText'
+import {Redirect} from 'react-router-dom'
+import {PATH} from '../../n1-app/a2-routes/Routes'
+import {MyAllToggle} from './MyAllToggle/MyAllToggle'
+import {UserDataType} from '../f3-profile/progile_reducer'
 
-export const CardDecks = () => {
+type TCardDecksProps = {
+    /**
+     * param to define what page do you want to render: profile or packs list
+     */
+    type: 'profile' | 'packs list'
+}
+
+export const CardDecks: React.FC<TCardDecksProps> = ({type}) => {
     const [shownModal, setShownModal] = useState(false)
     const [nameOfPack, setNameOfPack] = useState('')
 
-
+    const isAuth = useSelector<TAppState, boolean>(state => state.login.isAuth)
     const userId = useSelector<TAppState, string>(state => state.profile._id)
     const user_id = useSelector<TAppState, string>(state => state.cardDecks.user_id)
     const decks = useSelector<TAppState, Pack[]>(state => state.cardDecks.cardPacks)
@@ -37,16 +48,15 @@ export const CardDecks = () => {
     const minParam = useSelector<TAppState, number>(state => state.cardDecks.minParam)
     const maxParam = useSelector<TAppState, number>(state => state.cardDecks.maxParam)
 
-    useEffect(() => {
-        dispatch(getCardDecksThunk())
-    }, [dispatch])
+    const {_id, email, name, avatar, publicCardPacksCount} =
+        useSelector<TAppState, UserDataType>(state => state.profile)
 
     const getAllCardsHandler = () => {
-        setParams({minCardsCount: minParam, maxCardsCount: maxParam, user_id: ''})
+        setParams({user_id: ''})
     }
 
     const addPackHandler = () => {
-        if(nameOfPack.length) {
+        if (nameOfPack.length) {
             dispatch(createDeckThunk(nameOfPack))
             setShownModal(false)
             setNameOfPack('')
@@ -65,7 +75,7 @@ export const CardDecks = () => {
 
     const showMyDecksHandler = () => {
         if (userId !== '') {
-            setParams({minCardsCount: minParam, maxCardsCount: maxParam, user_id: userId})
+            setParams({user_id: userId})
         }
     }
 
@@ -80,6 +90,15 @@ export const CardDecks = () => {
         }
     }, [])
 
+    useEffect(() => {
+        if (isAuth && type === 'packs list') {
+            setParams({user_id: ''})
+        } else if (isAuth && type === 'profile' && userId) {
+            setParams({user_id: userId})
+        }
+    }, [dispatch, type, userId])
+
+    if (!isAuth) return <Redirect to={PATH.LOGIN}/>
 
     return (
         <div className={s.wrapper}>
@@ -93,15 +112,18 @@ export const CardDecks = () => {
             />
             <div className={s.main__block}>
                 <div className={s.main__block_menu}>
-                    <h3>Show packs cards</h3>
-                    <div className={s.show__packs_btn_group}>
-                        <button disabled={isFetching} onClick={showMyDecksHandler}
-                                className={user_id ? s.active : ''}>My
-                        </button>
-                        <button disabled={isFetching} onClick={getAllCardsHandler}
-                                className={user_id ? '' : s.active}>All
-                        </button>
-                    </div>
+                    {type === 'packs list' ?
+                        <MyAllToggle
+                            isFetching={isFetching}
+                            user_id={user_id}
+                            getAllCardsHandler={getAllCardsHandler}
+                            showMyDecksHandler={showMyDecksHandler}/>
+                        :
+                        <div className={s.profile}>
+                            <img className={s.profile__avatar} src={avatar} alt="ava"/>
+                            <span>{name}</span>
+                            <div className={s.profile__edit}>Edit profile</div>
+                        </div>}
                     <h3>Number of cards</h3>
                     <MultiRangeSlider
                         min={0}
@@ -184,23 +206,23 @@ type ModalType = {
     onClick: () => void
 }
 
-const AddNewPackModal: React.FC<ModalType> =(
+const AddNewPackModal: React.FC<ModalType> = (
     {open, close, value, onChange, onClick}
 ) => {
-        return <Modal closeBtn={true} title={"Add new pack"} isOpen={open} close={close}>
-            <SuperInputText label={"Name of pack"}
-                            value={value}
-                            onChange={onChange}/>
-            <div>
-                <SuperButton width={"100px"}
-                             onClick={close}>
-                    Cancel
-                </SuperButton>
-                <SuperButton width={"100px"} onClick={onClick}>
-                    Save
-                </SuperButton>
-            </div>
-        </Modal>;
+    return <Modal closeBtn={true} title={'Add new pack'} isOpen={open} close={close}>
+        <SuperInputText label={'Name of pack'}
+                        value={value}
+                        onChange={onChange}/>
+        <div>
+            <SuperButton width={'100px'}
+                         onClick={close}>
+                Cancel
+            </SuperButton>
+            <SuperButton width={'100px'} onClick={onClick}>
+                Save
+            </SuperButton>
+        </div>
+    </Modal>
 }
 
 

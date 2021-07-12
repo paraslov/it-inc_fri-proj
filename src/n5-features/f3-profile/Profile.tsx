@@ -23,14 +23,6 @@ export const Profile = () => {
     const [myAvatar, setMyAvatar] = useState('Avatar is not defined')
     const [updateProfileBtnIsActive, setUpdateProfileBtnIsActive] = useState(false)
 //* ==================================================================================== Authorization =========>>
-    useEffect(() => {
-        // if userData not found, send request to auth/me
-        if (!isAuth) {
-            // problem is that we activate two thunks in one time: setInitialized in App.tsx and authThunk here...
-            // and as a result we have two auth/me requests.
-            // dispatch(authThunk())
-        }
-    }, [isAuth])
 
 // setting start values for local state
     useEffect(() => {

@@ -8,16 +8,16 @@ import React from 'react'
 export const Navbar = () => {
     return (
         <div className={s.navbarContainer}>
-            <NavLink to={PATH.PROFILE} className={s.navLink} activeClassName={s.active}>
-                <div className={s.navLinkContext}>
-                    <Human_img/>
-                    <span>Profile</span>
-                </div>
-            </NavLink>
             <NavLink to={PATH.CARD_DECKS} className={s.navLink} activeClassName={s.active}>
                 <div className={s.navLinkContext}>
                     <Cards_img/>
                     <span>Packs list</span>
+                </div>
+            </NavLink>
+            <NavLink to={PATH.PROFILE} className={s.navLink} activeClassName={s.active}>
+                <div className={s.navLinkContext}>
+                    <Human_img/>
+                    <span>Profile</span>
                 </div>
             </NavLink>
             {/*<NavLink to={PATH.LOGIN} activeClassName={s.active}>Login</NavLink>*/}
