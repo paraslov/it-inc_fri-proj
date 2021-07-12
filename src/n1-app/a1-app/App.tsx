@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import './App.css'
 import {Routes} from '../a2-routes/Routes'
 import {HashRouter} from 'react-router-dom'
-import {NavBar} from '../../n4-common/components/c1-Navbar/NavBar'
+import {Header} from '../../n4-common/components/c1-Header/Header'
 import {useDispatch, useSelector} from 'react-redux'
 import {TAppState} from '../../n2-bll/store';
 import {Preloader} from '../../n4-common/components/c2-Preloader/Preloader';
@@ -25,7 +25,7 @@ export const App = () => {
     return (
         <HashRouter>
             <div className="App">
-                <NavBar/>
+                <Header/>
                 <Routes/>
                 <h6>FP.v.3.01</h6>
                 {error && <ErrorMessage>{error}</ErrorMessage>}
