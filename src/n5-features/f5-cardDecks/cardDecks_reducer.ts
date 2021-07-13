@@ -17,7 +17,7 @@ const initState: DecksStateType = {
     sortPacks: '',
     packName: '',
     minParam: 0,
-    maxParam: 103,
+    maxParam: 100,
     user_id: ''
 }
 

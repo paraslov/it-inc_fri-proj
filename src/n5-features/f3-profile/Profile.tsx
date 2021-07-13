@@ -2,18 +2,15 @@ import React, {ChangeEvent, useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {TAppState} from '../../n2-bll/store'
 import {logoutThunk} from '../f1-login/login_reducer'
-import {PATH} from '../../n1-app/a2-routes/Routes'
-import {Redirect} from 'react-router-dom'
-import SuperButton from '../../n4-common/components/Elements/e1-SuperButton/SuperButton'
 import {changeUserData, UserDataType} from './progile_reducer'
-import SuperEditableSpan from '../../n4-common/components/Elements/e6-SuperEditableSpan/SuperEditableSpan'
 import s from './Profile.module.css'
-import {Preloader} from '../../n4-common/components/c2-Preloader/Preloader'
+import Modal from '../../n4-common/components/c9-Modals/Modal'
+import SuperInputText from '../../n4-common/components/Elements/e3-SuperInputText/SuperInputText'
+import SuperButton from '../../n4-common/components/Elements/e1-SuperButton/SuperButton'
 
 export const Profile = () => {
     const dispatch = useDispatch()
 //* ==================================================================================== Data ==================>>
-    const isAuth = useSelector<TAppState, boolean>(state => state.login.isAuth)
     const isFetching = useSelector<TAppState, boolean>(state => state.app.isFetching)
 
     const {_id, email, name, avatar, publicCardPacksCount} =
@@ -21,8 +18,7 @@ export const Profile = () => {
 //* ==================================================================================== Local state ===========>>
     const [myName, setMyName] = useState('')
     const [myAvatar, setMyAvatar] = useState('Avatar is not defined')
-    const [updateProfileBtnIsActive, setUpdateProfileBtnIsActive] = useState(false)
-//* ==================================================================================== Authorization =========>>
+    const [editMode, setEditMode] = useState(false)
 
 // setting start values for local state
     useEffect(() => {
@@ -34,38 +30,61 @@ export const Profile = () => {
 //* ==================================================================================== Callbacks =============>>
     const logout = () => dispatch(logoutThunk())
     const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        if (!updateProfileBtnIsActive) setUpdateProfileBtnIsActive(true)
         setMyName(e.currentTarget.value)
     }
     const changeAvatarHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        if (!updateProfileBtnIsActive) setUpdateProfileBtnIsActive(true)
         setMyAvatar(e.currentTarget.value)
     }
-    const changeDataHandler = () => {
-        setUpdateProfileBtnIsActive(false)
+    const editProfileHandler = () => {
         dispatch(changeUserData({name: myName, avatar: myAvatar}))
+        setEditMode(false)
     }
-    //if userData not found redirect to login page
-    if (!isAuth) {
-        return <Redirect to={PATH.LOGIN}/>
-    }
+
     return (
-        <div>
-            {isFetching && <Preloader left={'40%'} top={'40%'} size={'100px'}/>}
-            <div style={{marginBottom: '20px', height: '300px'}}>
-                <img src={avatar} alt="" className={s.avatar}/>
-                <div>My name is:
-                    <SuperEditableSpan onChange={changeNameHandler} value={myName}/>
-                </div>
-                <span>My id is: {_id}</span> <br/>
-                <span>My email is: {email}</span> <br/>
-                <div>My avatar is:
-                    <SuperEditableSpan onChange={changeAvatarHandler} value={myAvatar}/>
-                </div>
-                <span>My public card count is: {publicCardPacksCount}</span> <br/>
-            </div>
-            <SuperButton onClick={logout} style={{marginRight: '20px'}}>Log out</SuperButton>
-            <SuperButton onClick={changeDataHandler} disabled={!updateProfileBtnIsActive}>Update Profile</SuperButton>
+        <div className={s.profile}>
+            <EditProfileModal open={editMode}
+                              close={() => setEditMode(false)}
+                              avatar={myAvatar} name={myName}
+                              onNameChange={changeNameHandler}
+                              onAvatarChange={changeAvatarHandler}
+                              onClick={editProfileHandler}/>
+            <img className={s.profileAvatar} src={avatar} alt="ava"/>
+            <span>{name}</span>
+            <div className={s.profileEdit} onClick={() => !isFetching && setEditMode(true)}>Edit profile</div>
         </div>
     )
+}
+
+type TEditProfileModalProps = {
+    open: boolean
+    close: () => void
+    avatar: string
+    name: string
+    onNameChange: (e: ChangeEvent<HTMLInputElement>) => void
+    onAvatarChange: (e: ChangeEvent<HTMLInputElement>) => void
+    onClick: () => void
+}
+
+const EditProfileModal: React.FC<TEditProfileModalProps> = ({
+                                                                avatar,
+                                                                name,
+                                                                open,
+                                                                close, onNameChange, onAvatarChange, onClick
+                                                            }) => {
+    return <Modal closeBtn={true} title={'Personal information'} isOpen={open} close={close}>
+        <div className={s.editProfileModal}>
+            <img className={s.profileAvatar} src={avatar} alt="ava"/>
+            <SuperInputText label={'Nickname'} value={name} onChange={onNameChange}/>
+            <SuperInputText label={'Avatar'} value={avatar} onChange={onAvatarChange}/>
+            <div className={s.btnSection}>
+                <SuperButton width={'150px'}
+                             onClick={close}>
+                    Cancel
+                </SuperButton>
+                <SuperButton width={'150px'} onClick={onClick}>
+                    Save
+                </SuperButton>
+            </div>
+        </div>
+    </Modal>
 }

@@ -11,20 +11,19 @@ import {
 import s from './CardDecks.module.css'
 import {TAppState} from '../../n2-bll/store'
 import {Pack} from '../../n3-api/card-decks_api'
-import CardDecksItem from './CardDeksItem/CardDecksItem'
 import MultiRangeSlider from '../../n4-common/components/Elements/e7-MultiRangeSlider/MultiRangeSlider'
 import SuperButton from '../../n4-common/components/Elements/e1-SuperButton/SuperButton'
 import {Paginator} from '../../n4-common/components/с6-Paginator/Paginator'
 import {SelectPage} from '../../n4-common/components/c7-SelectPage/SelectPage'
-import {SortArrow} from '../../n4-common/components/c8-SortArrow/SortArrow'
 import {SearchBar} from '../../n4-common/components/c5-SearchBar/SearchBar'
 import {Preloader} from '../../n4-common/components/c2-Preloader/Preloader'
-import Modal from '../../n4-common/components/c6-Modals/Modal'
+import Modal from '../../n4-common/components/c9-Modals/Modal'
 import SuperInputText from '../../n4-common/components/Elements/e3-SuperInputText/SuperInputText'
 import {Redirect} from 'react-router-dom'
 import {PATH} from '../../n1-app/a2-routes/Routes'
 import {MyAllToggle} from './MyAllToggle/MyAllToggle'
-import {UserDataType} from '../f3-profile/progile_reducer'
+import {PacksTable} from './PacksTable/PacksTable'
+import {Profile} from '../f3-profile/Profile'
 
 type TCardDecksProps = {
     /**
@@ -38,7 +37,6 @@ export const CardDecks: React.FC<TCardDecksProps> = ({type}) => {
     const [nameOfPack, setNameOfPack] = useState('')
 
     const isAuth = useSelector<TAppState, boolean>(state => state.login.isAuth)
-    const userId = useSelector<TAppState, string>(state => state.profile._id)
     const user_id = useSelector<TAppState, string>(state => state.cardDecks.user_id)
     const decks = useSelector<TAppState, Pack[]>(state => state.cardDecks.cardPacks)
     const decksState = useSelector<TAppState, DecksStateType>(state => state.cardDecks)
@@ -48,34 +46,32 @@ export const CardDecks: React.FC<TCardDecksProps> = ({type}) => {
     const minParam = useSelector<TAppState, number>(state => state.cardDecks.minParam)
     const maxParam = useSelector<TAppState, number>(state => state.cardDecks.maxParam)
 
-    const {_id, email, name, avatar, publicCardPacksCount} =
-        useSelector<TAppState, UserDataType>(state => state.profile)
-
-    const getAllCardsHandler = () => {
-        setParams({user_id: ''})
-    }
-
-    const addPackHandler = () => {
-        if (nameOfPack.length) {
-            dispatch(createDeckThunk(nameOfPack))
-            setShownModal(false)
-            setNameOfPack('')
-        }
-    }
+    const userId = useSelector<TAppState, string>(state => state.profile._id)
 
     const setParams = (requestParams: SetValuesType) => {
         dispatch(_updateValues(requestParams))
         dispatch(getCardDecksThunk())
     }
 
-    const pageNumberRequest = (page: number) => setParams({page})
-    const onChangePageCount = (pageCount: number) => setParams({pageCount})
-    const sortCards = (param: string) => setParams({sortPacks: param})
-    const searchPack = (searchText: string) => setParams({packName: searchText})
-
+    const getAllCardsHandler = () => {
+        setParams({user_id: ''})
+    }
     const showMyDecksHandler = () => {
         if (userId !== '') {
             setParams({user_id: userId})
+        }
+    }
+
+    const pageNumberRequest = (page: number) => setParams({page})
+    const onChangePageCount = (pageCount: number) => setParams({pageCount})
+    const sortPacks = (param: string) => setParams({sortPacks: param})
+    const searchPack = (searchText: string) => setParams({packName: searchText})
+
+    const addPackHandler = () => {
+        if (nameOfPack.length) {
+            dispatch(createDeckThunk(nameOfPack))
+            setShownModal(false)
+            setNameOfPack('')
         }
     }
 
@@ -119,15 +115,11 @@ export const CardDecks: React.FC<TCardDecksProps> = ({type}) => {
                             getAllCardsHandler={getAllCardsHandler}
                             showMyDecksHandler={showMyDecksHandler}/>
                         :
-                        <div className={s.profile}>
-                            <img className={s.profile__avatar} src={avatar} alt="ava"/>
-                            <span>{name}</span>
-                            <div className={s.profile__edit}>Edit profile</div>
-                        </div>}
+                        <Profile/>}
                     <h3>Number of cards</h3>
                     <MultiRangeSlider
                         min={0}
-                        max={103}
+                        max={100}
                         currentMin={minParam}
                         currentMax={maxParam}
                         disabled={isFetching}
@@ -144,40 +136,9 @@ export const CardDecks: React.FC<TCardDecksProps> = ({type}) => {
                             </SuperButton>
                         </div>
                     </div>
-                    <div className={s.table}>
-                        <div className={s.table__header}>
-                            <div className={s.table__item}>
-                                Name
-                                <SortArrow sortValue={'name'} onClick={sortCards} isFetching={isFetching}/>
-                            </div>
-                            <div className={s.table__item}>
-                                Cards
-                                <SortArrow sortValue={'cardsCount'} onClick={sortCards} isFetching={isFetching}/>
-                            </div>
-                            <div className={s.table__item}>
-                                <div className={s.table__item_wrapper}>
-                                    Last Updated
-                                    <SortArrow sortValue={'updated'} onClick={sortCards} isFetching={isFetching}/>
-                                </div>
 
-                            </div>
-                            <div className={s.table__item}>
-                                Created by
-                                <SortArrow sortValue={'user_name'} onClick={sortCards} isFetching={isFetching}/>
-                            </div>
-                            <div className={s.table__item}>
-                                Actions
-                            </div>
-                        </div>
-                        {decks.map((item, i) =>
-                            <CardDecksItem key={i} name={item.name}
-                                           cardsCount={item.cardsCount}
-                                           updated={item.updated}
-                                           user_name={item.user_name}
-                                           id={item._id}
-                                           userId={item.user_id}
-                            />)}
-                    </div>
+                    <PacksTable isFetching={isFetching} decks={decks} sortCallback={sortPacks}/>
+
                     <div className={s.pagination__block}>
                         <Paginator totalItemsCount={decksState.cardPacksTotalCount}
                                    pageSize={decksState.pageCount}
@@ -212,6 +173,7 @@ const AddNewPackModal: React.FC<ModalType> = (
     return <Modal closeBtn={true} title={'Add new pack'} isOpen={open} close={close}>
         <SuperInputText label={'Name of pack'}
                         value={value}
+                        autoFocus
                         onChange={onChange}/>
         <div>
             <SuperButton width={'100px'}

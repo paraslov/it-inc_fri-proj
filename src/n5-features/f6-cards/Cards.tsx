@@ -22,8 +22,8 @@ import {SearchBar} from '../../n4-common/components/c5-SearchBar/SearchBar'
 import {Paginator} from '../../n4-common/components/с6-Paginator/Paginator'
 import {SelectPage} from '../../n4-common/components/c7-SelectPage/SelectPage'
 import {ItemsTable} from './ItemsTable/ItemsTable'
-import {DeleteModal} from "../../n4-common/components/c6-Modals/DeleteModal/DeleteModal";
-import {CardModal} from "../../n4-common/components/c6-Modals/CardModal/CardModal";
+import {DeleteModal} from "../../n4-common/components/c9-Modals/DeleteModal/DeleteModal";
+import {CardModal} from "../../n4-common/components/c9-Modals/CardModal/CardModal";
 
 
 export const Cards = React.memo(() => {

@@ -3,7 +3,7 @@ import {Redirect, useParams} from "react-router-dom";
 import {getCards, setGetRequestParams, TSetRequestParams} from "../f6-cards/cards_reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {selectCards, selectPackName} from "../../n2-bll/selectors/cards_selectors";
-import Modal from "../../n4-common/components/c6-Modals/Modal";
+import Modal from "../../n4-common/components/c9-Modals/Modal";
 import SuperButton from "../../n4-common/components/Elements/e1-SuperButton/SuperButton";
 import SuperRadio from "../../n4-common/components/Elements/e5-SuperRadio/SuperRadio";
 import s from './Learn.module.css'

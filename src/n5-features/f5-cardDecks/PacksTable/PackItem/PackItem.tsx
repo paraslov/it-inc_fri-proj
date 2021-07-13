@@ -1,14 +1,13 @@
 import React, {useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
-import {removeDeckThunk, updateValueThunk} from "../cardDecks_reducer";
-import {TAppState} from "../../../n2-bll/store";
+import {removeDeckThunk, updateValueThunk} from "../../cardDecks_reducer";
+import {TAppState} from "../../../../n2-bll/store";
 import {NavLink} from 'react-router-dom';
-import {setPackName} from '../../f6-cards/cards_reducer'
-import SuperButton from "../../../n4-common/components/Elements/e1-SuperButton/SuperButton";
-import s from './CardDecksItem.module.css'
-
-import {DeleteModal} from "../../../n4-common/components/c6-Modals/DeleteModal/DeleteModal";
-import {UpdateModal} from "../../../n4-common/components/c6-Modals/UpdateModal/UpdateModal";
+import {setPackName} from '../../../f6-cards/cards_reducer'
+import SuperButton from "../../../../n4-common/components/Elements/e1-SuperButton/SuperButton";
+import s from './PackItem.module.css'
+import {DeleteModal} from "../../../../n4-common/components/c9-Modals/DeleteModal/DeleteModal";
+import {UpdateModal} from "../../../../n4-common/components/c9-Modals/UpdateModal/UpdateModal";
 
 type PropsType = {
     name: string
@@ -18,7 +17,7 @@ type PropsType = {
     id: string
     userId: string
 }
-const CardDecksItem = ({name, cardsCount, updated, user_name, id, userId}: PropsType) => {
+const PackItem = ({name, cardsCount, updated, user_name, id, userId}: PropsType) => {
     const [shownDeleteModal, setShownDeleteModal] = useState(false)
     const [shownUpdateModal, setShownUpdateModal] = useState(false)
     const [nameOfPack, setNameOfPack] = useState('')
@@ -92,6 +91,6 @@ const CardDecksItem = ({name, cardsCount, updated, user_name, id, userId}: Props
     )
 }
 
-export default CardDecksItem
+export default PackItem
 
 
