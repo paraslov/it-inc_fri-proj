@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {Redirect, useParams} from "react-router-dom";
-import {getCards, setGetRequestParams, TSetRequestParams} from "../f6-cards/cards_reducer";
+import {getCards, gradeCardUpdateThunk, setGetRequestParams, TSetRequestParams} from "../f6-cards/cards_reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {selectCards, selectPackName} from "../../n2-bll/selectors/cards_selectors";
 import Modal from "../../n4-common/components/c6-Modals/Modal";
@@ -14,6 +14,9 @@ import {selectIsFetching} from "../../n2-bll/selectors/app_selectors";
 const Learn: React.FC = () => {
     const [shownAnswer, setShowAnswer] = useState(false)
     const [isOpen, setIsOpen] = useState(true)
+    const [index, setIndex] = useState(0)
+    const [disabled, setDisabled] = useState(true)
+    const [grade, setGrade] = useState(0)
 
     const packName = useSelector(selectPackName)
     const isFetching = useSelector(selectIsFetching)
@@ -24,26 +27,56 @@ const Learn: React.FC = () => {
 
     const setGetRequestParamsCallback = useCallback((requestParams: TSetRequestParams) => {
         dispatch(setGetRequestParams(requestParams))
-        dispatch(getCards())
+        dispatch(getCards('100'))
     }, [dispatch])
 
     useEffect(() => {
         if (packIdParam.packId !== ':packId') setGetRequestParamsCallback({cardsPack_id: packIdParam.packId})
     }, [packIdParam, setGetRequestParamsCallback])
 
-    if(!isOpen) return <Redirect to={PATH.CARD_DECKS}/>
+    if (!isOpen) return <Redirect to={PATH.CARD_DECKS}/>
+
+    const randomInteger = (min: number, max: number) => {
+        let rand = min + Math.random() * (max + 1 - min);
+        let randomNumber = Math.floor(rand);
+        if (index === randomNumber) {
+            randomInteger(min, max - 1)
+        }
+        return randomNumber
+    }
+
+
+    let newLearnCards = []
+    for (let i = 0; i < cards.length; i++) {
+        if (cards[i].grade < 4) {
+            newLearnCards.push(cards[i])
+        }
+    }
+    let LearnCards = [...cards, ...newLearnCards]
 
     return (
         <div>
             {isFetching && <Preloader left={'45%'} top={'45%'} size={'100px'}/>}
+
             <Modal title={`Learn ${packName ? packName : '"no name"'}`} isOpen={isOpen} close={() => null}>
-                <div className={s.question}><span>Question:</span>"why are you learning React?"</div>
-                {shownAnswer && <><div className={s.answer}><span>Answer:</span>"because it's awesome"</div>
-                <div className={s.radio__block}>
-                    <h2>Rate yourself:</h2>
-                    <SuperRadio options={[' Did not know', ' Forgot', ' A lot of trough', ' Confused', ' Knew the answer']}
-                                 />
+                <div className={s.question}>
+                    <span className={s.title}>Question:</span><span
+                    className={s.spanQuestion}>{LearnCards.length === 0 ? '' : LearnCards[index].question}</span>
                 </div>
+                {shownAnswer && <>
+                    <div className={s.answer}><span className={s.title}>Answer:</span><span
+                        className={s.spanAnswer}>{LearnCards.length === 0 ? '' : LearnCards[index].answer}</span>
+                    </div>
+                    <div className={s.radio__block}>
+                        <h2>Rate yourself:</h2>
+                        <SuperRadio
+                            options={[' Did not know', ' Forgot', ' A lot of trough', ' Confused', ' Knew the answer']}
+                            onChange={e => {
+                                setGrade(+e.currentTarget.name + 1)
+                                setDisabled(false)
+                            }}
+                        />
+                    </div>
                 </>}
                 <div>
                     <SuperButton onClick={() => setIsOpen(false)} width={"100px"}>
@@ -52,11 +85,19 @@ const Learn: React.FC = () => {
                     {!shownAnswer && <SuperButton onClick={() => setShowAnswer(true)} width={"150px"}>
                         Show answer
                     </SuperButton>}
-                    {shownAnswer && <SuperButton width={"150px"}>
+                    {shownAnswer && <SuperButton width={"150px"}
+                                                 onClick={() => {
+                                                     setIndex(randomInteger(0, LearnCards.length - 1))
+                                                     dispatch(gradeCardUpdateThunk(LearnCards[index]._id, grade))
+                                                     setShowAnswer(false)
+                                                     setDisabled(true)
+                                                 }}
+                                                 disabled={disabled}>
                         next
                     </SuperButton>}
                 </div>
             </Modal>
+
         </div>
     );
 };

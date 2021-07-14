@@ -1,10 +1,19 @@
+
+
 .question, .answer {
     justify-content: start!important;
+
 }
 
-.question span, .answer > span {
+
+.title {
     margin-right: 10px;
     font-weight: 700;
+}
+.spanAnswer, .spanQuestion{
+    max-height: 300px;
+    overflow: auto;
+    font-weight: 400;
 }
 
 .radio__block {
