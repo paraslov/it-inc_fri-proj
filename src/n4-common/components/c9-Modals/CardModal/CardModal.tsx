@@ -19,6 +19,7 @@ export const CardModal: React.FC<ModalType> = (
 ) => {
     return <Modal closeBtn={closeBtn} title={"Card Info"} isOpen={open} close={close}>
         <SuperInputText label={"Question"}
+                        autoFocus
                         value={question}
                         onChange={questionOnchange}/>
         <SuperInputText label={"Answer"}

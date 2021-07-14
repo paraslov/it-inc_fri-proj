@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import s from './Cards.module.css'
 import {PATH} from '../../n1-app/a2-routes/Routes'
-import {NavLink, Redirect, useParams} from 'react-router-dom'
+import {Redirect, useHistory, useParams} from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
 import {createCard, deleteCard, getCards, setGetRequestParams, TSetRequestParams, updateCard} from './cards_reducer'
 import SuperButton from '../../n4-common/components/Elements/e1-SuperButton/SuperButton'
@@ -11,7 +11,8 @@ import {
     selectCards,
     selectCardsPack_id,
     selectCardsTotalCount,
-    selectCurrentPage, selectPackName,
+    selectCurrentPage,
+    selectPackName,
     selectPackUserId,
     selectPageCount
 } from '../../n2-bll/selectors/cards_selectors'
@@ -22,8 +23,8 @@ import {SearchBar} from '../../n4-common/components/c5-SearchBar/SearchBar'
 import {Paginator} from '../../n4-common/components/с6-Paginator/Paginator'
 import {SelectPage} from '../../n4-common/components/c7-SelectPage/SelectPage'
 import {ItemsTable} from './ItemsTable/ItemsTable'
-import {DeleteModal} from "../../n4-common/components/c9-Modals/DeleteModal/DeleteModal";
-import {CardModal} from "../../n4-common/components/c9-Modals/CardModal/CardModal";
+import {DeleteModal} from '../../n4-common/components/c9-Modals/DeleteModal/DeleteModal'
+import {CardModal} from '../../n4-common/components/c9-Modals/CardModal/CardModal'
 
 
 export const Cards = React.memo(() => {
@@ -37,6 +38,7 @@ export const Cards = React.memo(() => {
     //* ==================================  Data  =================================================================>>
     const dispatch = useDispatch()
     const isFetching = useSelector(selectIsFetching)
+    const history = useHistory()
     // id's
     const cardsPack_id = useSelector(selectCardsPack_id)
     const user_id = useSelector(selectUser_id)
@@ -144,7 +146,7 @@ export const Cards = React.memo(() => {
 
             <div className={s.cardsContainer}>
                 <div className={s.title}>
-                    <NavLink to={PATH.CARD_DECKS} className={s.arrow}>&larr;</NavLink>
+                    <div onClick={() => history.goBack()} className={s.arrow}>&larr;</div>
                     <h2>{packName}</h2>
                 </div>
                 <div className={s.search}>
