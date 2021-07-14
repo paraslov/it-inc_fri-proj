@@ -16,6 +16,7 @@ const Learn: React.FC = () => {
     const [isOpen, setIsOpen] = useState(true)
     const [index, setIndex] = useState(0)
     const [disabled, setDisabled] = useState(true)
+    const [checked, setChecked] = useState(false)
     const [grade, setGrade] = useState(0)
 
     const packName = useSelector(selectPackName)
