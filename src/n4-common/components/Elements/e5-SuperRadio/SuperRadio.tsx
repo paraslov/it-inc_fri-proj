@@ -1,4 +1,4 @@
-import React, {ChangeEvent, InputHTMLAttributes, DetailedHTMLProps} from 'react'
+import React, {ChangeEvent, InputHTMLAttributes, DetailedHTMLProps, useState, useEffect} from 'react'
 import s from './SuperRadio.module.css'
 
 type DefaultRadioPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
@@ -16,30 +16,34 @@ const SuperRadio: React.FC<SuperRadioPropsType> = (
         ...restProps
     }
 ) => {
-    const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
-        onChange && onChange(e)
+    const [localValue, setLocalValue] = useState(value ?? '')
 
-        onChangeOption && onChangeOption(e.currentTarget.value)
+    const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
+        if (!e.target?.value) return;
+        onChange && onChange(e)
+        setLocalValue(e.target.value)
+        onChangeOption && onChangeOption(e.target.value)
     }
 
-
-    const mappedOptions: any[] = options ? options.map((o, i) => (
-        <label key={name + '-' + i} className={s.default}>
-            <input
-                type={'radio'}
-                onChange={onChangeCallback}
-                name={name}
-                value={o}
-                checked={value === o}
-                // name, checked, value, onChange
-            />
-            {o}
-        </label>
-    )) : []
+    useEffect(() => {
+        value && setLocalValue(value)
+    }, [value])
 
     return (
         <>
-            {mappedOptions}
+            {options ? options.map((o: string, i) => (
+                <label key={name + '-' + i} className={s.default}>
+                    <input
+                        type={'radio'}
+                        onChange={onChangeCallback}
+                        name={(i + 1).toString()}
+                        value={o}
+                        checked={localValue === o}
+                        // name, checked, value, onChange
+                    />
+                    {o}
+                </label>
+            )): null}
         </>
     )
 }

@@ -3,6 +3,7 @@ import {cardsAPI, TCardData, TCardUpdateData, TGetCardParams, TGetCardsResponseD
 import {setIsFetching} from '../../n1-app/a1-app/app_reducer'
 import {thunkErrorHandler} from '../../n4-common/helpers/thunk-error'
 import {thunkRequestHelper} from '../../n4-common/helpers/thunkRequestHelper'
+import {Dispatch} from "redux";
 
 //* =============================================================== Initial state ===================================>>
 const initState = {
@@ -41,14 +42,15 @@ export const setGetRequestParams = (payload: TSetRequestParams) =>
 export const setPackName = (payload: { packName: string }) =>
     ({type: 'para-slov/cardsReducer/SET_PACK_NAME', payload} as const)
 
+
 //* =============================================================== Thunk creators ==================================>>
-export const getCards = (): TThunk => (dispatch,
+export const getCards = (pageCount?: string ): TThunk => (dispatch,
                                        getState) => {
     dispatch(setIsFetching(true))
     const cards = getState().cards
     const newCardParams: TGetCardParams = {
         cardsPack_id: cards.cardsPack_id,
-        pageCount: cards.pageCount.toString(),
+        pageCount: pageCount ? pageCount : cards.pageCount.toString(),
         cardQuestion: cards.cardQuestion,
         cardAnswer: cards.cardAnswer,
         sortCards: cards.sortCards,
@@ -63,6 +65,18 @@ export const getCards = (): TThunk => (dispatch,
             thunkErrorHandler(error, dispatch)
         })
 }
+export const gradeCardUpdateThunk = (id: string, grade: number) => {
+    return (dispatch: Dispatch) => {
+        cardsAPI.updateGrade(grade, id)
+            .then()
+            .catch(error => {
+                thunkErrorHandler(error, dispatch)
+            })
+    }
+
+}
+
+
 const cardsThunkRequestHelper = thunkRequestHelper(getCards)
 export const createCard = (cardData: TCardData): TThunk => dispatch => {
     cardsThunkRequestHelper(cardsAPI.createCard, dispatch, cardData)
@@ -73,6 +87,7 @@ export const deleteCard = (cardId: string): TThunk => dispatch => {
 export const updateCard = (cardData: TCardUpdateData): TThunk => dispatch => {
     cardsThunkRequestHelper(cardsAPI.updateCard, dispatch, cardData)
 }
+
 
 //* =============================================================== Types ===========================================>>
 type TState = typeof initState

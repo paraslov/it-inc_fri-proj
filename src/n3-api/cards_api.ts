@@ -15,6 +15,9 @@ export const cardsAPI = {
     updateCard(cardData: TCardUpdateData) {
         return instance.put('cards/card', {card: {...cardData}}).then(res => res.data)
     },
+    updateGrade(grade: number, card_id: string) {
+        return instance.put<TUpdateGradeResponseType>('cards/grade', {grade, card_id})
+    }
 }
 
 export type TGetCardsResponseData = {
@@ -27,6 +30,14 @@ export type TGetCardsResponseData = {
     pageCount: number
     token: string
     tokenDeathTime: number
+}
+export type TUpdateGradeResponseType = {
+    _id: string
+    cardsPack_id: string
+    card_id: string
+    user_id: string
+    grade: number
+    shots: number
 }
 
 export type TGetCardParams = {
