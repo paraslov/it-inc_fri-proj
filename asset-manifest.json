@@ -1,25 +1,26 @@
 {
   "files": {
-    "main.css": "/it-inc_fri-proj/static/css/main.bc42b5fb.chunk.css",
-    "main.js": "/it-inc_fri-proj/static/js/main.e3ba8b5b.chunk.js",
-    "main.js.map": "/it-inc_fri-proj/static/js/main.e3ba8b5b.chunk.js.map",
-    "runtime-main.js": "/it-inc_fri-proj/static/js/runtime-main.52f264e7.js",
-    "runtime-main.js.map": "/it-inc_fri-proj/static/js/runtime-main.52f264e7.js.map",
-    "static/js/2.be870f3e.chunk.js": "/it-inc_fri-proj/static/js/2.be870f3e.chunk.js",
-    "static/js/2.be870f3e.chunk.js.map": "/it-inc_fri-proj/static/js/2.be870f3e.chunk.js.map",
-    "static/js/3.3219c649.chunk.js": "/it-inc_fri-proj/static/js/3.3219c649.chunk.js",
-    "static/js/3.3219c649.chunk.js.map": "/it-inc_fri-proj/static/js/3.3219c649.chunk.js.map",
+    "main.css": "/it-inc_fri-proj/static/css/main.689cf2ad.chunk.css",
+    "main.js": "/it-inc_fri-proj/static/js/main.3595d5df.chunk.js",
+    "main.js.map": "/it-inc_fri-proj/static/js/main.3595d5df.chunk.js.map",
+    "runtime-main.js": "/it-inc_fri-proj/static/js/runtime-main.472c3b72.js",
+    "runtime-main.js.map": "/it-inc_fri-proj/static/js/runtime-main.472c3b72.js.map",
+    "static/js/2.c1044913.chunk.js": "/it-inc_fri-proj/static/js/2.c1044913.chunk.js",
+    "static/js/2.c1044913.chunk.js.map": "/it-inc_fri-proj/static/js/2.c1044913.chunk.js.map",
+    "static/js/3.289b0d41.chunk.js": "/it-inc_fri-proj/static/js/3.289b0d41.chunk.js",
+    "static/js/3.289b0d41.chunk.js.map": "/it-inc_fri-proj/static/js/3.289b0d41.chunk.js.map",
     "index.html": "/it-inc_fri-proj/index.html",
-    "static/css/main.bc42b5fb.chunk.css.map": "/it-inc_fri-proj/static/css/main.bc42b5fb.chunk.css.map",
-    "static/js/2.be870f3e.chunk.js.LICENSE.txt": "/it-inc_fri-proj/static/js/2.be870f3e.chunk.js.LICENSE.txt",
+    "static/css/main.689cf2ad.chunk.css.map": "/it-inc_fri-proj/static/css/main.689cf2ad.chunk.css.map",
+    "static/js/2.c1044913.chunk.js.LICENSE.txt": "/it-inc_fri-proj/static/js/2.c1044913.chunk.js.LICENSE.txt",
     "static/media/eye.1cfae06c.svg": "/it-inc_fri-proj/static/media/eye.1cfae06c.svg",
     "static/media/eyeOff.e7937c4d.svg": "/it-inc_fri-proj/static/media/eyeOff.e7937c4d.svg",
-    "static/media/preloader1.af17ae06.gif": "/it-inc_fri-proj/static/media/preloader1.af17ae06.gif"
+    "static/media/preloader1.af17ae06.gif": "/it-inc_fri-proj/static/media/preloader1.af17ae06.gif",
+    "static/media/user_no_photo.db7c26d0.png": "/it-inc_fri-proj/static/media/user_no_photo.db7c26d0.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.52f264e7.js",
-    "static/js/2.be870f3e.chunk.js",
-    "static/css/main.bc42b5fb.chunk.css",
-    "static/js/main.e3ba8b5b.chunk.js"
+    "static/js/runtime-main.472c3b72.js",
+    "static/js/2.c1044913.chunk.js",
+    "static/css/main.689cf2ad.chunk.css",
+    "static/js/main.3595d5df.chunk.js"
   ]
 }
