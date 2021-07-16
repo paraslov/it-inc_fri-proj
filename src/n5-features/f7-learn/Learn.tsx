@@ -45,20 +45,25 @@ const Learn: React.FC = () => {
         return randomNumber
     }
 
-
     let newLearnCards = []
+
     for (let i = 0; i < cards.length; i++) {
-         if (cards[i].grade < 4) {
+        if (cards[i].grade < 2) {
+            newLearnCards.push(cards[i], cards[i], cards[i])
+        } else if (cards[i].grade < 4) {
+            newLearnCards.push(cards[i], cards[i])
+        } else if (cards[i].grade < 5) {
             newLearnCards.push(cards[i])
         }
     }
     let LearnCards = [...cards, ...newLearnCards]
-
+    console.log(LearnCards)
     return (
         <div>
             {isFetching && <Preloader left={'45%'} top={'45%'} size={'100px'}/>}
 
-            <Modal title={`Learn ${packName ? packName : '"no name"'}`} modalBackGround={'pinkFulfilled'} isOpen={isOpen} close={() => null}>
+            <Modal title={`Learn ${packName ? packName : '"no name"'}`} modalBackGround={'pinkFulfilled'}
+                   isOpen={isOpen} close={() => null}>
                 <div className={s.question}>
                     <span className={s.title}>Question:</span><span
                     className={s.spanQuestion}>{LearnCards.length === 0 ? '' : LearnCards[index].question}</span>
@@ -72,7 +77,7 @@ const Learn: React.FC = () => {
                         <SuperRadio
                             options={['Did not know', 'Forgot', 'A lot of trough', 'Confused', 'Knew the answer']}
                             onChange={e => {
-                                setGrade(+e.currentTarget.name )
+                                setGrade(+e.currentTarget.name)
                                 setDisabled(false)
                             }}
                         />
