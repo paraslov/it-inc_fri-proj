@@ -48,10 +48,7 @@ const Learn: React.FC = () => {
 
     let newLearnCards = []
     for (let i = 0; i < cards.length; i++) {
-        if (cards[i].grade == 4 || 3) {
-            newLearnCards.push(cards[i])
-        } else if (cards[i].grade < 3) {
-            newLearnCards.push(cards[i])
+         if (cards[i].grade < 4) {
             newLearnCards.push(cards[i])
         }
     }
@@ -73,13 +70,13 @@ const Learn: React.FC = () => {
                     <div className={s.radio__block}>
                         <h2>Rate yourself:</h2>
                         <SuperRadio
-                            options={[' Did not know', ' Forgot', ' A lot of trough', ' Confused', ' Knew the answer']}
+                            options={['Did not know', 'Forgot', 'A lot of trough', 'Confused', 'Knew the answer']}
                             onChange={e => {
-                                setGrade(+e.currentTarget.name + 1)
+                                setGrade(+e.currentTarget.name )
                                 setDisabled(false)
                             }}
-
                         />
+
                     </div>
                 </>}
                 <div>
