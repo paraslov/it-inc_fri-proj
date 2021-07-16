@@ -1,15 +1,15 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {Redirect, useParams} from "react-router-dom";
-import {getCards, gradeCardUpdateThunk, setGetRequestParams, TSetRequestParams} from "../f6-cards/cards_reducer";
-import {useDispatch, useSelector} from "react-redux";
-import {selectCards, selectPackName} from "../../n2-bll/selectors/cards_selectors";
-import Modal from "../../n4-common/components/c9-Modals/Modal";
-import SuperButton from "../../n4-common/components/Elements/e1-SuperButton/SuperButton";
-import SuperRadio from "../../n4-common/components/Elements/e5-SuperRadio/SuperRadio";
+import React, {useCallback, useEffect, useState} from 'react'
+import {Redirect, useParams} from 'react-router-dom'
+import {getCards, gradeCardUpdateThunk, setGetRequestParams, TSetRequestParams} from '../f6-cards/cards_reducer'
+import {useDispatch, useSelector} from 'react-redux'
+import {selectCards, selectPackName} from '../../n2-bll/selectors/cards_selectors'
+import Modal from '../../n4-common/components/c9-Modals/Modal'
+import SuperButton from '../../n4-common/components/Elements/e1-SuperButton/SuperButton'
+import SuperRadio from '../../n4-common/components/Elements/e5-SuperRadio/SuperRadio'
 import s from './Learn.module.css'
-import {PATH} from "../../n1-app/a2-routes/Routes";
-import {Preloader} from "../../n4-common/components/c2-Preloader/Preloader";
-import {selectIsFetching} from "../../n2-bll/selectors/app_selectors";
+import {PATH} from '../../n1-app/a2-routes/Routes'
+import {Preloader} from '../../n4-common/components/c2-Preloader/Preloader'
+import {selectIsFetching} from '../../n2-bll/selectors/app_selectors'
 
 const Learn: React.FC = () => {
     const [shownAnswer, setShowAnswer] = useState(false)

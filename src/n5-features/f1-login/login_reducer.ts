@@ -49,21 +49,18 @@ export const authThunk = (): TThunk => dispatch => {
     authHelper(loginAPI.auth, dispatch, 'auth')
 }
 export const logoutThunk = (): TThunk => dispatch => {
+    dispatch(setIsFetching(true))
     loginAPI.logout()
         .then(res => {
             if (res.status === 200) {
-                let email = null
-                let _id = ''
-                let name = ''
-                let avatar = ''
-                let publicCardPacksCount = null
-
+                dispatch(setIsFetching(false))
                 dispatch(setIsAuth(false))
-                dispatch(setUserData({email, _id, name, avatar, publicCardPacksCount}))
+                dispatch(setUserData({email: null, _id: '', name: '', avatar: '', publicCardPacksCount: null}))
             }
-        }).catch(error => {
-        thunkErrorHandler(error, dispatch)
-    })
+        })
+        .catch(error => {
+            thunkErrorHandler(error, dispatch)
+        })
 }
 
 //* =============================================================== Types ===========================================>>

@@ -1,10 +1,12 @@
 //* =============================================================== Initial state ===================================>>
 import {TBaseThunk} from '../../n2-bll/store'
 import {loginAPI} from '../../n3-api/loginAPI'
+import {setIsFetching} from '../../n1-app/a1-app/app_reducer'
+import {thunkErrorHandler} from '../../n4-common/helpers/thunk-error'
 
 const initState = {
-    email: 'nya-admin@nya.nya',
-    password: '1qazxcvBG',
+    email: '',
+    password: '',
     error: '',
     isFetching: false,
 }
@@ -36,15 +38,17 @@ export const setIsFetchingRegisterAction = (isFetching: boolean) =>
 //* =============================================================== Thunk creators ==================================>>
 export const registrationThunk = (email: string, password: string): TThunk => {
     return (dispatch) => {
+        dispatch(setIsFetching(true))
         loginAPI.registration(email, password)
             .then(() => {
                 dispatch(authRegisterAction(email, password))
+                dispatch(setIsFetching(false))
                 dispatch(setIsFetchingRegisterAction(true))
             })
             .catch(error => {
-                debugger
                 const message = error.response.data.error
                 dispatch(authRegisterAction(email, password, message))
+                thunkErrorHandler(error, dispatch)
             })
     }
 }
@@ -57,7 +61,7 @@ type initStateType = typeof initState
 
 export type TRegistrationReducerActions =
     AuthRegisterActionType
-    | SetIsFetchingRegisterActionType
+    | SetIsFetchingRegisterActionType | ReturnType<typeof setIsFetching>
 
 type AuthRegisterActionType = ReturnType<typeof authRegisterAction>
 type SetIsFetchingRegisterActionType = ReturnType<typeof setIsFetchingRegisterAction>

@@ -10,6 +10,7 @@ import SuperButton from '../../n4-common/components/Elements/e1-SuperButton/Supe
 import {Redirect} from "react-router-dom";
 import {PATH} from "../../n1-app/a2-routes/Routes";
 import ErrorMessage from "../../n4-common/components/с3-ErrorMessage/ErrorMessage";
+import {Preloader} from '../../n4-common/components/c2-Preloader/Preloader'
 
 type FormikErrorType = {
     email?: string
@@ -21,18 +22,20 @@ type FormikErrorType = {
 const Registration = React.memo(() => {
 
     const error = useSelector<TAppState>(state => state.registration.error)
-    const isFetching = useSelector<TAppState>(state => state.registration.isFetching)
+    const isRegistrationFetching = useSelector<TAppState>(state => state.registration.isFetching)
+    const isFetching = useSelector<TAppState, boolean>(state => state.app.isFetching)
 
     const dispatch = useDispatch()
 
 
-    if (isFetching) {
+    if (isRegistrationFetching) {
         return <Redirect to={PATH.LOGIN}/>
     }
 
 
     return (
         <div className={registration.container}>
+            {isFetching && <Preloader left={'40%'} top={'40%'} size={'100px'}/>}
             <div className={registration.block}>
                 <div className={registration.text}>
                     <h2 className={registration.title}>It-incubator</h2>
