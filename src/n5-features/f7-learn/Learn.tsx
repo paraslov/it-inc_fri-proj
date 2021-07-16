@@ -16,7 +16,6 @@ const Learn: React.FC = () => {
     const [isOpen, setIsOpen] = useState(true)
     const [index, setIndex] = useState(0)
     const [disabled, setDisabled] = useState(true)
-    const [checked, setChecked] = useState(false)
     const [grade, setGrade] = useState(0)
 
     const packName = useSelector(selectPackName)
@@ -49,7 +48,10 @@ const Learn: React.FC = () => {
 
     let newLearnCards = []
     for (let i = 0; i < cards.length; i++) {
-        if (cards[i].grade < 4) {
+        if (cards[i].grade == 4 || 3) {
+            newLearnCards.push(cards[i])
+        } else if (cards[i].grade < 3) {
+            newLearnCards.push(cards[i])
             newLearnCards.push(cards[i])
         }
     }
@@ -76,6 +78,7 @@ const Learn: React.FC = () => {
                                 setGrade(+e.currentTarget.name + 1)
                                 setDisabled(false)
                             }}
+
                         />
                     </div>
                 </>}
