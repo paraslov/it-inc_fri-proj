@@ -13,7 +13,7 @@ export const Profile = () => {
 //* ==================================================================================== Data ==================>>
     const isFetching = useSelector<TAppState, boolean>(state => state.app.isFetching)
 
-    const {_id, email, name, avatar, publicCardPacksCount} =
+    const {name, avatar} =
         useSelector<TAppState, UserDataType>(state => state.profile)
 //* ==================================================================================== Local state ===========>>
     const [myName, setMyName] = useState('')
@@ -71,7 +71,7 @@ const EditProfileModal: React.FC<TEditProfileModalProps> = ({
                                                                 open,
                                                                 close, onNameChange, onAvatarChange, onClick
                                                             }) => {
-    return <Modal closeBtn={true} title={'Personal information'} isOpen={open} close={close}>
+    return <Modal closeBtn={true} title={'Personal information'} isOpen={open} close={close} modalBackGround={'pinkFulfilled'}>
         <div className={s.editProfileModal}>
             <img className={s.profileAvatar} src={avatar} alt="ava"/>
             <SuperInputText label={'Nickname'} value={name} onChange={onNameChange}/>

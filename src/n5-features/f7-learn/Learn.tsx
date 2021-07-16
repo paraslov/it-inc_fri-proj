@@ -58,7 +58,7 @@ const Learn: React.FC = () => {
         <div>
             {isFetching && <Preloader left={'45%'} top={'45%'} size={'100px'}/>}
 
-            <Modal title={`Learn ${packName ? packName : '"no name"'}`} isOpen={isOpen} close={() => null}>
+            <Modal title={`Learn ${packName ? packName : '"no name"'}`} modalBackGround={'pinkFulfilled'} isOpen={isOpen} close={() => null}>
                 <div className={s.question}>
                     <span className={s.title}>Question:</span><span
                     className={s.spanQuestion}>{LearnCards.length === 0 ? '' : LearnCards[index].question}</span>

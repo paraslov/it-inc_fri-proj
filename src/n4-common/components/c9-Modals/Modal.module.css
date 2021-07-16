@@ -5,13 +5,17 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background:rgba(230, 212, 222, 1);
+    background: #00000099;
     z-index: 100;
 
     /* position elements*/
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.pink {
+    background:rgba(230, 212, 222, 1);
 }
 
 .form__block {
