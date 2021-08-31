@@ -3,7 +3,6 @@ import {cardsAPI, TCardData, TCardUpdateData, TGetCardParams, TGetCardsResponseD
 import {setIsFetching} from '../../n1-app/a1-app/app_reducer'
 import {thunkErrorHandler} from '../../n4-common/helpers/thunk-error'
 import {thunkRequestHelper} from '../../n4-common/helpers/thunkRequestHelper'
-import {Dispatch} from "redux";
 
 //* =============================================================== Initial state ===================================>>
 const initState = {
@@ -44,8 +43,8 @@ export const setPackName = (payload: { packName: string }) =>
 
 
 //* =============================================================== Thunk creators ==================================>>
-export const getCards = (pageCount?: string ): TThunk => (dispatch,
-                                       getState) => {
+export const getCards = (pageCount?: string): TThunk => (dispatch,
+                                                         getState) => {
     dispatch(setIsFetching(true))
     const cards = getState().cards
     const newCardParams: TGetCardParams = {
@@ -65,15 +64,16 @@ export const getCards = (pageCount?: string ): TThunk => (dispatch,
             thunkErrorHandler(error, dispatch)
         })
 }
-export const gradeCardUpdateThunk = (id: string, grade: number) => {
-    return (dispatch: Dispatch) => {
-        cardsAPI.updateGrade(grade, id)
-            .then()
-            .catch(error => {
-                thunkErrorHandler(error, dispatch)
-            })
-    }
-
+export const gradeCardUpdateThunk = (id: string, grade: number): TThunk => (dispatch) => {
+    dispatch(setIsFetching(true))
+    cardsAPI.updateGrade(grade, id)
+        .then(() => {
+            dispatch(getCards('100'))
+            dispatch(setIsFetching(false))
+        })
+        .catch(error => {
+            thunkErrorHandler(error, dispatch)
+        })
 }
 
 
